@@ -1,0 +1,59 @@
+:root {
+  --navy: #0b1f3a;
+  --navy-mid: #143356;
+  --navy-soft: #1c446e;
+  --ivory: #f7f4ee;
+  --ivory-deep: #ebe6db;
+  --gold: #c9a227;
+  --gold-soft: #e0c56a;
+  --ink: #1a2433;
+  --muted: #5c6b7a;
+  --line: rgba(11, 31, 58, 0.12);
+  --white: #ffffff;
+  --danger: #9b2c2c;
+  --shadow: 0 18px 50px rgba(11, 31, 58, 0.18);
+  --radius: 10px;
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --slide-w: 960px;
+  --slide-h: 540px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(201, 162, 39, 0.12), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 100%, rgba(20, 51, 86, 0.18), transparent 50%),
+    linear-gradient(160deg, #e8eef5 0%, #d5deea 45%, #c8d4e3 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
