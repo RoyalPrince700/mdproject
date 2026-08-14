@@ -368,28 +368,14 @@ export const seedSlides: Slide[] = [
   sectionSlide('slide-30', 'Significance of the Study', 'Chapter One', {
     notes: 'I now turn to the significance of the study.',
   }),
-  {
-    id: 'slide-31',
-    layout: 'framework',
-    title: 'Significance of the Study',
-    chapter: 'Chapter One',
-    frameworkBlocks: [
-      {
-        label: 'Scholarship',
-        text: 'This study may contribute to the scholarly field of technology adoption and B2B marketing in emerging economies. The findings of the study may provide explanatory depth to the existing literature on the interaction of technology, organization, and environment in a specialized creative industry.',
-      },
-      {
-        label: 'Practice',
-        text: "The results could help Nigerian publishers, especially SMEs which make up the bulk of the industry, make informed decisions on technology investment based on the results of similar firms' executives on the actual returns of various technologies.",
-      },
-      {
-        label: 'Policy / Society',
-        text: 'Evidence on specific infrastructure, financing, and skills gaps could inform the interventions of government institutions such as the Nigerian Copyright Commission and the agencies responsible for national digital economy policy. To the extent that a more digitally capable publishing sector improves the distribution of educational materials, the findings may support literacy, education, and the wider national development agenda (Owolabi, 2024).',
-      },
-    ],
+  cardSlide('slide-31', 'Significance of the Study', 'Chapter One', [
+    'Scholarship — This study may contribute to the scholarly field of technology adoption and B2B marketing in emerging economies. The findings of the study may provide explanatory depth to the existing literature on the interaction of technology, organization, and environment in a specialized creative industry.',
+    "Practice — The results could help Nigerian publishers, especially SMEs which make up the bulk of the industry, make informed decisions on technology investment based on the results of similar firms' executives on the actual returns of various technologies.",
+    'Policy / Society — Evidence on specific infrastructure, financing, and skills gaps could inform the interventions of government institutions such as the Nigerian Copyright Commission and the agencies responsible for national digital economy policy. To the extent that a more digitally capable publishing sector improves the distribution of educational materials, the findings may support literacy, education, and the wider national development agenda (Owolabi, 2024).',
+  ], {
     notes:
       'The study may contribute in three ways. For scholarship, it may contribute to the field of technology adoption and B2B marketing in emerging economies by providing explanatory depth on how technology, organization, and environment interact in a specialized creative industry. For practice, the results could help Nigerian publishers, especially the SMEs that make up the bulk of the industry, make more informed technology-investment decisions based on how executives in similar firms understand the returns of various technologies. For policy and society, evidence on specific infrastructure, financing, and skills gaps could inform the interventions of government institutions such as the Nigerian Copyright Commission and the agencies responsible for national digital economy policy. To the extent that a more digitally capable publishing sector improves the distribution of educational materials, the findings may support literacy, education, and the wider national development agenda.',
-  },
+  }),
   sectionSlide('slide-32', 'Scope and Delimitations', 'Chapter Three', {
     notes:
       'I close the proposal content with the scope and delimitations of the study.',
@@ -417,7 +403,7 @@ export const seedSlides: Slide[] = [
   },
 ]
 
-export const SEED_REVISION = 17
+export const SEED_REVISION = 18
 
 export const seedPresentation: PresentationState = {
   slides: seedSlides,

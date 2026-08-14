@@ -293,7 +293,9 @@ function renderSlide(
             : items.length === 4
               ? 12
               : items.length === 3
-                ? 16
+                ? density === 'dense'
+                  ? 13
+                  : 16
                 : density === 'dense'
                   ? 13
                   : 15
@@ -628,8 +630,18 @@ function renderSlide(
       const colDensity = getColumnDensity(
         items.map((item) => parseBulletItem(item).text),
       )
-      const fontSize =
-        colDensity === 'sparse' ? 14 : colDensity === 'medium' ? 12 : 11
+      const fillCol = items.length <= 5
+      const fontSize = fillCol
+        ? items.length <= 4
+          ? colDensity === 'sparse'
+            ? 15
+            : 13
+          : 12
+        : colDensity === 'sparse'
+          ? 14
+          : colDensity === 'medium'
+            ? 12
+            : 11
       s.addText(
         items.map((t) => ({
           text: parseBulletItem(t).text,
@@ -640,7 +652,7 @@ function renderSlide(
           fontSize: pt(fontSize),
           fontFace: FONT_B,
           color: NAVY,
-          paraSpaceAfter: pt(colDensity === 'dense' ? 5 : 7),
+          paraSpaceAfter: pt(fillCol ? 9 : colDensity === 'dense' ? 5 : 7),
           valign: 'top',
         },
       )

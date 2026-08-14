@@ -331,6 +331,41 @@
   resize: none;
 }
 
+.fields-pane.is-body-expanded:not(.is-collapsed) {
+  width: 460px;
+  min-width: 460px;
+  overflow: hidden;
+}
+
+.fields-pane.is-body-expanded .field:not(.field--body),
+.fields-pane.is-body-expanded .fields-actions {
+  display: none;
+}
+
+.fields-pane.is-body-expanded .fields-pane__header {
+  flex-shrink: 0;
+}
+
+.fields-pane.is-body-expanded .field--body {
+  flex: 1;
+  min-height: 0;
+  margin-bottom: 0.55rem;
+}
+
+.fields-pane.is-body-expanded .field--body:last-of-type {
+  margin-bottom: 0;
+}
+
+.fields-pane.is-body-expanded .body-textarea,
+.fields-pane.is-body-expanded .field--body textarea {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  resize: none;
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -541,10 +576,16 @@
 .slide__cards--count-3 .slide__card-item {
   flex: 1 1 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   font-size: 0.98rem;
   line-height: 1.58;
   padding: 0.85rem 1.15rem;
+}
+
+.slide__cards--count-3.slide__cards--dense .slide__card-item {
+  font-size: 0.86rem;
+  line-height: 1.42;
+  padding: 0.7rem 1rem;
 }
 
 .slide__deck-footer {
@@ -657,6 +698,34 @@
 .slide__list--compact.slide__list--sparse {
   font-size: 17px;
   gap: 8px;
+}
+
+.slide__chart-row .slide__list--count-4 {
+  font-size: 16px;
+  line-height: 1.34;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.slide__chart-row .slide__list--count-4.slide__list--dense {
+  font-size: 15.5px;
+  line-height: 1.32;
+  gap: 11px;
+  justify-content: space-between;
+}
+
+.slide__chart-row .slide__list--count-5 {
+  font-size: 15px;
+  line-height: 1.32;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.slide__chart-row .slide__list--count-5.slide__list--dense {
+  font-size: 14.5px;
+  line-height: 1.3;
+  gap: 9px;
+  justify-content: space-between;
 }
 
 /* —— Slide surface —— */
@@ -1327,7 +1396,8 @@
     padding: 0.45rem 0.75rem;
   }
 
-  .fields-pane.is-notes-expanded:not(.is-collapsed) {
+  .fields-pane.is-notes-expanded:not(.is-collapsed),
+  .fields-pane.is-body-expanded:not(.is-collapsed) {
     width: auto;
     min-width: 0;
     max-height: min(70vh, 560px);

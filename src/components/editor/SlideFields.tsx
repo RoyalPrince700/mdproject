@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Maximize2,
   Minimize2,
@@ -10,6 +10,7 @@ import { adaptSlideToLayout } from '../../lib/slideLayout'
 import {
   SLIDE_LAYOUTS,
   type ChartType,
+  type FrameworkBlock,
   type Slide,
   type SlideLayout,
 } from '../../types/slide'
@@ -26,18 +27,132 @@ function linesToList(value: string): string[] {
   return value.split('\n')
 }
 
+function serializeFrameworkBlocks(blocks?: FrameworkBlock[]): string {
+  return (blocks ?? [])
+    .map((b) => {
+      const head = b.author ? `${b.label} — ${b.author}` : b.label
+      return b.icon ? `${head} | ${b.text} | ${b.icon}` : `${head} | ${b.text}`
+    })
+    .join('\n')
+}
+
+function parseFrameworkBlocks(value: string): FrameworkBlock[] {
+  return value
+    .split('\n')
+    .filter((line) => line.trim().length > 0)
+    .map((line) => {
+      const parts = line.split('|').map((part) => part.trim())
+      const rawLabel = parts[0] || ''
+      const [labelPart, authorPart] = rawLabel.split(' — ')
+      const maybeIcon = parts.length >= 3 ? parts[parts.length - 1] : ''
+      const icon = isSlideIconName(maybeIcon) ? maybeIcon : undefined
+      const textParts = icon ? parts.slice(1, -1) : parts.slice(1)
+      return {
+        label: labelPart,
+        author: authorPart || undefined,
+        text: textParts.join(' | '),
+        icon,
+      }
+    })
+}
+
+function ExpandFieldButton({
+  expanded,
+  expandLabel,
+  collapseLabel,
+  onToggle,
+}: {
+  expanded: boolean
+  expandLabel: string
+  collapseLabel: string
+  onToggle: () => void
+}) {
+  return (
+    <button
+      type="button"
+      className="field__expand"
+      aria-label={expanded ? collapseLabel : expandLabel}
+      aria-expanded={expanded}
+      title={expanded ? collapseLabel : expandLabel}
+      onClick={onToggle}
+    >
+      {expanded ? (
+        <Minimize2 size={16} strokeWidth={1.8} aria-hidden="true" />
+      ) : (
+        <Maximize2 size={16} strokeWidth={1.8} aria-hidden="true" />
+      )}
+      {expanded ? 'Collapse' : 'Expand'}
+    </button>
+  )
+}
+
+function FrameworkCardsField({
+  blocks,
+  onChange,
+}: {
+  blocks?: FrameworkBlock[]
+  onChange: (blocks: FrameworkBlock[]) => void
+}) {
+  const [draft, setDraft] = useState(() => serializeFrameworkBlocks(blocks))
+
+  return (
+    <textarea
+      id="framework"
+      className="tall body-textarea"
+      value={draft}
+      onChange={(e) => {
+        const next = e.target.value
+        setDraft(next)
+        onChange(parseFrameworkBlocks(next))
+      }}
+    />
+  )
+}
+
 export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
   const [collapsed, setCollapsed] = useState(false)
   const [notesExpanded, setNotesExpanded] = useState(false)
+  const [bodyExpanded, setBodyExpanded] = useState(false)
+
+  const hasBodyEditor =
+    slide.layout === 'bullets' ||
+    slide.layout === 'cards' ||
+    slide.layout === 'chart' ||
+    slide.layout === 'twoColumn' ||
+    slide.layout === 'framework'
+
+  useEffect(() => {
+    if (!hasBodyEditor) setBodyExpanded(false)
+  }, [hasBodyEditor])
+
+  const paneTitle = notesExpanded
+    ? 'Speaker notes'
+    : bodyExpanded
+      ? 'Edit text'
+      : 'Edit slide'
+
+  const toggleNotes = () => {
+    setNotesExpanded((open) => {
+      if (!open) setBodyExpanded(false)
+      return !open
+    })
+  }
+
+  const toggleBody = () => {
+    setBodyExpanded((open) => {
+      if (!open) setNotesExpanded(false)
+      return !open
+    })
+  }
 
   return (
     <aside
       className={`fields-pane${collapsed ? ' is-collapsed' : ''}${
         notesExpanded ? ' is-notes-expanded' : ''
-      }`}
+      }${bodyExpanded ? ' is-body-expanded' : ''}`}
     >
       <div className="fields-pane__header">
-        <h2>{notesExpanded && !collapsed ? 'Speaker notes' : 'Edit slide'}</h2>
+        <h2>{(notesExpanded || bodyExpanded) && !collapsed ? paneTitle : 'Edit slide'}</h2>
         <button
           type="button"
           className="fields-pane__toggle"
@@ -124,17 +239,25 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
       </div>
 
       {slide.layout === 'bullets' || slide.layout === 'cards' || slide.layout === 'chart' ? (
-        <div className="field">
-          <label htmlFor="bullets">
-            {slide.layout === 'chart'
-              ? 'Side bullets (one per line)'
-              : slide.layout === 'cards'
-                ? 'Cards (one per line)'
-                : 'Bullets (one per line)'}
-          </label>
+        <div className="field field--body">
+          <div className="field__label-row">
+            <label htmlFor="bullets">
+              {slide.layout === 'chart'
+                ? 'Side bullets (one per line)'
+                : slide.layout === 'cards'
+                  ? 'Cards (one per line)'
+                  : 'Bullets (one per line)'}
+            </label>
+            <ExpandFieldButton
+              expanded={bodyExpanded}
+              expandLabel="Expand text editor"
+              collapseLabel="Collapse text editor"
+              onToggle={toggleBody}
+            />
+          </div>
           <textarea
             id="bullets"
-            className="tall"
+            className="tall body-textarea"
             value={(slide.bullets ?? []).join('\n')}
             onChange={(e) => onChange({ bullets: linesToList(e.target.value) })}
           />
@@ -159,10 +282,19 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
               <option value="pie">Pie</option>
             </select>
           </div>
-          <div className="field">
-            <label htmlFor="chartData">Chart data (Name | Value — one per line)</label>
+          <div className="field field--body">
+            <div className="field__label-row">
+              <label htmlFor="chartData">Chart data (Name | Value — one per line)</label>
+              <ExpandFieldButton
+                expanded={bodyExpanded}
+                expandLabel="Expand text editor"
+                collapseLabel="Collapse text editor"
+                onToggle={toggleBody}
+              />
+            </div>
             <textarea
               id="chartData"
+              className="body-textarea"
               value={(slide.chartData ?? [])
                 .map((d) => `${d.name} | ${d.value}`)
                 .join('\n')}
@@ -204,10 +336,19 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
               onChange={(e) => onChange({ leftTitle: e.target.value })}
             />
           </div>
-          <div className="field">
-            <label htmlFor="leftBullets">Left bullets (one per line)</label>
+          <div className="field field--body">
+            <div className="field__label-row">
+              <label htmlFor="leftBullets">Left bullets (one per line)</label>
+              <ExpandFieldButton
+                expanded={bodyExpanded}
+                expandLabel="Expand text editor"
+                collapseLabel="Collapse text editor"
+                onToggle={toggleBody}
+              />
+            </div>
             <textarea
               id="leftBullets"
+              className="body-textarea"
               value={(slide.leftBullets ?? []).join('\n')}
               onChange={(e) => onChange({ leftBullets: linesToList(e.target.value) })}
             />
@@ -223,10 +364,19 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
               onChange={(e) => onChange({ rightTitle: e.target.value })}
             />
           </div>
-          <div className="field">
-            <label htmlFor="rightBullets">Right bullets (one per line)</label>
+          <div className="field field--body">
+            <div className="field__label-row">
+              <label htmlFor="rightBullets">Right bullets (one per line)</label>
+              <ExpandFieldButton
+                expanded={bodyExpanded}
+                expandLabel="Expand text editor"
+                collapseLabel="Collapse text editor"
+                onToggle={toggleBody}
+              />
+            </div>
             <textarea
               id="rightBullets"
+              className="body-textarea"
               value={(slide.rightBullets ?? []).join('\n')}
               onChange={(e) => onChange({ rightBullets: linesToList(e.target.value) })}
             />
@@ -236,55 +386,26 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
 
       {slide.layout === 'framework' ? (
         <>
-          <div className="field">
-            <label htmlFor="framework">
-              Cards (Label | Text | Icon — one card per line)
-            </label>
-            <textarea
-              id="framework"
-              className="tall"
-              value={(slide.frameworkBlocks ?? [])
-                .map((b) => {
-                  const head = b.author ? `${b.label} — ${b.author}` : b.label
-                  return b.icon ? `${head} | ${b.text} | ${b.icon}` : `${head} | ${b.text}`
-                })
-                .join('\n')}
-              onChange={(e) => {
-                const frameworkBlocks = e.target.value
-                  .split('\n')
-                  .map((line) => line.trim())
-                  .filter(Boolean)
-                  .map((line) => {
-                    const parts = line.split('|').map((part) => part.trim())
-                    const rawLabel = parts[0] || 'Label'
-                    const [labelPart, authorPart] = rawLabel.split(' — ')
-                    const maybeIcon = parts.length >= 3 ? parts[parts.length - 1] : ''
-                    const icon = isSlideIconName(maybeIcon) ? maybeIcon : undefined
-                    const textParts = icon ? parts.slice(1, -1) : parts.slice(1)
-                    return {
-                      label: labelPart || 'Label',
-                      author: authorPart || undefined,
-                      text: textParts.join(' | ') || 'Description',
-                      icon,
-                    }
-                  })
-                onChange({ frameworkBlocks })
-              }}
+          <div className="field field--body">
+            <div className="field__label-row">
+              <label htmlFor="framework">
+                Cards (Label | Text | Icon — one card per line)
+              </label>
+              <ExpandFieldButton
+                expanded={bodyExpanded}
+                expandLabel="Expand text editor"
+                collapseLabel="Collapse text editor"
+                onToggle={toggleBody}
+              />
+            </div>
+            <FrameworkCardsField
+              key={slide.id}
+              blocks={slide.frameworkBlocks}
+              onChange={(frameworkBlocks) => onChange({ frameworkBlocks })}
             />
             <p className="field__hint">
               Two cards sit side by side; three in a row; four in a 2×2 grid.
               Optional author: TOE — Tornatzky & Fleischer (1990) | …
-            </p>
-          </div>
-          <div className="field">
-            <label htmlFor="cardNote">Optional note under the cards</label>
-            <textarea
-              id="cardNote"
-              value={(slide.bullets ?? []).join('\n')}
-              onChange={(e) => onChange({ bullets: linesToList(e.target.value) })}
-            />
-            <p className="field__hint">
-              Optional icon prefix: [Info] Your note
             </p>
           </div>
         </>
@@ -308,7 +429,7 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
             aria-label={notesExpanded ? 'Collapse speaker notes' : 'Expand speaker notes'}
             aria-expanded={notesExpanded}
             title={notesExpanded ? 'Collapse notes' : 'Expand notes to fill the panel'}
-            onClick={() => setNotesExpanded((isExpanded) => !isExpanded)}
+            onClick={toggleNotes}
           >
             {notesExpanded ? (
               <Minimize2 size={16} strokeWidth={1.8} aria-hidden="true" />

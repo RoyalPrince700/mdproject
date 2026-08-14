@@ -314,7 +314,7 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
           {sideBullets.length ? (
             <BulletList
               items={sideBullets}
-              extraClass="slide__list--compact"
+              extraClass={`slide__list--compact slide__list--count-${sideBullets.length}`}
               density={getColumnDensity(
                 sideBullets.map((item) => parseBulletItem(item).text),
               )}
