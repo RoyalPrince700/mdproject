@@ -31,7 +31,12 @@ export function PresenterView({
   return (
     <div className="presenter" role="dialog" aria-modal="true" aria-label="Presenter">
       <div className="presenter__stage">
-        <SlideCanvas slide={slide} meta={meta} />
+        <SlideCanvas
+          slide={slide}
+          meta={meta}
+          index={index}
+          total={total}
+        />
       </div>
       <div className="presenter__hint">
         Slide {index + 1} of {total} · ← → to navigate · Esc to exit

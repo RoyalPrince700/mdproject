@@ -1,4 +1,5 @@
-import type { Slide, SlideLayout } from '../types/slide'
+import { parseBulletItem } from './slideIcons'
+import type { FrameworkBlock, Slide, SlideLayout } from '../types/slide'
 
 function cleanList(items?: string[]): string[] {
   return (items ?? []).map((item) => item.trim()).filter(Boolean)
@@ -11,6 +12,17 @@ export function splitList(items?: string[]): { left: string[]; right: string[] }
     left: cleaned.slice(0, mid),
     right: cleaned.slice(mid),
   }
+}
+
+function blocksFromBullets(items?: string[]): FrameworkBlock[] {
+  return cleanList(items).map((item, index) => {
+    const parsed = parseBulletItem(item)
+    return {
+      label: `${index + 1}`,
+      text: parsed.text,
+      icon: parsed.icon,
+    }
+  })
 }
 
 function bulletsFromFramework(slide: Slide): string[] {
@@ -99,17 +111,63 @@ export function adaptSlideToLayout(
     }
   }
 
-  if (layout === 'bullets' && slide.layout === 'twoColumn') {
-    const merged = [
-      ...cleanList(slide.leftBullets),
-      ...cleanList(slide.rightBullets),
-    ]
+  if (layout === 'framework') {
+    if (slide.frameworkBlocks?.length) return { layout }
+
+    const chartNames = (slide.chartData ?? [])
+      .map((d) => d.name.trim())
+      .filter(Boolean)
+    const chartBullets = cleanList(slide.bullets)
+    if (chartNames.length && chartNames.length === chartBullets.length) {
+      return {
+        layout,
+        frameworkBlocks: chartNames.map((name, i) => {
+          const parsed = parseBulletItem(chartBullets[i])
+          return {
+            label: name,
+            text: parsed.text,
+            icon: parsed.icon,
+          }
+        }),
+      }
+    }
+
+    const fromBullets = blocksFromBullets(slide.bullets)
+    if (fromBullets.length) {
+      return { layout, frameworkBlocks: fromBullets }
+    }
+
     return {
       layout,
-      bullets: merged.length ? merged : cleanList(slide.bullets).length
-        ? cleanList(slide.bullets)
-        : ['Bullet point'],
+      frameworkBlocks: [
+        { label: 'A', text: 'Description' },
+        { label: 'B', text: 'Description' },
+        { label: 'C', text: 'Description' },
+      ],
     }
+  }
+
+  if (layout === 'bullets' || layout === 'cards') {
+    if (slide.layout === 'twoColumn') {
+      const merged = [
+        ...cleanList(slide.leftBullets),
+        ...cleanList(slide.rightBullets),
+      ]
+      return {
+        layout,
+        bullets: merged.length ? merged : cleanList(slide.bullets).length
+          ? cleanList(slide.bullets)
+          : ['Bullet point'],
+      }
+    }
+    if (slide.layout === 'framework') {
+      const merged = bulletsFromFramework(slide)
+      return {
+        layout,
+        bullets: merged.length ? merged : ['Bullet point'],
+      }
+    }
+    return { layout }
   }
 
   return { layout }

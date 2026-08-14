@@ -10,9 +10,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import { CHART_COLORS, DEFENSE_THEME } from '../../theme/defenseTheme'
 import type { ChartDatum, ChartType } from '../../types/slide'
 
-const COLORS = ['#0B1F3A', '#143356', '#C9A227', '#1c446e', '#5C6B7A']
+const COLORS = CHART_COLORS
 
 interface Props {
   type: ChartType
@@ -21,9 +22,10 @@ interface Props {
 }
 
 export function SlideChart({ type, data, dark = false }: Props) {
-  const axis = dark ? '#F7F4EE' : '#5C6B7A'
-  const grid = dark ? 'rgba(247,244,238,0.15)' : 'rgba(11,31,58,0.12)'
-  const barFill = dark ? '#C9A227' : '#0B1F3A'
+  const { bgLight, textMuted, accentGold, primaryDark, border } = DEFENSE_THEME.colors
+  const axis = dark ? bgLight : textMuted
+  const grid = dark ? 'rgba(248,250,252,0.15)' : 'rgba(10,25,47,0.12)'
+  const barFill = dark ? accentGold : primaryDark
 
   if (type === 'pie') {
     return (
@@ -71,7 +73,7 @@ export function SlideChart({ type, data, dark = false }: Props) {
           <Tooltip
             contentStyle={{
               borderRadius: 8,
-              border: '1px solid rgba(11,31,58,0.12)',
+              border: `1px solid ${border}`,
               fontSize: 12,
             }}
           />

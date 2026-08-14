@@ -2,6 +2,7 @@ export type SlideLayout =
   | 'title'
   | 'section'
   | 'bullets'
+  | 'cards'
   | 'twoColumn'
   | 'framework'
   | 'chart'
@@ -19,6 +20,7 @@ export interface Slide {
   layout: SlideLayout
   title: string
   subtitle?: string
+  chapter?: string
   /** Lucide icon name from SLIDE_ICONS, shown beside the title. */
   icon?: string
   bullets?: string[]
@@ -37,6 +39,7 @@ export interface Slide {
 export interface FrameworkBlock {
   label: string
   text: string
+  author?: string
   icon?: string
 }
 
@@ -56,8 +59,9 @@ export const SLIDE_LAYOUTS: { value: SlideLayout; label: string }[] = [
   { value: 'title', label: 'Title' },
   { value: 'section', label: 'Section' },
   { value: 'bullets', label: 'Bullets' },
+  { value: 'cards', label: 'Card list' },
   { value: 'twoColumn', label: 'Two Column' },
-  { value: 'framework', label: 'Framework' },
+  { value: 'framework', label: 'Card grid' },
   { value: 'chart', label: 'Chart' },
   { value: 'closing', label: 'Closing' },
 ]
@@ -79,6 +83,15 @@ export function createEmptySlide(layout: SlideLayout = 'bullets'): Slide {
         layout,
         title: 'Section Title',
         subtitle: 'Optional subtitle',
+        chapter: 'Chapter One',
+        notes: '',
+      }
+    case 'cards':
+      return {
+        id,
+        layout,
+        title: 'Card List',
+        bullets: ['Card one'],
         notes: '',
       }
     case 'twoColumn':

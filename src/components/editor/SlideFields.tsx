@@ -114,10 +114,23 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
         </div>
       </div>
 
-      {slide.layout === 'bullets' || slide.layout === 'chart' ? (
+      <div className="field">
+        <label htmlFor="chapter">Chapter tag</label>
+        <input
+          id="chapter"
+          value={slide.chapter ?? ''}
+          onChange={(e) => onChange({ chapter: e.target.value })}
+        />
+      </div>
+
+      {slide.layout === 'bullets' || slide.layout === 'cards' || slide.layout === 'chart' ? (
         <div className="field">
           <label htmlFor="bullets">
-            {slide.layout === 'chart' ? 'Side bullets (one per line)' : 'Bullets (one per line)'}
+            {slide.layout === 'chart'
+              ? 'Side bullets (one per line)'
+              : slide.layout === 'cards'
+                ? 'Cards (one per line)'
+                : 'Bullets (one per line)'}
           </label>
           <textarea
             id="bullets"
@@ -222,42 +235,59 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
       ) : null}
 
       {slide.layout === 'framework' ? (
-        <div className="field">
-          <label htmlFor="framework">
-            Framework blocks (Label | Text | Icon — one block per line)
-          </label>
-          <textarea
-            id="framework"
-            className="tall"
-            value={(slide.frameworkBlocks ?? [])
-              .map((b) =>
-                b.icon ? `${b.label} | ${b.text} | ${b.icon}` : `${b.label} | ${b.text}`,
-              )
-              .join('\n')}
-            onChange={(e) => {
-              const frameworkBlocks = e.target.value
-                .split('\n')
-                .map((line) => line.trim())
-                .filter(Boolean)
-                .map((line) => {
-                  const parts = line.split('|').map((part) => part.trim())
-                  const label = parts[0] || 'Label'
-                  const maybeIcon = parts.length >= 3 ? parts[parts.length - 1] : ''
-                  const icon = isSlideIconName(maybeIcon) ? maybeIcon : undefined
-                  const textParts = icon ? parts.slice(1, -1) : parts.slice(1)
-                  return {
-                    label,
-                    text: textParts.join(' | ') || 'Description',
-                    icon,
-                  }
+        <>
+          <div className="field">
+            <label htmlFor="framework">
+              Cards (Label | Text | Icon — one card per line)
+            </label>
+            <textarea
+              id="framework"
+              className="tall"
+              value={(slide.frameworkBlocks ?? [])
+                .map((b) => {
+                  const head = b.author ? `${b.label} — ${b.author}` : b.label
+                  return b.icon ? `${head} | ${b.text} | ${b.icon}` : `${head} | ${b.text}`
                 })
-              onChange({ frameworkBlocks })
-            }}
-          />
-          <p className="field__hint">
-            Optional third column is an icon name, e.g. Technology | … | Laptop
-          </p>
-        </div>
+                .join('\n')}
+              onChange={(e) => {
+                const frameworkBlocks = e.target.value
+                  .split('\n')
+                  .map((line) => line.trim())
+                  .filter(Boolean)
+                  .map((line) => {
+                    const parts = line.split('|').map((part) => part.trim())
+                    const rawLabel = parts[0] || 'Label'
+                    const [labelPart, authorPart] = rawLabel.split(' — ')
+                    const maybeIcon = parts.length >= 3 ? parts[parts.length - 1] : ''
+                    const icon = isSlideIconName(maybeIcon) ? maybeIcon : undefined
+                    const textParts = icon ? parts.slice(1, -1) : parts.slice(1)
+                    return {
+                      label: labelPart || 'Label',
+                      author: authorPart || undefined,
+                      text: textParts.join(' | ') || 'Description',
+                      icon,
+                    }
+                  })
+                onChange({ frameworkBlocks })
+              }}
+            />
+            <p className="field__hint">
+              Two cards sit side by side; three in a row; four in a 2×2 grid.
+              Optional author: TOE — Tornatzky & Fleischer (1990) | …
+            </p>
+          </div>
+          <div className="field">
+            <label htmlFor="cardNote">Optional note under the cards</label>
+            <textarea
+              id="cardNote"
+              value={(slide.bullets ?? []).join('\n')}
+              onChange={(e) => onChange({ bullets: linesToList(e.target.value) })}
+            />
+            <p className="field__hint">
+              Optional icon prefix: [Info] Your note
+            </p>
+          </div>
+        </>
       ) : null}
 
       <div className="field">

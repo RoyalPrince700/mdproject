@@ -77,6 +77,8 @@ export default function App() {
               <SlideCanvas
                 slide={store.currentSlide}
                 meta={store.state.meta}
+                index={store.state.currentIndex}
+                total={store.state.slides.length}
               />
             </div>
             <div className="slide-nav">

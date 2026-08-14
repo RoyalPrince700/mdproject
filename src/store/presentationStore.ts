@@ -7,11 +7,12 @@ import {
   type SlideLayout,
 } from '../types/slide'
 
-const STORAGE_KEY = 'defense-presentation-v4'
+const STORAGE_KEY = 'defense-presentation-v5'
 const LEGACY_STORAGE_KEYS = [
   'defense-presentation-v1',
   'defense-presentation-v2',
   'defense-presentation-v3',
+  'defense-presentation-v4',
 ]
 
 function clearLegacyStorage() {

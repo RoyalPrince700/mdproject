@@ -1,22 +1,40 @@
+/**
+ * Westcliff University DBA Doctoral Defense Slide Deck Theme
+ * Keep tokens in sync with src/theme/defenseTheme.ts
+ */
 :root {
-  --navy: #0b1f3a;
-  --navy-mid: #143356;
-  --navy-soft: #1c446e;
-  --ivory: #f7f4ee;
-  --ivory-deep: #ebe6db;
-  --gold: #c9a227;
-  --gold-soft: #e0c56a;
-  --ink: #1a2433;
-  --muted: #5c6b7a;
-  --line: rgba(11, 31, 58, 0.12);
+  --navy: #0a192f;
+  --navy-mid: #1e3a8a;
+  --navy-soft: #1e3a8a;
+  --ivory: #f8fafc;
+  --ivory-deep: #e2e8f0;
+  --gold: #c5a059;
+  --gold-soft: #d4b87a;
+  --ink: #0f172a;
+  --muted: #475569;
+  --line: #e2e8f0;
   --white: #ffffff;
+  --card: #ffffff;
   --danger: #9b2c2c;
-  --shadow: 0 18px 50px rgba(11, 31, 58, 0.18);
+  --shadow: 0 18px 50px rgba(10, 25, 47, 0.18);
   --radius: 10px;
-  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --font-display: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+  --fs-slide-title: 2.25rem;
+  --fs-subtitle: 1.25rem;
+  --fs-section: 1.5rem;
+  --fs-body: 1.05rem;
+  --fs-caption: 0.875rem;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --lh-tight: 1.2;
+  --lh-relaxed: 1.6;
   --slide-w: 960px;
   --slide-h: 540px;
+  --navy-rgb: 10, 25, 47;
+  --gold-rgb: 197, 160, 89;
 }
 
 *,
@@ -34,11 +52,13 @@ body,
 
 body {
   font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
   color: var(--ink);
   background:
-    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(201, 162, 39, 0.12), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 100% 100%, rgba(20, 51, 86, 0.18), transparent 50%),
-    linear-gradient(160deg, #e8eef5 0%, #d5deea 45%, #c8d4e3 100%);
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(var(--gold-rgb), 0.12), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 100%, rgba(30, 58, 138, 0.16), transparent 50%),
+    linear-gradient(160deg, #f8fafc 0%, #e8eef6 45%, #d7e0ec 100%);
   -webkit-font-smoothing: antialiased;
 }
 

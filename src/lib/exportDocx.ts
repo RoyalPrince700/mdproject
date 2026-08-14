@@ -7,13 +7,16 @@ import {
   Paragraph,
   TextRun,
 } from 'docx'
+import { PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
 import { parseBulletItem } from './slideIcons'
 import { resolveTwoColumnContent } from './slideLayout'
 import type { PresentationState, Slide } from '../types/slide'
 
-const NAVY = '0B1F3A'
-const GOLD = 'C9A227'
-const MUTED = '5C6B7A'
+const NAVY = PPT_COLORS.navy
+const GOLD = PPT_COLORS.gold
+const MUTED = PPT_COLORS.muted
+const FONT_H = PPT_FONTS.header
+const FONT_B = PPT_FONTS.body
 
 function textOf(item: string): string {
   return parseBulletItem(item).text.trim()
@@ -46,7 +49,7 @@ function para(
         bold: options.bold,
         size: options.size ?? 22,
         color: options.color ?? NAVY,
-        font: options.font ?? 'Calibri',
+        font: options.font ?? FONT_B,
       }),
     ],
   })
@@ -61,7 +64,7 @@ function heading(text: string, level: (typeof HeadingLevel)[keyof typeof Heading
         text,
         bold: true,
         color: NAVY,
-        font: 'Georgia',
+        font: FONT_H,
       }),
     ],
   })
@@ -76,7 +79,7 @@ function subhead(text: string): Paragraph {
         bold: true,
         size: 22,
         color: GOLD,
-        font: 'Georgia',
+        font: FONT_H,
       }),
     ],
   })
@@ -91,7 +94,7 @@ function bullet(text: string): Paragraph {
         text,
         size: 22,
         color: NAVY,
-        font: 'Calibri',
+        font: FONT_B,
       }),
     ],
   })
@@ -116,6 +119,9 @@ function slideBody(slide: Slide): Paragraph[] {
   const out: Paragraph[] = []
 
   if (slide.layout === 'title' || slide.layout === 'section' || slide.layout === 'closing') {
+    if (slide.layout === 'closing' && slide.subtitle?.trim()) {
+      out.push(para(slide.subtitle.trim(), { italics: true, after: 120 }))
+    }
     if (slide.footer?.trim()) {
       out.push(para(slide.footer.trim(), { italics: true, color: MUTED, size: 20 }))
     }
@@ -142,6 +148,11 @@ function slideBody(slide: Slide): Paragraph[] {
       const label = block.label.trim()
       const text = block.text.trim()
       if (!label && !text) continue
+      if (block.author?.trim()) {
+        out.push(
+          para(block.author.trim(), { bold: true, color: GOLD, size: 18, after: 40 }),
+        )
+      }
       out.push(
         new Paragraph({
           spacing: { after: 140, line: 276 },
@@ -151,17 +162,21 @@ function slideBody(slide: Slide): Paragraph[] {
               bold: true,
               size: 22,
               color: NAVY,
-              font: 'Georgia',
+              font: FONT_H,
             }),
             new TextRun({
               text,
               size: 22,
               color: NAVY,
-              font: 'Calibri',
+              font: FONT_B,
             }),
           ],
         }),
       )
+    }
+    for (const item of slide.bullets ?? []) {
+      const text = textOf(item)
+      if (text) out.push(bullet(text))
     }
     return out
   }
@@ -210,7 +225,7 @@ function documentHeader(state: PresentationState): Paragraph[] {
     }),
     para(titleSlide?.title ?? 'DBA Preliminary Defense', {
       bold: true,
-      font: 'Georgia',
+      font: FONT_H,
       size: 36,
       align: AlignmentType.CENTER,
       after: 120,
@@ -267,7 +282,18 @@ export async function exportDocx(state: PresentationState) {
       ),
     )
 
-    if (slide.subtitle?.trim() && slide.layout !== 'title') {
+    if (slide.chapter?.trim()) {
+      children.push(
+        para(slide.chapter.trim(), {
+          bold: true,
+          color: GOLD,
+          size: 18,
+          after: 40,
+        }),
+      )
+    }
+
+    if (slide.subtitle?.trim() && slide.layout !== 'title' && slide.layout !== 'closing') {
       children.push(para(slide.subtitle.trim(), { italics: true, color: MUTED, size: 20, after: 80 }))
     }
 
@@ -282,7 +308,7 @@ export async function exportDocx(state: PresentationState) {
       default: {
         document: {
           run: {
-            font: 'Calibri',
+            font: FONT_B,
             size: 22,
             color: NAVY,
           },
@@ -296,7 +322,7 @@ export async function exportDocx(state: PresentationState) {
           next: 'Normal',
           quickFormat: true,
           run: {
-            font: 'Georgia',
+            font: FONT_H,
             size: 32,
             bold: true,
             color: NAVY,
@@ -312,7 +338,7 @@ export async function exportDocx(state: PresentationState) {
           next: 'Normal',
           quickFormat: true,
           run: {
-            font: 'Georgia',
+            font: FONT_H,
             size: 26,
             bold: true,
             color: NAVY,
