@@ -3,7 +3,7 @@ import logoUrl from '../assets/westclifflogo.svg'
 import { DEFENSE_THEME, PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
 import { densityFontSize, getColumnDensity, getContentDensity } from './contentDensity'
 import { parseBulletItem } from './slideIcons'
-import { resolveTwoColumnContent } from './slideLayout'
+import { resolveTwoColumnContent, titleBylineLines } from './slideLayout'
 import type { PresentationState, Slide } from '../types/slide'
 
 const NAVY = PPT_COLORS.navy
@@ -144,16 +144,16 @@ function renderSlide(
       fill: { color: GOLD },
       line: { color: GOLD },
     })
-    s.addText(
-      `${meta.author} · ${meta.degree}\nPreliminary Doctoral Defense · Chapters One to Three | ${meta.date}`,
-      {
+    const byline = titleBylineLines(slide, meta)
+    if (byline.length) {
+      s.addText(byline.join('\n'), {
         ...box(0.8, 4.42, 8.4, 0.7),
         fontSize: pt(14),
         fontFace: FONT_B,
         color: MUTED,
         align: 'center',
-      },
-    )
+      })
+    }
     return
   }
 

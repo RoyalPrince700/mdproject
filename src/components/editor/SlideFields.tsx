@@ -115,6 +115,7 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
   const [bodyExpanded, setBodyExpanded] = useState(false)
 
   const hasBodyEditor =
+    slide.layout === 'title' ||
     slide.layout === 'bullets' ||
     slide.layout === 'cards' ||
     slide.layout === 'chart' ||

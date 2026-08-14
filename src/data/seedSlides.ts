@@ -54,7 +54,8 @@ export const seedSlides: Slide[] = [
       'The Role of Information Technology Use\nin B2B Marketing Strategies',
     subtitle:
       'A Qualitative Multiple-Case Study of the Nigerian Book Publishing Industry',
-    footer: 'Preliminary Doctoral Defense · Chapters One to Three',
+    footer:
+      'Gbadega Adedapo · Doctor of Business Administration\nPreliminary Doctoral Defense · Chapters One to Three | August 2026',
     notes:
       'Good morning, Chair, committee members, and faculty. My name is Gbadega Adedapo. I am a Doctor of Business Administration candidate at Westcliff University. Thank you for the opportunity to present this preliminary doctoral defense of Chapters One to Three. The dissertation is titled The Role of Information Technology Use in B2B Marketing Strategies: A Qualitative Multiple-Case Study of the Nigerian Book Publishing Industry.',
   },
@@ -403,7 +404,7 @@ export const seedSlides: Slide[] = [
   },
 ]
 
-export const SEED_REVISION = 18
+export const SEED_REVISION = 19
 
 export const seedPresentation: PresentationState = {
   slides: seedSlides,

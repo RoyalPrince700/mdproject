@@ -4,7 +4,7 @@ import {
   type ContentDensity,
 } from '../../lib/contentDensity'
 import { parseBulletItem } from '../../lib/slideIcons'
-import { resolveTwoColumnContent } from '../../lib/slideLayout'
+import { resolveTwoColumnContent, titleBylineLines } from '../../lib/slideLayout'
 import type { PresentationState, Slide } from '../../types/slide'
 import { SlideIcon } from '../icons/SlideIcon'
 import { SlideChart } from './SlideChart'
@@ -90,7 +90,7 @@ function DeckFooter({
       : extra
   return (
     <footer className={`slide__deck-footer${dark ? ' slide__deck-footer--dark' : ''}`}>
-      <span>WESTCLIFF UNIVERSITY · Doctoral Defense</span>
+      <span>WESTCLIFF UNIVERSITY · Doctoral Preliminary Defense</span>
       <span>{number ?? extra ?? ''}</span>
     </footer>
   )
@@ -145,6 +145,7 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
   const logo = <SlideLogo variant="light" />
 
   if (slide.layout === 'title') {
+    const byline = titleBylineLines(slide, meta)
     return (
       <article className={className}>
         {logo}
@@ -161,14 +162,13 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
             <p className="slide__subtitle">{slide.subtitle}</p>
           ) : null}
           <div className="slide__rule" aria-hidden="true" />
-          <div className="slide__meta">
-            <span>
-              {meta.author} · {meta.degree}
-            </span>
-            <span>
-              Preliminary Doctoral Defense · Chapters One to Three | {meta.date}
-            </span>
-          </div>
+          {byline.length ? (
+            <div className="slide__meta">
+              {byline.map((line, i) => (
+                <span key={i}>{line}</span>
+              ))}
+            </div>
+          ) : null}
         </div>
       </article>
     )

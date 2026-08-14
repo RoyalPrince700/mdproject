@@ -1,8 +1,25 @@
 import { parseBulletItem } from './slideIcons'
-import type { FrameworkBlock, Slide, SlideLayout } from '../types/slide'
+import type { FrameworkBlock, PresentationState, Slide, SlideLayout } from '../types/slide'
 
 function cleanList(items?: string[]): string[] {
   return (items ?? []).map((item) => item.trim()).filter(Boolean)
+}
+
+/** Byline under the title slide rule; falls back to presentation meta. */
+export function titleBylineLines(
+  slide: Slide,
+  meta?: PresentationState['meta'],
+): string[] {
+  const fromFooter = (slide.footer ?? '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+  if (fromFooter.length) return fromFooter
+  if (!meta) return []
+  return [
+    `${meta.author} · ${meta.degree}`,
+    `Preliminary Doctoral Defense · Chapters One to Three | ${meta.date}`,
+  ]
 }
 
 export function splitList(items?: string[]): { left: string[]; right: string[] } {
