@@ -18,7 +18,8 @@ interface Props {
   exporting: ExportKind
   editorView: EditorViewMode
   documentFont?: DocumentFont
-  onBack: () => void
+  libraryOpen: boolean
+  onToggleLibrary: () => void
   onPresent?: () => void
   onDownloadPptx?: () => void
   onDownloadDocx: () => void
@@ -34,7 +35,8 @@ export function Toolbar({
   exporting,
   editorView,
   documentFont,
-  onBack,
+  libraryOpen,
+  onToggleLibrary,
   onPresent,
   onDownloadPptx,
   onDownloadDocx,
@@ -52,12 +54,21 @@ export function Toolbar({
       <div className="toolbar__brand-row">
         <button
           type="button"
-          className="btn btn--ghost"
-          onClick={onBack}
-          title="All documents"
+          className="toolbar__library"
+          onClick={onToggleLibrary}
+          aria-label="Documents"
+          aria-expanded={libraryOpen}
+          aria-haspopup="dialog"
+          title="Documents"
         >
-          <FolderOpen size={16} strokeWidth={2} aria-hidden="true" />
-          Documents
+          <span className="toolbar__library-glyph" aria-hidden="true">
+            <FolderOpen size={20} strokeWidth={1.9} />
+            <FileText
+              className="toolbar__library-file"
+              size={11}
+              strokeWidth={2.4}
+            />
+          </span>
         </button>
         <div className="toolbar__brand">
           <div className="toolbar__brand-name">{brand}</div>

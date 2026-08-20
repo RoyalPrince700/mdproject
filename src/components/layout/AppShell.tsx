@@ -1,14 +1,16 @@
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { LibraryDrawer } from '../library/LibraryDrawer'
 import { Toolbar, type ExportKind } from './Toolbar'
+import { useDocumentTabs } from '../../store/documentTabs'
 import type { DocumentFont, EditorViewMode } from '../../types/slide'
 
 interface Props {
+  documentId: string
   brand: string
   subtitle: string
   exporting: ExportKind
   editorView: EditorViewMode
   documentFont?: DocumentFont
-  onBack: () => void
   onPresent?: () => void
   onDownloadPptx?: () => void
   onDownloadDocx: () => void
@@ -20,12 +22,12 @@ interface Props {
 }
 
 export function AppShell({
+  documentId,
   brand,
   subtitle,
   exporting,
   editorView,
   documentFont,
-  onBack,
   onPresent,
   onDownloadPptx,
   onDownloadDocx,
@@ -35,6 +37,14 @@ export function AppShell({
   onFontChange,
   children,
 }: Props) {
+  const { activeId } = useDocumentTabs()
+  const [libraryOpen, setLibraryOpen] = useState(false)
+  const isActiveTab = activeId === documentId
+
+  useEffect(() => {
+    if (!isActiveTab) setLibraryOpen(false)
+  }, [isActiveTab])
+
   return (
     <div className="app-shell">
       <Toolbar
@@ -43,7 +53,8 @@ export function AppShell({
         exporting={exporting}
         editorView={editorView}
         documentFont={documentFont}
-        onBack={onBack}
+        libraryOpen={libraryOpen}
+        onToggleLibrary={() => setLibraryOpen((open) => !open)}
         onPresent={onPresent}
         onDownloadPptx={onDownloadPptx}
         onDownloadDocx={onDownloadDocx}
@@ -53,6 +64,11 @@ export function AppShell({
         onFontChange={onFontChange}
       />
       {children}
+      <LibraryDrawer
+        open={libraryOpen}
+        currentId={documentId}
+        onClose={() => setLibraryOpen(false)}
+      />
     </div>
   )
 }

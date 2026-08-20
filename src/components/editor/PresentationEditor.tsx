@@ -4,6 +4,7 @@ import { defaultEditorView } from '../../lib/documentSections'
 import { exportDocx } from '../../lib/exportDocx'
 import { exportPptx } from '../../lib/exportPptx'
 import { resolveDocumentFont } from '../../theme/documentTheme'
+import { useDocumentTabs } from '../../store/documentTabs'
 import { SEED_DOCUMENT_ID, isSeedDocument } from '../../store/libraryStore'
 import { usePresentationStore } from '../../store/presentationStore'
 import { SlideFilmstrip } from '../filmstrip/SlideFilmstrip'
@@ -19,7 +20,6 @@ import { SlideFields } from './SlideFields'
 interface Props {
   documentId: string
   documentTitle: string
-  onBack: () => void
 }
 
 function scrollToDocSection(id: string) {
@@ -27,11 +27,9 @@ function scrollToDocSection(id: string) {
   el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-export function PresentationEditor({
-  documentId,
-  documentTitle,
-  onBack,
-}: Props) {
+export function PresentationEditor({ documentId, documentTitle }: Props) {
+  const tabs = useDocumentTabs()
+  const isActiveTab = tabs.activeId === documentId
   const store = usePresentationStore(documentId)
   const [presenting, setPresenting] = useState(false)
   const [exporting, setExporting] = useState<ExportKind>(null)
@@ -83,7 +81,7 @@ export function PresentationEditor({
   }, [documentId, store])
 
   useKeyboardNav({
-    enabled: !presenting && !inDocument,
+    enabled: isActiveTab && !presenting && !inDocument,
     onNext: store.nextSlide,
     onPrev: store.prevSlide,
   })
@@ -135,12 +133,12 @@ export function PresentationEditor({
   return (
     <>
       <AppShell
+        documentId={documentId}
         brand={documentTitle || store.state.meta.brand || 'Untitled'}
         subtitle={subtitle}
         exporting={exporting}
         editorView={editorView}
         documentFont={resolveDocumentFont(store.state.meta)}
-        onBack={onBack}
         onPresent={inDocument ? undefined : () => setPresenting(true)}
         onDownloadPptx={inDocument ? undefined : handleDownloadPptx}
         onDownloadDocx={handleDownloadDocx}
