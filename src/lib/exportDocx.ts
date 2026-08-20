@@ -24,6 +24,7 @@ import {
 import { PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
 import { resolveDocumentFont } from '../theme/documentTheme'
 import {
+  hasSmehBranding,
   isSmehProposal,
   isWordDocument,
   letterParagraphs,
@@ -883,9 +884,10 @@ function buildDefenseChildren(state: PresentationState): Paragraph[] {
 
 export async function exportDocx(
   state: PresentationState,
-  options: { title?: string } = {},
+  options: { title?: string; documentId?: string } = {},
 ) {
   const smehProposal = isSmehProposal(state.meta.kind)
+  const smehBranding = hasSmehBranding(state, options.documentId)
   const plainDocument = state.meta.kind === 'document'
   const usesWordExport = isWordDocument(state.meta.kind)
   const fonts = resolveExportFonts(state)
@@ -906,11 +908,11 @@ export async function exportDocx(
       ? buildPlainDocumentChildren(state)
       : buildDefenseChildren(state)
 
-  const watermarkData = smehProposal ? await loadWatermarkBytes() : null
+  const watermarkData = smehBranding ? await loadWatermarkBytes() : null
   const fadedWatermarkAsset = watermarkData
     ? await createFadedWatermarkAsset(watermarkData)
     : null
-  const cornerLogoAsset = smehProposal ? await loadAccessibleLogoAsset() : null
+  const cornerLogoAsset = smehBranding ? await loadAccessibleLogoAsset() : null
   const watermarkHeader = fadedWatermarkAsset
     ? createWatermarkHeader(fadedWatermarkAsset, cornerLogoAsset)
     : undefined

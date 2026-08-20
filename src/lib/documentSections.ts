@@ -1,9 +1,38 @@
+import { LOYALTY_FRAMEWORK_DOCUMENT_ID } from '../data/loyaltyRewardFramework'
+import { EKITI_DOCUMENT_ID } from '../data/ekitiProposal'
+import { SCHOLARSHIP_CAFE_DOCUMENT_ID } from '../data/scholarshipCafeProposal'
+import { UNION_DOCUMENT_ID } from '../data/unionProposal'
+import { WEMA_DOCUMENT_ID } from '../data/wemaProposal'
 import type { DocumentKind, EditorViewMode, PresentationState, Slide } from '../types/slide'
 import { parseBulletItem } from './slideIcons'
 import { resolveTwoColumnContent } from './slideLayout'
 
+export const SMEH_PROPOSAL_IDS = [
+  WEMA_DOCUMENT_ID,
+  EKITI_DOCUMENT_ID,
+  SCHOLARSHIP_CAFE_DOCUMENT_ID,
+  UNION_DOCUMENT_ID,
+] as const
+
+const NON_SMEH_BRANDED_IDS = new Set([
+  'preliminary-defense',
+  LOYALTY_FRAMEWORK_DOCUMENT_ID,
+])
+
 export function isSmehProposal(kind?: DocumentKind) {
   return kind === 'proposal'
+}
+
+/** Corner logo + watermark — only true SmartEdu Hub / SMEH proposal templates. */
+export function hasSmehBranding(
+  state: PresentationState,
+  documentId?: string,
+): boolean {
+  if (documentId && NON_SMEH_BRANDED_IDS.has(documentId)) return false
+  if (documentId && (SMEH_PROPOSAL_IDS as readonly string[]).includes(documentId)) {
+    return true
+  }
+  return isSmehProposal(state.meta.kind)
 }
 
 export function isWordDocument(kind?: DocumentKind) {

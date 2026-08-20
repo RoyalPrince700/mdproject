@@ -54,7 +54,7 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
   const handleDownloadPptx = useCallback(async () => {
     setExporting('pptx')
     try {
-      await exportPptx(store.state)
+      await exportPptx(store.state, { documentId })
     } catch (err) {
       console.error(err)
       window.alert('Could not export the PowerPoint file. Please try again.')
@@ -66,7 +66,7 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
   const handleDownloadDocx = useCallback(async () => {
     setExporting('docx')
     try {
-      await exportDocx(store.state, { title: documentTitle })
+      await exportDocx(store.state, { title: documentTitle, documentId })
     } catch (err) {
       console.error(err)
       window.alert('Could not export the Word document. Please try again.')
@@ -236,6 +236,7 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
               ) : null}
               <DocumentCanvas
                 state={store.state}
+                documentId={documentId}
                 activeId={outlineId}
                 onSelect={handleOutlineSelect}
                 editable

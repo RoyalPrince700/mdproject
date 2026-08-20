@@ -2,6 +2,7 @@ import PptxGenJS from 'pptxgenjs'
 import accessibleLogoUrl from '../assets/accessiblelogo.png'
 import logoUrl from '../assets/westclifflogo.svg'
 import { DEFENSE_THEME, PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
+import { hasSmehBranding } from './documentSections'
 import { densityFontSize, getColumnDensity, getContentDensity } from './contentDensity'
 import { parseBulletItem } from './slideIcons'
 import { resolveTwoColumnContent, titleBylineLines } from './slideLayout'
@@ -126,6 +127,7 @@ function renderSlide(
   meta: PresentationState['meta'],
   logo: string | null,
   proposalLogo: string | null,
+  showSmehBranding: boolean,
   index: number,
   total: number,
 ) {
@@ -156,7 +158,7 @@ function renderSlide(
         ? `${meta.brand} · Document`
         : 'WESTCLIFF UNIVERSITY · Doctoral Defense'
   addLogo(s, logo, logoLabel)
-  if (meta.kind === 'proposal') {
+  if (showSmehBranding) {
     addProposalCornerLogos(s, proposalLogo)
   }
 
@@ -706,8 +708,12 @@ function renderSlide(
   addDeckFooter(s, index, total, false, footerLabel)
 }
 
-export async function exportPptx(state: PresentationState) {
+export async function exportPptx(
+  state: PresentationState,
+  options: { documentId?: string } = {},
+) {
   const smehProposal = state.meta.kind === 'proposal'
+  const smehBranding = hasSmehBranding(state, options.documentId)
   const plainDocument = state.meta.kind === 'document'
   const usesBrandExport = smehProposal || plainDocument
   const titleSlide = state.slides.find((slide) => slide.layout === 'title')
@@ -725,10 +731,19 @@ export async function exportPptx(state: PresentationState) {
   pptx.theme = { headFontFace: FONT_H, bodyFontFace: FONT_B }
 
   const logo = smehProposal || plainDocument ? null : await loadLogoData()
-  const proposalLogo = smehProposal ? await loadAccessibleLogoData() : null
+  const proposalLogo = smehBranding ? await loadAccessibleLogoData() : null
 
   for (const [index, slide] of state.slides.entries()) {
-    renderSlide(pptx, slide, state.meta, logo, proposalLogo, index, state.slides.length)
+    renderSlide(
+      pptx,
+      slide,
+      state.meta,
+      logo,
+      proposalLogo,
+      smehBranding,
+      index,
+      state.slides.length,
+    )
   }
 
   const fileName = usesBrandExport

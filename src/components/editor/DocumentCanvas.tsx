@@ -1,5 +1,6 @@
 import { accessibleLogoUrl, watermarkUrl } from '../../lib/documentWatermark'
 import {
+  hasSmehBranding,
   isSmehProposal,
   letterParagraphs,
   proposalBodySlides,
@@ -14,6 +15,7 @@ import { EditableText } from './EditableText'
 
 interface Props {
   state: PresentationState
+  documentId?: string
   activeId?: string
   onSelect: (id: string) => void
   editable?: boolean
@@ -238,6 +240,7 @@ function SectionBlock({
 
 export function DocumentCanvas({
   state,
+  documentId,
   activeId,
   onSelect,
   editable = false,
@@ -248,6 +251,7 @@ export function DocumentCanvas({
   const { meta, slides } = state
   const font = resolveDocumentFont(meta)
   const smehProposal = isSmehProposal(meta.kind)
+  const smehBranding = hasSmehBranding(state, documentId)
   const titleSlide = slides.find((slide) => slide.layout === 'title')
   const subject =
     meta.subject?.trim() ||
@@ -259,10 +263,10 @@ export function DocumentCanvas({
 
   return (
     <article
-      className={`doc-page${smehProposal ? '' : ' doc-page--plain'}${canEdit ? ' doc-page--editable' : ''}`}
+      className={`doc-page${smehBranding ? '' : ' doc-page--plain'}${canEdit ? ' doc-page--editable' : ''}`}
       style={{
         fontFamily: `"${font}", sans-serif`,
-        ...(smehProposal
+        ...(smehBranding
           ? { ['--doc-watermark' as string]: `url(${watermarkUrl})` }
           : {}),
       }}
@@ -272,7 +276,7 @@ export function DocumentCanvas({
         className={`doc-cover doc-page-sheet${activeId === '__cover' ? ' doc-section--active' : ''}${smehProposal ? '' : ' doc-cover--plain'}`}
         onClick={() => onSelect('__cover')}
       >
-        {smehProposal ? <ProposalCornerLogos /> : null}
+        {smehBranding ? <ProposalCornerLogos /> : null}
         {smehProposal ? (
           <>
             <div className="doc-cover__banner">
@@ -454,7 +458,7 @@ export function DocumentCanvas({
           className={`doc-letter doc-page-sheet${activeId === '__letter' ? ' doc-section--active' : ''}`}
           onClick={() => onSelect('__letter')}
         >
-          <ProposalCornerLogos />
+          {smehBranding ? <ProposalCornerLogos /> : null}
           {canEdit ? (
             <>
               <EditableText
@@ -557,7 +561,7 @@ export function DocumentCanvas({
           slides={slides}
           activeId={activeId}
           onSelect={onSelect}
-          showCornerLogos={smehProposal}
+          showCornerLogos={smehBranding}
           editable={canEdit}
           onSlideChange={onSlideChange}
         />

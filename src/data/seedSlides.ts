@@ -6,6 +6,7 @@ export const PRESENTATION_META = {
   author: DEFENSE_THEME.candidate,
   degree: DEFENSE_THEME.degree,
   date: DEFENSE_THEME.date,
+  kind: 'presentation' as const,
 }
 
 function sectionSlide(
