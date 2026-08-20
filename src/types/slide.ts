@@ -43,16 +43,34 @@ export interface FrameworkBlock {
   icon?: string
 }
 
+export type DocumentKind = 'presentation' | 'proposal'
+export type EditorViewMode = 'slides' | 'document'
+export type DocumentFont = 'Arial' | 'Calibri' | 'Times New Roman' | 'Georgia'
+
+export interface PresentationMeta {
+  brand: string
+  author: string
+  degree: string
+  date: string
+  letterDate?: string
+  kind?: DocumentKind
+  editorView?: EditorViewMode
+  documentFont?: DocumentFont
+  recipient?: string
+  recipientOrg?: string
+  recipientAddress?: string
+  subject?: string
+  coverLetter?: string[]
+  signOff?: string[]
+  website?: string
+  contactRows?: { label: string; value: string }[]
+}
+
 export interface PresentationState {
   slides: Slide[]
   currentIndex: number
   seedRevision?: number
-  meta: {
-    brand: string
-    author: string
-    degree: string
-    date: string
-  }
+  meta: PresentationMeta
 }
 
 export const SLIDE_LAYOUTS: { value: SlideLayout; label: string }[] = [
@@ -65,6 +83,23 @@ export const SLIDE_LAYOUTS: { value: SlideLayout; label: string }[] = [
   { value: 'chart', label: 'Chart' },
   { value: 'closing', label: 'Closing' },
 ]
+
+export function createBlankPresentation(title = 'Untitled document'): PresentationState {
+  const slide = createEmptySlide('title')
+  slide.title = title
+  slide.subtitle = ''
+  const now = new Date()
+  return {
+    slides: [slide],
+    currentIndex: 0,
+    meta: {
+      brand: '',
+      author: '',
+      degree: '',
+      date: now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    },
+  }
+}
 
 export function createEmptySlide(layout: SlideLayout = 'bullets'): Slide {
   const id = `slide-${crypto.randomUUID().slice(0, 8)}`

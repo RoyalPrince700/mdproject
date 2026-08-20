@@ -16,6 +16,12 @@ export function titleBylineLines(
     .filter(Boolean)
   if (fromFooter.length) return fromFooter
   if (!meta) return []
+  if (meta.kind === 'proposal') {
+    return [
+      meta.recipientOrg ? `Submitted to ${meta.recipientOrg}` : '',
+      `${meta.brand} · ${meta.date}`,
+    ].filter(Boolean)
+  }
   return [
     `${meta.author} · ${meta.degree}`,
     `Preliminary Doctoral Defense · Chapters One to Three | ${meta.date}`,

@@ -52,7 +52,7 @@ async function loadLogoData(): Promise<string | null> {
   }
 }
 
-function addLogo(s: PptxGenJS.Slide, data: string | null) {
+function addLogo(s: PptxGenJS.Slide, data: string | null, fallbackLabel: string) {
   if (data) {
     s.addImage({
       data,
@@ -60,7 +60,7 @@ function addLogo(s: PptxGenJS.Slide, data: string | null) {
     })
     return
   }
-  s.addText(DEFENSE_THEME.university, {
+  s.addText(fallbackLabel, {
     ...box(6.8, 0.18, 2.9, 0.3),
     fontSize: pt(9),
     fontFace: FONT_H,
@@ -75,9 +75,10 @@ function addDeckFooter(
   index: number,
   total: number,
   dark = false,
+  label = 'WESTCLIFF UNIVERSITY · Doctoral Defense',
 ) {
   const color = dark ? '94A3B8' : MUTED
-  s.addText('WESTCLIFF UNIVERSITY · Doctoral Defense', {
+  s.addText(label, {
     ...box(0.45, 5.32, 6.2, 0.22),
     fontSize: pt(9),
     fontFace: FONT_B,
@@ -114,7 +115,13 @@ function renderSlide(
     line: { color: NAVY },
   })
 
-  addLogo(s, logo)
+  const logoLabel =
+    meta.kind === 'proposal' ? 'SMARTEDU HUB' : DEFENSE_THEME.university
+  const footerLabel =
+    meta.kind === 'proposal'
+      ? `${meta.brand} · Proposal`
+      : 'WESTCLIFF UNIVERSITY · Doctoral Defense'
+  addLogo(s, logo, logoLabel)
 
   if (slide.layout === 'title') {
     const titleLines = slide.title.split('\n').map((text, i, lines) => ({
@@ -186,7 +193,7 @@ function renderSlide(
         align: 'center',
       })
     }
-    addDeckFooter(s, index, total)
+    addDeckFooter(s, index, total, false, footerLabel)
     return
   }
 
@@ -242,7 +249,7 @@ function renderSlide(
         align: 'center',
       })
     }
-    addDeckFooter(s, index, total)
+    addDeckFooter(s, index, total, false, footerLabel)
     return
   }
 
@@ -659,25 +666,38 @@ function renderSlide(
     }
   }
 
-  addDeckFooter(s, index, total)
+  addDeckFooter(s, index, total, false, footerLabel)
 }
 
 export async function exportPptx(state: PresentationState) {
+  const isProposal = state.meta.kind === 'proposal'
+  const titleSlide = state.slides.find((slide) => slide.layout === 'title')
+  const docTitle =
+    state.meta.subject?.trim() ||
+    titleSlide?.title.replace(/\n/g, ' ').trim() ||
+    (isProposal
+      ? 'Proposal'
+      : 'DBA Preliminary Defense — IT in B2B Marketing Strategies')
+
   const pptx = new PptxGenJS()
   pptx.author = state.meta.author
-  pptx.title = 'DBA Preliminary Defense — IT in B2B Marketing Strategies'
+  pptx.title = docTitle
   pptx.subject = state.meta.brand
   pptx.defineLayout({ name: 'LAYOUT_16x9_OFFICE', width: SLIDE_W, height: SLIDE_H })
   pptx.layout = 'LAYOUT_16x9_OFFICE'
   pptx.theme = { headFontFace: FONT_H, bodyFontFace: FONT_B }
 
-  const logo = await loadLogoData()
+  const logo = isProposal ? null : await loadLogoData()
 
   for (const [index, slide] of state.slides.entries()) {
     renderSlide(pptx, slide, state.meta, logo, index, state.slides.length)
   }
 
+  const fileName = isProposal
+    ? `${docTitle.replace(/\n/g, ' ').replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'Proposal'}.pptx`
+    : 'DBA-Preliminary-Defense-Adedapo.pptx'
+
   await pptx.writeFile({
-    fileName: 'DBA-Preliminary-Defense-Adedapo.pptx',
+    fileName,
   })
 }

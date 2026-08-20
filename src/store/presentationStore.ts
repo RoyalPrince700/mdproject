@@ -1,61 +1,50 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { SEED_REVISION, seedPresentation } from '../data/seedSlides'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   createEmptySlide,
+  type PresentationMeta,
   type PresentationState,
   type Slide,
   type SlideLayout,
 } from '../types/slide'
+import {
+  getSeedState,
+  loadPresentation,
+  touchLibraryEntry,
+  writePresentation,
+} from './libraryStore'
 
-const STORAGE_KEY = 'defense-presentation-v5'
-const LEGACY_STORAGE_KEYS = [
-  'defense-presentation-v1',
-  'defense-presentation-v2',
-  'defense-presentation-v3',
-  'defense-presentation-v4',
-]
-
-function clearLegacyStorage() {
-  for (const key of LEGACY_STORAGE_KEYS) {
-    localStorage.removeItem(key)
-  }
+function contentFingerprint(state: PresentationState) {
+  return JSON.stringify({ slides: state.slides, meta: state.meta })
 }
 
-function loadState(): PresentationState {
-  try {
-    clearLegacyStorage()
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return structuredClone(seedPresentation)
-    const parsed = JSON.parse(raw) as PresentationState
-    if (!parsed.slides?.length || parsed.seedRevision !== SEED_REVISION) {
-      return structuredClone(seedPresentation)
-    }
-    return {
-      ...structuredClone(seedPresentation),
-      ...parsed,
-      slides: parsed.slides,
-      currentIndex: Math.min(
-        Math.max(0, parsed.currentIndex ?? 0),
-        parsed.slides.length - 1,
-      ),
-      seedRevision: SEED_REVISION,
-      meta: { ...seedPresentation.meta, ...parsed.meta },
-    }
-  } catch {
-    return structuredClone(seedPresentation)
-  }
-}
+export type SaveStatus = 'saved' | 'unsaved'
 
-function persist(state: PresentationState) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
-}
-
-export function usePresentationStore() {
-  const [state, setState] = useState<PresentationState>(() => loadState())
+export function usePresentationStore(documentId: string) {
+  const [state, setState] = useState<PresentationState>(() =>
+    loadPresentation(documentId),
+  )
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('saved')
+  const fingerprintRef = useRef(contentFingerprint(state))
 
   useEffect(() => {
-    persist(state)
-  }, [state])
+    writePresentation(documentId, state)
+    const fingerprint = contentFingerprint(state)
+    if (fingerprint !== fingerprintRef.current) {
+      fingerprintRef.current = fingerprint
+      touchLibraryEntry(documentId, state)
+    }
+    setSaveStatus('saved')
+  }, [documentId, state])
+
+  const save = useCallback(() => {
+    writePresentation(documentId, state)
+    touchLibraryEntry(documentId, state)
+    setSaveStatus('saved')
+  }, [documentId, state])
+
+  const markUnsaved = useCallback(() => {
+    setSaveStatus('unsaved')
+  }, [])
 
   const currentSlide = useMemo(
     () => state.slides[state.currentIndex] ?? state.slides[0],
@@ -69,64 +58,86 @@ export function usePresentationStore() {
     }))
   }, [])
 
-  const updateSlide = useCallback((id: string, patch: Partial<Slide>) => {
-    setState((prev) => ({
-      ...prev,
-      slides: prev.slides.map((s) => (s.id === id ? { ...s, ...patch } : s)),
-    }))
-  }, [])
+  const updateSlide = useCallback(
+    (id: string, patch: Partial<Slide>) => {
+      markUnsaved()
+      setState((prev) => ({
+        ...prev,
+        slides: prev.slides.map((s) => (s.id === id ? { ...s, ...patch } : s)),
+      }))
+    },
+    [markUnsaved],
+  )
 
-  const addSlide = useCallback((layout: SlideLayout = 'bullets') => {
-    setState((prev) => {
-      const slide = createEmptySlide(layout)
-      const insertAt = prev.currentIndex + 1
-      const slides = [
-        ...prev.slides.slice(0, insertAt),
-        slide,
-        ...prev.slides.slice(insertAt),
-      ]
-      return { ...prev, slides, currentIndex: insertAt }
-    })
-  }, [])
+  const addSlide = useCallback(
+    (layout: SlideLayout = 'bullets') => {
+      markUnsaved()
+      setState((prev) => {
+        const slide = createEmptySlide(layout)
+        const insertAt = prev.currentIndex + 1
+        const slides = [
+          ...prev.slides.slice(0, insertAt),
+          slide,
+          ...prev.slides.slice(insertAt),
+        ]
+        return { ...prev, slides, currentIndex: insertAt }
+      })
+    },
+    [markUnsaved],
+  )
 
-  const deleteSlide = useCallback((id: string) => {
-    setState((prev) => {
-      if (prev.slides.length <= 1) return prev
-      const index = prev.slides.findIndex((s) => s.id === id)
-      if (index < 0) return prev
-      const slides = prev.slides.filter((s) => s.id !== id)
-      const currentIndex = Math.min(prev.currentIndex, slides.length - 1)
-      return { ...prev, slides, currentIndex }
-    })
-  }, [])
+  const deleteSlide = useCallback(
+    (id: string) => {
+      markUnsaved()
+      setState((prev) => {
+        if (prev.slides.length <= 1) return prev
+        const index = prev.slides.findIndex((s) => s.id === id)
+        if (index < 0) return prev
+        const slides = prev.slides.filter((s) => s.id !== id)
+        const currentIndex = Math.min(prev.currentIndex, slides.length - 1)
+        return { ...prev, slides, currentIndex }
+      })
+    },
+    [markUnsaved],
+  )
 
-  const reorderSlides = useCallback((fromIndex: number, toIndex: number) => {
-    setState((prev) => {
-      if (
-        fromIndex === toIndex ||
-        fromIndex < 0 ||
-        toIndex < 0 ||
-        fromIndex >= prev.slides.length ||
-        toIndex >= prev.slides.length
-      ) {
-        return prev
-      }
-      const slides = [...prev.slides]
-      const [moved] = slides.splice(fromIndex, 1)
-      slides.splice(toIndex, 0, moved)
-      let currentIndex = prev.currentIndex
-      if (currentIndex === fromIndex) currentIndex = toIndex
-      else if (fromIndex < currentIndex && toIndex >= currentIndex) currentIndex -= 1
-      else if (fromIndex > currentIndex && toIndex <= currentIndex) currentIndex += 1
-      return { ...prev, slides, currentIndex }
-    })
-  }, [])
+  const reorderSlides = useCallback(
+    (fromIndex: number, toIndex: number) => {
+      markUnsaved()
+      setState((prev) => {
+        if (
+          fromIndex === toIndex ||
+          fromIndex < 0 ||
+          toIndex < 0 ||
+          fromIndex >= prev.slides.length ||
+          toIndex >= prev.slides.length
+        ) {
+          return prev
+        }
+        const slides = [...prev.slides]
+        const [moved] = slides.splice(fromIndex, 1)
+        slides.splice(toIndex, 0, moved)
+        let currentIndex = prev.currentIndex
+        if (currentIndex === fromIndex) currentIndex = toIndex
+        else if (fromIndex < currentIndex && toIndex >= currentIndex)
+          currentIndex -= 1
+        else if (fromIndex > currentIndex && toIndex <= currentIndex)
+          currentIndex += 1
+        return { ...prev, slides, currentIndex }
+      })
+    },
+    [markUnsaved],
+  )
 
   const resetToSeed = useCallback(() => {
-    const next = structuredClone(seedPresentation)
+    const next = getSeedState(documentId)
+    if (!next) return
+    fingerprintRef.current = ''
     setState(next)
-    persist(next)
-  }, [])
+    writePresentation(documentId, next)
+    touchLibraryEntry(documentId, next)
+    setSaveStatus('saved')
+  }, [documentId])
 
   const nextSlide = useCallback(() => {
     setState((prev) => ({
@@ -142,11 +153,33 @@ export function usePresentationStore() {
     }))
   }, [])
 
+  const updateMeta = useCallback(
+    (patch: Partial<PresentationMeta>) => {
+      markUnsaved()
+      setState((prev) => ({
+        ...prev,
+        meta: { ...prev.meta, ...patch },
+      }))
+    },
+    [markUnsaved],
+  )
+
+  const setEditorView = useCallback(
+    (editorView: PresentationMeta['editorView']) => {
+      updateMeta({ editorView })
+    },
+    [updateMeta],
+  )
+
   return {
     state,
     currentSlide,
+    saveStatus,
+    save,
     setCurrentIndex,
     updateSlide,
+    updateMeta,
+    setEditorView,
     addSlide,
     deleteSlide,
     reorderSlides,

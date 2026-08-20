@@ -4,6 +4,7 @@ import {
   Minimize2,
   PanelRightClose,
   PanelRightOpen,
+  Save,
 } from 'lucide-react'
 import { SLIDE_ICON_OPTIONS, isSlideIconName } from '../../lib/slideIcons'
 import { adaptSlideToLayout } from '../../lib/slideLayout'
@@ -14,13 +15,17 @@ import {
   type Slide,
   type SlideLayout,
 } from '../../types/slide'
+import type { SaveStatus } from '../../store/presentationStore'
 import { SlideIcon } from '../icons/SlideIcon'
 
 interface Props {
   slide: Slide
   canDelete: boolean
+  saveStatus: SaveStatus
+  onSave: () => void
   onChange: (patch: Partial<Slide>) => void
   onDelete: () => void
+  mode?: 'slides' | 'document'
 }
 
 function linesToList(value: string): string[] {
@@ -109,7 +114,17 @@ function FrameworkCardsField({
   )
 }
 
-export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
+export function SlideFields({
+  slide,
+  canDelete,
+  saveStatus,
+  onSave,
+  onChange,
+  onDelete,
+  mode = 'slides',
+}: Props) {
+  const inDocument = mode === 'document'
+  const unitLabel = inDocument ? 'section' : 'slide'
   const [collapsed, setCollapsed] = useState(false)
   const [notesExpanded, setNotesExpanded] = useState(false)
   const [bodyExpanded, setBodyExpanded] = useState(false)
@@ -130,7 +145,10 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
     ? 'Speaker notes'
     : bodyExpanded
       ? 'Edit text'
-      : 'Edit slide'
+      : `Edit ${unitLabel}`
+
+  const headerTitle =
+    (notesExpanded || bodyExpanded) && !collapsed ? paneTitle : `Edit ${unitLabel}`
 
   const toggleNotes = () => {
     setNotesExpanded((open) => {
@@ -153,7 +171,7 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
       }${bodyExpanded ? ' is-body-expanded' : ''}`}
     >
       <div className="fields-pane__header">
-        <h2>{(notesExpanded || bodyExpanded) && !collapsed ? paneTitle : 'Edit slide'}</h2>
+        <h2>{headerTitle}</h2>
         <button
           type="button"
           className="fields-pane__toggle"
@@ -208,7 +226,7 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
       </div>
 
       <div className="field">
-        <label htmlFor="icon">Slide icon</label>
+        <label htmlFor="icon">{inDocument ? 'Section icon' : 'Slide icon'}</label>
         <div className="icon-field">
           <span className="icon-field__preview">
             <SlideIcon name={slide.icon} size={18} />
@@ -451,11 +469,24 @@ export function SlideFields({ slide, canDelete, onChange, onDelete }: Props) {
       <div className="fields-actions">
         <button
           type="button"
+          className={`btn btn--save${saveStatus === 'saved' ? ' btn--save--saved' : ''}`}
+          onClick={onSave}
+        >
+          <Save size={16} strokeWidth={2} aria-hidden="true" />
+          {saveStatus === 'saved' ? 'Saved' : 'Save'}
+        </button>
+        <span className="fields-actions__hint">
+          {saveStatus === 'saved'
+            ? 'Your edits are stored in this browser.'
+            : 'Unsaved changes — click Save or keep editing.'}
+        </span>
+        <button
+          type="button"
           className="btn btn--danger"
           disabled={!canDelete}
           onClick={onDelete}
         >
-          Delete slide
+          Delete {unitLabel}
         </button>
       </div>
     </aside>

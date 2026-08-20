@@ -1,119 +1,47 @@
-import { useCallback, useState } from 'react'
-import { AppShell } from './components/layout/AppShell'
-import { SlideCanvas } from './components/editor/SlideCanvas'
-import { SlideFields } from './components/editor/SlideFields'
-import { SlideFilmstrip } from './components/filmstrip/SlideFilmstrip'
-import { PresenterView } from './components/presenter/PresenterView'
-import type { ExportKind } from './components/layout/Toolbar'
-import { useKeyboardNav } from './hooks/useKeyboardNav'
-import { exportDocx } from './lib/exportDocx'
-import { exportPptx } from './lib/exportPptx'
-import { usePresentationStore } from './store/presentationStore'
+import { useEffect, useState } from 'react'
+import { PresentationEditor } from './components/editor/PresentationEditor'
+import { DocumentsHome } from './components/library/DocumentsHome'
+import { useDocumentLibrary } from './store/libraryStore'
+
+function readOpenId() {
+  const match = window.location.hash.match(/^#\/doc\/([^/]+)$/)
+  return match ? decodeURIComponent(match[1]) : null
+}
 
 export default function App() {
-  const store = usePresentationStore()
-  const [presenting, setPresenting] = useState(false)
-  const [exporting, setExporting] = useState<ExportKind>(null)
+  const library = useDocumentLibrary()
+  const [openId, setOpenId] = useState<string | null>(readOpenId)
 
-  const handleDownloadPptx = useCallback(async () => {
-    setExporting('pptx')
-    try {
-      await exportPptx(store.state)
-    } catch (err) {
-      console.error(err)
-      window.alert('Could not export the PowerPoint file. Please try again.')
-    } finally {
-      setExporting(null)
-    }
-  }, [store.state])
+  useEffect(() => {
+    const onHashChange = () => setOpenId(readOpenId())
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
 
-  const handleDownloadDocx = useCallback(async () => {
-    setExporting('docx')
-    try {
-      await exportDocx(store.state)
-    } catch (err) {
-      console.error(err)
-      window.alert('Could not export the Word document. Please try again.')
-    } finally {
-      setExporting(null)
-    }
-  }, [store.state])
+  const openDocument = (id: string) => {
+    window.location.hash = `#/doc/${encodeURIComponent(id)}`
+    setOpenId(id)
+  }
 
-  const handleReset = useCallback(() => {
-    const ok = window.confirm(
-      'Reset all slides to the original defense deck? Your edits will be lost.',
-    )
-    if (ok) store.resetToSeed()
-  }, [store])
+  const goHome = () => {
+    library.refresh()
+    const { pathname, search } = window.location
+    window.history.pushState(null, '', `${pathname}${search}`)
+    setOpenId(null)
+  }
 
-  useKeyboardNav({
-    enabled: !presenting,
-    onNext: store.nextSlide,
-    onPrev: store.prevSlide,
-  })
+  if (!openId) {
+    return <DocumentsHome library={library} onOpen={openDocument} />
+  }
+
+  const openDoc = library.documents.find((doc) => doc.id === openId)
 
   return (
-    <>
-      <AppShell
-        brand={store.state.meta.brand}
-        author={store.state.meta.author}
-        exporting={exporting}
-        onPresent={() => setPresenting(true)}
-        onDownloadPptx={handleDownloadPptx}
-        onDownloadDocx={handleDownloadDocx}
-        onAdd={() => store.addSlide('bullets')}
-        onReset={handleReset}
-      >
-        <div className="workspace">
-          <SlideFilmstrip
-            slides={store.state.slides}
-            currentIndex={store.state.currentIndex}
-            onSelect={store.setCurrentIndex}
-            onReorder={store.reorderSlides}
-          />
-
-          <main className="canvas-pane">
-            <div className="slide-stage">
-              <SlideCanvas
-                slide={store.currentSlide}
-                meta={store.state.meta}
-                index={store.state.currentIndex}
-                total={store.state.slides.length}
-              />
-            </div>
-            <div className="slide-nav">
-              <button type="button" onClick={store.prevSlide}>
-                Previous
-              </button>
-              <span>
-                {store.state.currentIndex + 1} / {store.state.slides.length}
-              </span>
-              <button type="button" onClick={store.nextSlide}>
-                Next
-              </button>
-            </div>
-          </main>
-
-          <SlideFields
-            slide={store.currentSlide}
-            canDelete={store.state.slides.length > 1}
-            onChange={(patch) => store.updateSlide(store.currentSlide.id, patch)}
-            onDelete={() => store.deleteSlide(store.currentSlide.id)}
-          />
-        </div>
-      </AppShell>
-
-      {presenting ? (
-        <PresenterView
-          slide={store.currentSlide}
-          meta={store.state.meta}
-          index={store.state.currentIndex}
-          total={store.state.slides.length}
-          onNext={store.nextSlide}
-          onPrev={store.prevSlide}
-          onExit={() => setPresenting(false)}
-        />
-      ) : null}
-    </>
+    <PresentationEditor
+      key={openId}
+      documentId={openId}
+      documentTitle={openDoc?.title ?? 'Untitled presentation'}
+      onBack={goHome}
+    />
   )
 }

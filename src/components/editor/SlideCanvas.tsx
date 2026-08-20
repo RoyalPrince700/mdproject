@@ -78,11 +78,13 @@ function DeckFooter({
   total,
   dark = false,
   extra,
+  label,
 }: {
   index?: number
   total?: number
   dark?: boolean
   extra?: string
+  label: string
 }) {
   const number =
     typeof index === 'number' && typeof total === 'number'
@@ -90,7 +92,7 @@ function DeckFooter({
       : extra
   return (
     <footer className={`slide__deck-footer${dark ? ' slide__deck-footer--dark' : ''}`}>
-      <span>WESTCLIFF UNIVERSITY · Doctoral Preliminary Defense</span>
+      <span>{label}</span>
       <span>{number ?? extra ?? ''}</span>
     </footer>
   )
@@ -142,7 +144,18 @@ function BulletList({
 
 export function SlideCanvas({ slide, meta, index, total }: Props) {
   const className = `slide slide--${slide.layout}`
-  const logo = <SlideLogo variant="light" />
+  const footerLabel =
+    meta.kind === 'proposal'
+      ? `${meta.brand} · Proposal`
+      : 'WESTCLIFF UNIVERSITY · Doctoral Preliminary Defense'
+  const logo =
+    meta.kind === 'proposal' ? (
+      <div className="slide-logo slide-logo--text" aria-label={meta.brand}>
+        SmartEdu Hub
+      </div>
+    ) : (
+      <SlideLogo variant="light" />
+    )
 
   if (slide.layout === 'title') {
     const byline = titleBylineLines(slide, meta)
@@ -181,7 +194,7 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
         <div className="slide__hero">
           <SlideHeading slide={slide} centered />
         </div>
-        <DeckFooter index={index} total={total} />
+        <DeckFooter index={index} total={total} label={footerLabel} />
       </article>
     )
   }
@@ -197,7 +210,7 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
         {slide.footer ? (
           <p className="slide__closing-meta">{slide.footer}</p>
         ) : null}
-        <DeckFooter index={index} total={total} />
+        <DeckFooter index={index} total={total} label={footerLabel} />
       </article>
     )
   }
@@ -232,7 +245,7 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
             <BulletList items={columns.rightBullets} density={density} />
           </div>
         </div>
-        <DeckFooter index={index} total={total} extra={slide.footer} />
+        <DeckFooter index={index} total={total} extra={slide.footer} label={footerLabel} />
       </article>
     )
   }
@@ -284,7 +297,7 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
             <span>{noteText}</span>
           </div>
         ) : null}
-        <DeckFooter index={index} total={total} extra={slide.footer} />
+        <DeckFooter index={index} total={total} extra={slide.footer} label={footerLabel} />
       </article>
     )
   }
@@ -321,7 +334,7 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
             />
           ) : null}
         </div>
-        <DeckFooter index={index} total={total} extra={slide.footer} />
+        <DeckFooter index={index} total={total} extra={slide.footer} label={footerLabel} />
       </article>
     )
   }
@@ -343,7 +356,7 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
             </div>
           ))}
         </div>
-        <DeckFooter index={index} total={total} extra={slide.footer} />
+        <DeckFooter index={index} total={total} extra={slide.footer} label={footerLabel} />
       </article>
     )
   }
@@ -353,7 +366,7 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
       {logo}
       <ContentHeader slide={slide} />
       <BulletList items={bullets} />
-      <DeckFooter index={index} total={total} extra={slide.footer} />
+      <DeckFooter index={index} total={total} extra={slide.footer} label={footerLabel} />
     </article>
   )
 }
