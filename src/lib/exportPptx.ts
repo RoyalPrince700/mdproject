@@ -1,4 +1,5 @@
 import PptxGenJS from 'pptxgenjs'
+import accessibleLogoUrl from '../assets/accessiblelogo.png'
 import logoUrl from '../assets/westclifflogo.svg'
 import { DEFENSE_THEME, PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
 import { densityFontSize, getColumnDensity, getContentDensity } from './contentDensity'
@@ -34,6 +35,24 @@ function pt(size: number) {
 }
 
 let logoData: string | null = null
+let accessibleLogoData: string | null = null
+
+async function loadAccessibleLogoData(): Promise<string | null> {
+  if (accessibleLogoData) return accessibleLogoData
+  try {
+    const res = await fetch(accessibleLogoUrl)
+    const blob = await res.blob()
+    accessibleLogoData = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(String(reader.result))
+      reader.onerror = () => reject(reader.error)
+      reader.readAsDataURL(blob)
+    })
+    return accessibleLogoData
+  } catch {
+    return null
+  }
+}
 
 async function loadLogoData(): Promise<string | null> {
   if (logoData) return logoData
@@ -50,6 +69,14 @@ async function loadLogoData(): Promise<string | null> {
   } catch {
     return null
   }
+}
+
+function addProposalCornerLogos(s: PptxGenJS.Slide, data: string | null) {
+  if (!data) return
+  s.addImage({
+    data,
+    ...box(8.05, 0.1, 1.8, 0.36),
+  })
 }
 
 function addLogo(s: PptxGenJS.Slide, data: string | null, fallbackLabel: string) {
@@ -98,6 +125,7 @@ function renderSlide(
   slide: Slide,
   meta: PresentationState['meta'],
   logo: string | null,
+  proposalLogo: string | null,
   index: number,
   total: number,
 ) {
@@ -128,6 +156,9 @@ function renderSlide(
         ? `${meta.brand} · Document`
         : 'WESTCLIFF UNIVERSITY · Doctoral Defense'
   addLogo(s, logo, logoLabel)
+  if (meta.kind === 'proposal') {
+    addProposalCornerLogos(s, proposalLogo)
+  }
 
   if (slide.layout === 'title') {
     const titleLines = slide.title.split('\n').map((text, i, lines) => ({
@@ -694,9 +725,10 @@ export async function exportPptx(state: PresentationState) {
   pptx.theme = { headFontFace: FONT_H, bodyFontFace: FONT_B }
 
   const logo = smehProposal || plainDocument ? null : await loadLogoData()
+  const proposalLogo = smehProposal ? await loadAccessibleLogoData() : null
 
   for (const [index, slide] of state.slides.entries()) {
-    renderSlide(pptx, slide, state.meta, logo, index, state.slides.length)
+    renderSlide(pptx, slide, state.meta, logo, proposalLogo, index, state.slides.length)
   }
 
   const fileName = usesBrandExport

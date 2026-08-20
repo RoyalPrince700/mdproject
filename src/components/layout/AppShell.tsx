@@ -18,6 +18,7 @@ interface Props {
   onReset?: () => void
   onViewChange: (view: EditorViewMode) => void
   onFontChange?: (font: DocumentFont) => void
+  collaborationBar?: ReactNode
   children: ReactNode
 }
 
@@ -35,6 +36,7 @@ export function AppShell({
   onReset,
   onViewChange,
   onFontChange,
+  collaborationBar,
   children,
 }: Props) {
   const { activeId } = useDocumentTabs()
@@ -63,6 +65,7 @@ export function AppShell({
         onViewChange={onViewChange}
         onFontChange={onFontChange}
       />
+      {collaborationBar}
       {children}
       <LibraryDrawer
         open={libraryOpen}

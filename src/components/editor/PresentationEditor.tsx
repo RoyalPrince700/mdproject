@@ -1,21 +1,24 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { CollaboratorBar } from '../collaboration/CollaboratorBar'
+import { useCollaboration } from '../../hooks/useCollaboration'
 import { useKeyboardNav } from '../../hooks/useKeyboardNav'
 import { defaultEditorView, isSmehProposal, isWordDocument } from '../../lib/documentSections'
+import { adaptSlideToLayout } from '../../lib/slideLayout'
 import { exportDocx } from '../../lib/exportDocx'
 import { exportPptx } from '../../lib/exportPptx'
 import { resolveDocumentFont } from '../../theme/documentTheme'
 import { useDocumentTabs } from '../../store/documentTabs'
 import { SEED_DOCUMENT_ID, isSeedDocument } from '../../store/libraryStore'
 import { usePresentationStore } from '../../store/presentationStore'
+import type { SlideLayout } from '../../types/slide'
 import { SlideFilmstrip } from '../filmstrip/SlideFilmstrip'
 import { AppShell } from '../layout/AppShell'
 import type { ExportKind } from '../layout/Toolbar'
 import { PresenterView } from '../presenter/PresenterView'
+import { CanvasEditBar } from './CanvasEditBar'
 import { DocumentCanvas } from './DocumentCanvas'
-import { DocumentMetaFields } from './DocumentMetaFields'
 import { DocumentOutline } from './DocumentOutline'
 import { SlideCanvas } from './SlideCanvas'
-import { SlideFields } from './SlideFields'
 
 interface Props {
   documentId: string
@@ -34,6 +37,7 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
   const [presenting, setPresenting] = useState(false)
   const [exporting, setExporting] = useState<ExportKind>(null)
   const [outlineId, setOutlineId] = useState<string>('__cover')
+  const [isEditing, setIsEditing] = useState(false)
   const isSeed = isSeedDocument(documentId)
   const isProposal = isSmehProposal(store.state.meta.kind)
   const editorView =
@@ -127,8 +131,56 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
     )
   }, [outlineId, store.currentSlide, store.state.slides])
 
-  const showMetaPanel =
-    inDocument && (outlineId === '__cover' || outlineId === '__contact')
+  const showSectionBar =
+    inDocument &&
+    outlineId !== '__cover' &&
+    outlineId !== '__contact' &&
+    outlineId !== '__letter'
+
+  const focusTarget = inDocument ? outlineId : store.currentSlide.id
+
+  const collaboration = useCollaboration({
+    documentId,
+    enabled: isActiveTab && !presenting,
+    state: store.state,
+    applyRemoteState: store.applyRemoteState,
+    focusTarget,
+    isEditing: isActiveTab && isEditing,
+  })
+
+  const remoteEditorsFor = useCallback(
+    (targetId: string) =>
+      collaboration.editorsByTarget.get(targetId)?.filter((c) => c.isEditing) ??
+      [],
+    [collaboration.editorsByTarget],
+  )
+
+  const handleLetterChange = useCallback(
+    (paragraphs: string[]) => {
+      const letterSlide = store.state.slides.find(
+        (slide) => slide.chapter === 'Cover Letter',
+      )
+      if (letterSlide) {
+        store.updateSlide(letterSlide.id, { bullets: paragraphs })
+      } else {
+        store.updateMeta({ coverLetter: paragraphs })
+      }
+    },
+    [store],
+  )
+
+  const handleLayoutChange = useCallback(
+    (layout: SlideLayout) => {
+      const slide = inDocument ? editingSlide : store.currentSlide
+      store.updateSlide(slide.id, adaptSlideToLayout(slide, layout))
+    },
+    [editingSlide, inDocument, store],
+  )
+
+  const handleDeleteSlide = useCallback(() => {
+    const slide = inDocument ? editingSlide : store.currentSlide
+    store.deleteSlide(slide.id)
+  }, [editingSlide, inDocument, store])
 
   return (
     <>
@@ -146,56 +198,112 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
         onReset={isSeed ? handleReset : undefined}
         onViewChange={store.setEditorView}
         onFontChange={(font) => store.updateMeta({ documentFont: font })}
+        collaborationBar={
+          <CollaboratorBar
+            status={collaboration.status}
+            statusDetail={collaboration.statusDetail}
+            collaborators={collaboration.collaborators}
+            selfName={collaboration.identity.name}
+          />
+        }
       >
         {inDocument ? (
-          <div className="workspace workspace--document">
+          <div
+            className="workspace workspace--document"
+            onFocusCapture={() => setIsEditing(true)}
+            onBlurCapture={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                setIsEditing(false)
+              }
+            }}
+          >
             <DocumentOutline
               state={store.state}
               activeId={outlineId}
               onSelect={handleOutlineSelect}
+              remoteEditors={collaboration.editorsByTarget}
             />
             <main className="document-pane">
+              {showSectionBar ? (
+                <CanvasEditBar
+                  slide={editingSlide}
+                  canDelete={store.state.slides.length > 1}
+                  saveStatus={store.saveStatus}
+                  onLayoutChange={handleLayoutChange}
+                  onDelete={handleDeleteSlide}
+                  mode="document"
+                />
+              ) : null}
               <DocumentCanvas
                 state={store.state}
                 activeId={outlineId}
                 onSelect={handleOutlineSelect}
+                editable
+                onMetaChange={store.updateMeta}
+                onSlideChange={(slideId, patch) => store.updateSlide(slideId, patch)}
+                onLetterChange={handleLetterChange}
               />
             </main>
-            {showMetaPanel ? (
-              <DocumentMetaFields
-                meta={store.state.meta}
-                saveStatus={store.saveStatus}
-                onSave={store.save}
-                onChange={store.updateMeta}
-              />
-            ) : (
-              <SlideFields
-                slide={editingSlide}
-                canDelete={store.state.slides.length > 1}
-                saveStatus={store.saveStatus}
-                onSave={store.save}
-                onChange={(patch) => store.updateSlide(editingSlide.id, patch)}
-                onDelete={() => store.deleteSlide(editingSlide.id)}
-                mode="document"
-              />
-            )}
           </div>
         ) : (
-          <div className="workspace">
+          <div
+            className="workspace"
+            onFocusCapture={() => setIsEditing(true)}
+            onBlurCapture={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                setIsEditing(false)
+              }
+            }}
+          >
             <SlideFilmstrip
               slides={store.state.slides}
               currentIndex={store.state.currentIndex}
               onSelect={store.setCurrentIndex}
               onReorder={store.reorderSlides}
+              remoteEditors={collaboration.editorsByTarget}
             />
             <main className="canvas-pane">
-              <div className="slide-stage">
+              <CanvasEditBar
+                slide={store.currentSlide}
+                canDelete={store.state.slides.length > 1}
+                saveStatus={store.saveStatus}
+                onLayoutChange={handleLayoutChange}
+                onDelete={handleDeleteSlide}
+                mode="slides"
+              />
+              <div
+                className={`slide-stage${
+                  remoteEditorsFor(store.currentSlide.id).length
+                    ? ' slide-stage--remote-edit'
+                    : ''
+                }`}
+                style={
+                  remoteEditorsFor(store.currentSlide.id)[0]
+                    ? ({
+                        '--remote-edit-color':
+                          remoteEditorsFor(store.currentSlide.id)[0].color,
+                      } as React.CSSProperties)
+                    : undefined
+                }
+              >
                 <SlideCanvas
                   slide={store.currentSlide}
                   meta={store.state.meta}
                   index={store.state.currentIndex}
                   total={store.state.slides.length}
+                  editable
+                  onChange={(patch) =>
+                    store.updateSlide(store.currentSlide.id, patch)
+                  }
                 />
+                {remoteEditorsFor(store.currentSlide.id).length ? (
+                  <div className="remote-edit-badge">
+                    {remoteEditorsFor(store.currentSlide.id)
+                      .map((c) => c.name)
+                      .join(', ')}{' '}
+                    editing
+                  </div>
+                ) : null}
               </div>
               <div className="slide-nav">
                 <button type="button" onClick={store.prevSlide}>
@@ -209,17 +317,6 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
                 </button>
               </div>
             </main>
-            <SlideFields
-              slide={store.currentSlide}
-              canDelete={store.state.slides.length > 1}
-              saveStatus={store.saveStatus}
-              onSave={store.save}
-              onChange={(patch) =>
-                store.updateSlide(store.currentSlide.id, patch)
-              }
-              onDelete={() => store.deleteSlide(store.currentSlide.id)}
-              mode="slides"
-            />
           </div>
         )}
       </AppShell>

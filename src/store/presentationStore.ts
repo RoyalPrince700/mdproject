@@ -129,6 +129,17 @@ export function usePresentationStore(documentId: string) {
     [markUnsaved],
   )
 
+  const applyRemoteState = useCallback(
+    (next: PresentationState) => {
+      fingerprintRef.current = contentFingerprint(next)
+      setState(next)
+      writePresentation(documentId, next)
+      touchLibraryEntry(documentId, next)
+      setSaveStatus('saved')
+    },
+    [documentId],
+  )
+
   const resetToSeed = useCallback(() => {
     const next = getSeedState(documentId)
     if (!next) return
@@ -184,6 +195,7 @@ export function usePresentationStore(documentId: string) {
     deleteSlide,
     reorderSlides,
     resetToSeed,
+    applyRemoteState,
     nextSlide,
     prevSlide,
   }

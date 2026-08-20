@@ -32,7 +32,7 @@ import {
   skipProposalSlide,
   textOf,
 } from './documentSections'
-import { loadWatermarkBytes } from './documentWatermark'
+import { loadAccessibleLogoAsset, loadWatermarkBytes } from './documentWatermark'
 import { resolveTwoColumnContent } from './slideLayout'
 import type { PresentationState, Slide } from '../types/slide'
 
@@ -449,34 +449,67 @@ function bannerLine(
   })
 }
 
-function createWatermarkHeader(asset: WatermarkAsset): Header {
+function createWatermarkHeader(
+  asset: WatermarkAsset,
+  cornerLogo?: WatermarkAsset | null,
+): Header {
   const targetWidth = 640
   const ratio = asset.width > 0 ? asset.height / asset.width : 1
   const targetHeight = Math.max(1, Math.round(targetWidth * ratio))
+  const imageRuns: ImageRun[] = [
+    new ImageRun({
+      type: 'png',
+      data: asset.data,
+      transformation: { width: targetWidth, height: targetHeight },
+      floating: {
+        horizontalPosition: {
+          relative: HorizontalPositionRelativeFrom.PAGE,
+          align: HorizontalPositionAlign.CENTER,
+        },
+        verticalPosition: {
+          relative: VerticalPositionRelativeFrom.PAGE,
+          align: VerticalPositionAlign.CENTER,
+        },
+        behindDocument: true,
+        allowOverlap: true,
+        wrap: { type: TextWrappingType.NONE },
+      },
+    }),
+  ]
+
+  if (cornerLogo) {
+    const cornerWidth = 132
+    const cornerRatio =
+      cornerLogo.width > 0 ? cornerLogo.height / cornerLogo.width : 0.31
+    imageRuns.push(
+      new ImageRun({
+        type: 'png',
+        data: cornerLogo.data,
+        transformation: {
+          width: cornerWidth,
+          height: Math.max(1, Math.round(cornerWidth * cornerRatio)),
+        },
+        floating: {
+          horizontalPosition: {
+            relative: HorizontalPositionRelativeFrom.MARGIN,
+            align: HorizontalPositionAlign.RIGHT,
+          },
+          verticalPosition: {
+            relative: VerticalPositionRelativeFrom.MARGIN,
+            align: VerticalPositionAlign.TOP,
+          },
+          behindDocument: false,
+          allowOverlap: true,
+          wrap: { type: TextWrappingType.NONE },
+        },
+      }),
+    )
+  }
 
   return new Header({
     children: [
       new Paragraph({
-        children: [
-          new ImageRun({
-            type: 'png',
-            data: asset.data,
-            transformation: { width: targetWidth, height: targetHeight },
-            floating: {
-              horizontalPosition: {
-                relative: HorizontalPositionRelativeFrom.PAGE,
-                align: HorizontalPositionAlign.CENTER,
-              },
-              verticalPosition: {
-                relative: VerticalPositionRelativeFrom.PAGE,
-                align: VerticalPositionAlign.CENTER,
-              },
-              behindDocument: true,
-              allowOverlap: true,
-              wrap: { type: TextWrappingType.NONE },
-            },
-          }),
-        ],
+        children: imageRuns,
       }),
     ],
   })
@@ -877,8 +910,9 @@ export async function exportDocx(
   const fadedWatermarkAsset = watermarkData
     ? await createFadedWatermarkAsset(watermarkData)
     : null
+  const cornerLogoAsset = smehProposal ? await loadAccessibleLogoAsset() : null
   const watermarkHeader = fadedWatermarkAsset
-    ? createWatermarkHeader(fadedWatermarkAsset)
+    ? createWatermarkHeader(fadedWatermarkAsset, cornerLogoAsset)
     : undefined
 
   const doc = new Document({

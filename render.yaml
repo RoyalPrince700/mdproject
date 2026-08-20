@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: mdproject-sync
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server/index.js
+    envVars:
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: NODE_ENV
+        value: production

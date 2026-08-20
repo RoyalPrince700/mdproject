@@ -698,7 +698,7 @@
 
 .workspace {
   display: grid;
-  grid-template-columns: 200px minmax(0, 1fr) auto;
+  grid-template-columns: 200px minmax(0, 1fr);
   gap: 0;
   min-height: 0;
   min-width: 0;
@@ -754,6 +754,23 @@
   opacity: 0.45;
 }
 
+.filmstrip__item.is-remote-editing {
+  border-color: var(--remote-edit-color, #e11d48);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--remote-edit-color, #e11d48) 35%, transparent);
+  animation: remote-edit-pulse 1.6s ease-in-out infinite;
+}
+
+.filmstrip__edit-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--remote-edit-color, #e11d48);
+  box-shadow: 0 0 0 2px #fff;
+}
+
 .filmstrip__thumb {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -789,7 +806,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.85rem;
   padding: 1.25rem;
   min-width: 0;
@@ -804,6 +821,27 @@
   overflow: hidden;
   position: relative;
   container-type: inline-size;
+}
+
+.slide-stage--remote-edit {
+  box-shadow:
+    var(--shadow),
+    0 0 0 3px color-mix(in srgb, var(--remote-edit-color, #e11d48) 55%, transparent);
+  animation: remote-edit-pulse 1.6s ease-in-out infinite;
+}
+
+.remote-edit-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--remote-edit-color, #e11d48);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .slide-nav {
@@ -2117,8 +2155,7 @@
 
 /* —— Document (Word) editor view —— */
 .workspace--document {
-  --fields-pane-width: 340px;
-  grid-template-columns: 220px minmax(0, 1fr) auto;
+  grid-template-columns: 220px minmax(0, 1fr);
   overflow: hidden;
   min-width: 0;
 }
@@ -2160,6 +2197,21 @@
   opacity: 0.1;
   pointer-events: none;
   z-index: 0;
+}
+
+.doc-corner-logos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.doc-corner-logo {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  width: min(128px, 28%);
+  height: auto;
 }
 
 .doc-page-sheet > * {
@@ -2289,6 +2341,96 @@
   background: rgba(30, 79, 138, 0.04);
   outline: 2px solid rgba(30, 79, 138, 0.25);
   outline-offset: -2px;
+}
+
+.doc-section--editable:hover {
+  cursor: text;
+}
+
+.editable-text {
+  outline: none;
+  border-radius: 3px;
+  min-width: 0.5em;
+  cursor: text;
+}
+
+.editable-text[aria-multiline='true'] {
+  white-space: pre-wrap;
+}
+
+.editable-text:focus {
+  outline: 2px solid rgba(var(--gold-rgb), 0.75);
+  outline-offset: 2px;
+  background: rgba(var(--gold-rgb), 0.08);
+}
+
+.editable-text--empty:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(var(--navy-rgb), 0.35);
+  pointer-events: none;
+}
+
+.slide--editable .editable-text:focus {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.doc-page--editable .editable-text:focus {
+  background: rgba(var(--gold-rgb), 0.1);
+}
+
+.canvas-edit-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.85rem;
+  width: min(816px, 100%);
+  margin: 0 auto 0.75rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(var(--navy-rgb), 0.12);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.canvas-edit-bar__field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+}
+
+.canvas-edit-bar__label {
+  color: rgba(var(--navy-rgb), 0.65);
+  font-weight: 600;
+}
+
+.canvas-edit-bar__field select {
+  font: inherit;
+  padding: 0.2rem 0.35rem;
+  border-radius: 5px;
+  border: 1px solid rgba(var(--navy-rgb), 0.2);
+}
+
+.canvas-edit-bar__save {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #b45309;
+}
+
+.canvas-edit-bar__save--saved {
+  color: #15803d;
+}
+
+.canvas-edit-bar__hint {
+  margin-left: auto;
+  font-size: 0.76rem;
+  color: rgba(var(--navy-rgb), 0.55);
+  font-style: italic;
+}
+
+.btn--sm {
+  padding: 0.25rem 0.55rem;
+  font-size: 0.78rem;
 }
 
 .doc-letter__date {
@@ -2450,6 +2592,109 @@
   background: rgba(var(--gold-rgb), 0.18);
   border-color: rgba(var(--gold-rgb), 0.45);
   font-weight: 600;
+}
+
+.doc-outline__item--remote-edit {
+  border-color: var(--remote-edit-color, #e11d48);
+  background: color-mix(in srgb, var(--remote-edit-color, #e11d48) 12%, transparent);
+  animation: remote-edit-pulse 1.6s ease-in-out infinite;
+}
+
+.doc-outline__edit-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 0.35rem;
+  border-radius: 50%;
+  vertical-align: middle;
+  background: var(--remote-edit-color, #e11d48);
+}
+
+.collab-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(var(--navy-rgb), 0.04);
+  border-bottom: 1px solid rgba(var(--navy-rgb), 0.08);
+  font-size: 0.78rem;
+}
+
+.collab-bar__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgba(var(--navy-rgb), 0.55);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.collab-bar__status--live {
+  color: #15803d;
+}
+
+.collab-bar__status--connecting {
+  color: #b45309;
+}
+
+.collab-bar__offline-hint {
+  font-size: 0.76rem;
+  color: rgba(var(--navy-rgb), 0.65);
+  max-width: 420px;
+}
+
+.collab-bar__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.collab-bar__status--live .collab-bar__dot {
+  animation: collab-pulse 1.4s ease-in-out infinite;
+}
+
+.collab-bar__you,
+.collab-bar__peer {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--collab-color) 45%, transparent);
+  background: color-mix(in srgb, var(--collab-color) 14%, #fff);
+  color: var(--navy);
+}
+
+.collab-bar__peer--editing {
+  font-weight: 600;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--collab-color) 35%, transparent);
+}
+
+.collab-bar__hint {
+  color: rgba(var(--navy-rgb), 0.65);
+  font-style: italic;
+}
+
+@keyframes remote-edit-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.82;
+  }
+}
+
+@keyframes collab-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
 }
 
 @media (max-width: 720px) {
