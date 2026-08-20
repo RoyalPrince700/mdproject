@@ -1,3 +1,4 @@
+import { isSmehProposal } from '../../lib/documentSections'
 import { DOCUMENT_FONTS } from '../../theme/documentTheme'
 import type { PresentationMeta } from '../../types/slide'
 import type { SaveStatus } from '../../store/presentationStore'
@@ -41,6 +42,8 @@ function Field({
 }
 
 export function DocumentMetaFields({ meta, saveStatus, onSave, onChange }: Props) {
+  const smehProposal = isSmehProposal(meta.kind)
+
   return (
     <aside className="fields-pane">
       <div className="fields-pane__header">
@@ -68,44 +71,48 @@ export function DocumentMetaFields({ meta, saveStatus, onSave, onChange }: Props
 
       <Field
         id="subject"
-        label="Proposal subject"
+        label={smehProposal ? 'Proposal subject' : 'Document title'}
         value={meta.subject ?? ''}
         onChange={(subject) => onChange({ subject })}
       />
-      <Field
-        id="recipient"
-        label="Recipient"
-        value={meta.recipient ?? ''}
-        onChange={(recipient) => onChange({ recipient })}
-      />
-      <Field
-        id="recipientOrg"
-        label="Recipient organisation"
-        value={meta.recipientOrg ?? ''}
-        onChange={(recipientOrg) => onChange({ recipientOrg })}
-      />
-      <Field
-        id="recipientAddress"
-        label="Recipient address"
-        value={meta.recipientAddress ?? ''}
-        onChange={(recipientAddress) => onChange({ recipientAddress })}
-        multiline
-      />
-      <Field
-        id="letterDate"
-        label="Letter date"
-        value={meta.letterDate ?? ''}
-        onChange={(letterDate) => onChange({ letterDate })}
-      />
+      {smehProposal ? (
+        <>
+          <Field
+            id="recipient"
+            label="Recipient"
+            value={meta.recipient ?? ''}
+            onChange={(recipient) => onChange({ recipient })}
+          />
+          <Field
+            id="recipientOrg"
+            label="Recipient organisation"
+            value={meta.recipientOrg ?? ''}
+            onChange={(recipientOrg) => onChange({ recipientOrg })}
+          />
+          <Field
+            id="recipientAddress"
+            label="Recipient address"
+            value={meta.recipientAddress ?? ''}
+            onChange={(recipientAddress) => onChange({ recipientAddress })}
+            multiline
+          />
+          <Field
+            id="letterDate"
+            label="Letter date"
+            value={meta.letterDate ?? ''}
+            onChange={(letterDate) => onChange({ letterDate })}
+          />
+        </>
+      ) : null}
       <Field
         id="brand"
-        label="Submitted by (organisation)"
+        label="Organisation"
         value={meta.brand}
         onChange={(brand) => onChange({ brand })}
       />
       <Field
         id="author"
-        label="Signatory name"
+        label={smehProposal ? 'Signatory name' : 'Author'}
         value={meta.author}
         onChange={(author) => onChange({ author })}
       />
@@ -115,12 +122,14 @@ export function DocumentMetaFields({ meta, saveStatus, onSave, onChange }: Props
         value={meta.date}
         onChange={(date) => onChange({ date })}
       />
-      <Field
-        id="website"
-        label="Website"
-        value={meta.website ?? ''}
-        onChange={(website) => onChange({ website })}
-      />
+      {smehProposal ? (
+        <Field
+          id="website"
+          label="Website"
+          value={meta.website ?? ''}
+          onChange={(website) => onChange({ website })}
+        />
+      ) : null}
 
       <div className="fields-actions">
         <button

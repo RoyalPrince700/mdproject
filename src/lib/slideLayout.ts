@@ -22,6 +22,9 @@ export function titleBylineLines(
       `${meta.brand} · ${meta.date}`,
     ].filter(Boolean)
   }
+  if (meta.kind === 'document') {
+    return [`${meta.brand} · ${meta.date}`].filter(Boolean)
+  }
   return [
     `${meta.author} · ${meta.degree}`,
     `Preliminary Doctoral Defense · Chapters One to Three | ${meta.date}`,

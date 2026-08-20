@@ -2249,6 +2249,32 @@
   background: linear-gradient(180deg, #1e4f8a 0%, #163d6b 100%);
 }
 
+.doc-page--plain .doc-page-sheet::before {
+  display: none;
+}
+
+.doc-cover--plain {
+  min-height: calc(min(816px, 100%) * 297 / 210);
+}
+
+.doc-cover__body--plain {
+  justify-content: center;
+  min-height: calc(min(816px, 100%) * 297 / 210);
+  padding: 3rem 2.5rem;
+}
+
+.doc-cover__title--plain {
+  font-size: 1.35rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.doc-cover__plain-meta {
+  margin: 1.25rem 0 0;
+  font-size: 0.82rem;
+  color: #4a5568;
+}
+
 .doc-letter,
 .doc-section {
   padding: 1.5rem 2rem;

@@ -43,7 +43,7 @@ export interface FrameworkBlock {
   icon?: string
 }
 
-export type DocumentKind = 'presentation' | 'proposal'
+export type DocumentKind = 'presentation' | 'proposal' | 'document'
 export type EditorViewMode = 'slides' | 'document'
 export type DocumentFont = 'Arial' | 'Calibri' | 'Times New Roman' | 'Georgia'
 
@@ -97,6 +97,8 @@ export function createBlankPresentation(title = 'Untitled document'): Presentati
       author: '',
       degree: '',
       date: now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      kind: 'document',
+      editorView: 'document',
     },
   }
 }

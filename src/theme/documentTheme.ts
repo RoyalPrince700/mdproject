@@ -22,5 +22,7 @@ export const PROPOSAL_COLORS = {
 
 export function resolveDocumentFont(meta?: { documentFont?: DocumentFont; kind?: string }) {
   if (meta?.documentFont) return meta.documentFont
-  return meta?.kind === 'proposal' ? 'Arial' : 'Calibri'
+  return meta?.kind === 'proposal' || meta?.kind === 'document'
+    ? (meta.documentFont ?? 'Arial')
+    : 'Calibri'
 }

@@ -23,7 +23,8 @@ function formatUpdated(iso: string) {
 }
 
 function unitLabel(doc: DocumentEntry) {
-  const noun = doc.kind === 'proposal' ? 'section' : 'slide'
+  const noun =
+    doc.kind === 'proposal' || doc.kind === 'document' ? 'section' : 'slide'
   return `${doc.slideCount} ${doc.slideCount === 1 ? noun : `${noun}s`}`
 }
 

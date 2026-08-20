@@ -9,7 +9,7 @@ import {
   Trash2,
 } from 'lucide-react'
 import type { DocumentLibrary } from '../../store/libraryStore'
-import { EKITI_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_ID, SEED_DOCUMENT_ID, UNION_DOCUMENT_ID, WEMA_DOCUMENT_ID } from '../../store/libraryStore'
+import { EKITI_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_ID, SEED_DOCUMENT_ID, UNION_DOCUMENT_ID, WEMA_DOCUMENT_ID } from '../../store/libraryStore'
 
 interface Props {
   library: DocumentLibrary
@@ -57,6 +57,7 @@ export function DocumentsHome({ library, onOpen }: Props) {
   const hasUnion = library.documents.some((doc) => doc.id === UNION_DOCUMENT_ID)
   const hasEkiti = library.documents.some((doc) => doc.id === EKITI_DOCUMENT_ID)
   const hasScholarshipCafe = library.documents.some((doc) => doc.id === SCHOLARSHIP_CAFE_DOCUMENT_ID)
+  const hasLoyaltyFramework = library.documents.some((doc) => doc.id === LOYALTY_FRAMEWORK_DOCUMENT_ID)
 
   return (
     <div className="library">
@@ -120,6 +121,15 @@ export function DocumentsHome({ library, onOpen }: Props) {
               >
                 <FilePlus size={16} strokeWidth={2} aria-hidden="true" />
                 New document
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(LOYALTY_FRAMEWORK_DOCUMENT_ID).id)
+                }
+              >
+                Restore School Loyalty Reward Framework
               </button>
               <button
                 type="button"
@@ -192,13 +202,15 @@ export function DocumentsHome({ library, onOpen }: Props) {
                     <h2>{doc.title}</h2>
                     {doc.kind === 'proposal' ? (
                       <p className="library-card__kind">Proposal</p>
+                    ) : doc.kind === 'document' ? (
+                      <p className="library-card__kind">Document</p>
                     ) : null}
                     <p className="library-card__meta">
                       {[doc.brand, doc.author].filter(Boolean).join(' · ') ||
                         'Untitled details'}
                     </p>
                     <p className="library-card__stats">
-                      {doc.kind === 'proposal' ? (
+                      {doc.kind === 'proposal' || doc.kind === 'document' ? (
                         <>
                           {doc.slideCount}{' '}
                           {doc.slideCount === 1 ? 'section' : 'sections'}
@@ -239,8 +251,19 @@ export function DocumentsHome({ library, onOpen }: Props) {
           </ul>
         )}
 
-        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe) ? (
+        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasLoyaltyFramework) ? (
           <p className="library__restore">
+            {!hasLoyaltyFramework ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(LOYALTY_FRAMEWORK_DOCUMENT_ID).id)
+                }
+              >
+                Add School Loyalty Reward Framework
+              </button>
+            ) : null}
             {!hasScholarshipCafe ? (
               <button
                 type="button"

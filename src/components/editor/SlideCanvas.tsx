@@ -147,11 +147,17 @@ export function SlideCanvas({ slide, meta, index, total }: Props) {
   const footerLabel =
     meta.kind === 'proposal'
       ? `${meta.brand} · Proposal`
-      : 'WESTCLIFF UNIVERSITY · Doctoral Preliminary Defense'
+      : meta.kind === 'document'
+        ? `${meta.brand} · Document`
+        : 'WESTCLIFF UNIVERSITY · Doctoral Preliminary Defense'
   const logo =
     meta.kind === 'proposal' ? (
       <div className="slide-logo slide-logo--text" aria-label={meta.brand}>
         SmartEdu Hub
+      </div>
+    ) : meta.kind === 'document' ? (
+      <div className="slide-logo slide-logo--text" aria-label={meta.brand}>
+        {meta.brand || 'Document'}
       </div>
     ) : (
       <SlideLogo variant="light" />

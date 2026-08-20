@@ -116,11 +116,17 @@ function renderSlide(
   })
 
   const logoLabel =
-    meta.kind === 'proposal' ? 'SMARTEDU HUB' : DEFENSE_THEME.university
+    meta.kind === 'proposal'
+      ? 'SMARTEDU HUB'
+      : meta.kind === 'document'
+        ? meta.brand || 'Document'
+        : DEFENSE_THEME.university
   const footerLabel =
     meta.kind === 'proposal'
       ? `${meta.brand} · Proposal`
-      : 'WESTCLIFF UNIVERSITY · Doctoral Defense'
+      : meta.kind === 'document'
+        ? `${meta.brand} · Document`
+        : 'WESTCLIFF UNIVERSITY · Doctoral Defense'
   addLogo(s, logo, logoLabel)
 
   if (slide.layout === 'title') {
@@ -670,14 +676,14 @@ function renderSlide(
 }
 
 export async function exportPptx(state: PresentationState) {
-  const isProposal = state.meta.kind === 'proposal'
+  const smehProposal = state.meta.kind === 'proposal'
+  const plainDocument = state.meta.kind === 'document'
+  const usesBrandExport = smehProposal || plainDocument
   const titleSlide = state.slides.find((slide) => slide.layout === 'title')
   const docTitle =
     state.meta.subject?.trim() ||
     titleSlide?.title.replace(/\n/g, ' ').trim() ||
-    (isProposal
-      ? 'Proposal'
-      : 'DBA Preliminary Defense — IT in B2B Marketing Strategies')
+    (usesBrandExport ? 'Document' : 'DBA Preliminary Defense — IT in B2B Marketing Strategies')
 
   const pptx = new PptxGenJS()
   pptx.author = state.meta.author
@@ -687,14 +693,14 @@ export async function exportPptx(state: PresentationState) {
   pptx.layout = 'LAYOUT_16x9_OFFICE'
   pptx.theme = { headFontFace: FONT_H, bodyFontFace: FONT_B }
 
-  const logo = isProposal ? null : await loadLogoData()
+  const logo = smehProposal || plainDocument ? null : await loadLogoData()
 
   for (const [index, slide] of state.slides.entries()) {
     renderSlide(pptx, slide, state.meta, logo, index, state.slides.length)
   }
 
-  const fileName = isProposal
-    ? `${docTitle.replace(/\n/g, ' ').replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'Proposal'}.pptx`
+  const fileName = usesBrandExport
+    ? `${docTitle.replace(/\n/g, ' ').replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'Document'}.pptx`
     : 'DBA-Preliminary-Defense-Adedapo.pptx'
 
   await pptx.writeFile({

@@ -16,6 +16,11 @@ import {
   scholarshipCafeProposal,
 } from '../data/scholarshipCafeProposal'
 import {
+  LOYALTY_FRAMEWORK_DOCUMENT_ID,
+  LOYALTY_FRAMEWORK_DOCUMENT_TITLE,
+  loyaltyRewardFramework,
+} from '../data/loyaltyRewardFramework'
+import {
   WEMA_DOCUMENT_ID,
   WEMA_DOCUMENT_TITLE,
   wemaProposal,
@@ -31,6 +36,8 @@ export const SEED_DOCUMENT_TITLE = 'Preliminary Defense Presentation'
 export {
   EKITI_DOCUMENT_ID,
   EKITI_DOCUMENT_TITLE,
+  LOYALTY_FRAMEWORK_DOCUMENT_ID,
+  LOYALTY_FRAMEWORK_DOCUMENT_TITLE,
   SCHOLARSHIP_CAFE_DOCUMENT_ID,
   SCHOLARSHIP_CAFE_DOCUMENT_TITLE,
   WEMA_DOCUMENT_ID,
@@ -50,6 +57,10 @@ const SEED_CATALOG: Record<
   [WEMA_DOCUMENT_ID]: {
     title: WEMA_DOCUMENT_TITLE,
     getState: () => structuredClone(wemaProposal),
+  },
+  [LOYALTY_FRAMEWORK_DOCUMENT_ID]: {
+    title: LOYALTY_FRAMEWORK_DOCUMENT_TITLE,
+    getState: () => structuredClone(loyaltyRewardFramework),
   },
   [EKITI_DOCUMENT_ID]: {
     title: EKITI_DOCUMENT_TITLE,
@@ -208,7 +219,12 @@ function seedLibrary(): DocumentEntry[] {
   writePresentation(EKITI_DOCUMENT_ID, ekiti)
   const scholarshipCafe = structuredClone(scholarshipCafeProposal)
   writePresentation(SCHOLARSHIP_CAFE_DOCUMENT_ID, scholarshipCafe)
+  const loyaltyFramework = structuredClone(loyaltyRewardFramework)
+  writePresentation(LOYALTY_FRAMEWORK_DOCUMENT_ID, loyaltyFramework)
   const documents = [
+    summaryFrom(LOYALTY_FRAMEWORK_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_TITLE, loyaltyFramework, {
+      source: 'seed',
+    }),
     summaryFrom(SCHOLARSHIP_CAFE_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_TITLE, scholarshipCafe, {
       source: 'seed',
     }),

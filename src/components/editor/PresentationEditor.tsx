@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useKeyboardNav } from '../../hooks/useKeyboardNav'
-import { defaultEditorView } from '../../lib/documentSections'
+import { defaultEditorView, isSmehProposal, isWordDocument } from '../../lib/documentSections'
 import { exportDocx } from '../../lib/exportDocx'
 import { exportPptx } from '../../lib/exportPptx'
 import { resolveDocumentFont } from '../../theme/documentTheme'
@@ -35,13 +35,13 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
   const [exporting, setExporting] = useState<ExportKind>(null)
   const [outlineId, setOutlineId] = useState<string>('__cover')
   const isSeed = isSeedDocument(documentId)
-  const isProposal = store.state.meta.kind === 'proposal'
+  const isProposal = isSmehProposal(store.state.meta.kind)
   const editorView =
     store.state.meta.editorView ?? defaultEditorView(store.state.meta.kind)
   const inDocument = editorView === 'document'
 
   useEffect(() => {
-    if (isProposal && !store.state.meta.editorView) {
+    if (isWordDocument(store.state.meta.kind) && !store.state.meta.editorView) {
       store.setEditorView('document')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

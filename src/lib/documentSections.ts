@@ -1,6 +1,14 @@
-import type { EditorViewMode, PresentationState, Slide } from '../types/slide'
+import type { DocumentKind, EditorViewMode, PresentationState, Slide } from '../types/slide'
 import { parseBulletItem } from './slideIcons'
 import { resolveTwoColumnContent } from './slideLayout'
+
+export function isSmehProposal(kind?: DocumentKind) {
+  return kind === 'proposal'
+}
+
+export function isWordDocument(kind?: DocumentKind) {
+  return kind === 'proposal' || kind === 'document'
+}
 
 export function textOf(item: string): string {
   return parseBulletItem(item).text.trim()
@@ -33,7 +41,8 @@ export function outlineEntries(state: PresentationState) {
   }> = [{ id: '__cover', label: 'Cover page', kind: 'cover' }]
 
   const letterSlides = state.slides.filter((slide) => slide.chapter === 'Cover Letter')
-  if (letterSlides.length) {
+  const letterFromMeta = (state.meta.coverLetter ?? []).some((p) => p.trim())
+  if (isSmehProposal(state.meta.kind) && (letterSlides.length || letterFromMeta)) {
     entries.push({ id: '__letter', label: 'Cover letter', kind: 'letter' })
   }
 
@@ -57,7 +66,7 @@ export function letterParagraphs(state: PresentationState): string[] {
 }
 
 export function sectionTableRows(slide: Slide): Array<[string, string]> {
-  if (slide.layout === 'framework') {
+  if (slide.layout === 'framework' || (slide.frameworkBlocks?.length ?? 0) > 0) {
     return (slide.frameworkBlocks ?? [])
       .map((block): [string, string] | null => {
         const label = block.label.trim()
@@ -87,6 +96,6 @@ export function sectionBullets(slide: Slide): string[] {
   return (slide.bullets ?? []).map(textOf).filter(Boolean)
 }
 
-export function defaultEditorView(kind?: PresentationState['meta']['kind']): EditorViewMode {
-  return kind === 'proposal' ? 'document' : 'slides'
+export function defaultEditorView(kind?: DocumentKind): EditorViewMode {
+  return isWordDocument(kind) ? 'document' : 'slides'
 }

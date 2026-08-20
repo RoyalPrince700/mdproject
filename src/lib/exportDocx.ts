@@ -24,6 +24,8 @@ import {
 import { PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
 import { resolveDocumentFont } from '../theme/documentTheme'
 import {
+  isSmehProposal,
+  isWordDocument,
   letterParagraphs,
   sectionBullets,
   sectionTableRows,
@@ -93,9 +95,14 @@ async function createFadedWatermarkAsset(
 }
 
 function resolveExportFonts(state: PresentationState) {
-  if (state.meta.kind === 'proposal') {
+  const kind = state.meta.kind
+  if (kind === 'proposal' || kind === 'document') {
     const font = resolveDocumentFont(state.meta)
-    return { body: font, header: font, isProposal: true }
+    return {
+      body: font,
+      header: font,
+      isProposal: kind === 'proposal',
+    }
   }
   return { body: FONT_B, header: FONT_H, isProposal: false }
 }
@@ -716,11 +723,56 @@ function headingStyles() {
   ]
 }
 
-function buildProposalChildren(state: PresentationState): Array<Paragraph | Table> {
+function buildPlainCoverPage(state: PresentationState): Array<Paragraph | Table> {
+  const titleSlide = state.slides.find((slide) => slide.layout === 'title')
+  const title =
+    state.meta.subject?.trim() ||
+    titleSlide?.title.replace(/\n/g, ' ').trim() ||
+    'Document'
+  const subtitle = titleSlide?.subtitle?.trim()
+  const byline = [state.meta.brand, state.meta.author, state.meta.date]
+    .filter(Boolean)
+    .join(' · ')
+
   const children: Array<Paragraph | Table> = [
-    ...buildCoverPage(state),
-    ...buildCoverLetter(state),
+    para(title, {
+      bold: true,
+      font: DOC_HEADER_FONT,
+      size: 36,
+      align: AlignmentType.CENTER,
+      before: 1200,
+      after: subtitle ? 80 : 240,
+    }),
   ]
+
+  if (subtitle) {
+    children.push(
+      para(subtitle, {
+        italics: true,
+        color: MUTED,
+        size: 24,
+        align: AlignmentType.CENTER,
+        after: 320,
+      }),
+    )
+  }
+
+  if (byline) {
+    children.push(
+      para(byline, {
+        align: AlignmentType.CENTER,
+        color: MUTED,
+        after: 200,
+      }),
+    )
+  }
+
+  children.push(pageBreak())
+  return children
+}
+
+function buildWordBodyChildren(state: PresentationState): Array<Paragraph | Table> {
+  const children: Array<Paragraph | Table> = []
   let sectionNumber = 0
 
   for (const slide of state.slides) {
@@ -744,6 +796,18 @@ function buildProposalChildren(state: PresentationState): Array<Paragraph | Tabl
   }
 
   return children
+}
+
+function buildProposalChildren(state: PresentationState): Array<Paragraph | Table> {
+  return [
+    ...buildCoverPage(state),
+    ...buildCoverLetter(state),
+    ...buildWordBodyChildren(state),
+  ]
+}
+
+function buildPlainDocumentChildren(state: PresentationState): Array<Paragraph | Table> {
+  return [...buildPlainCoverPage(state), ...buildWordBodyChildren(state)]
 }
 
 function buildDefenseChildren(state: PresentationState): Paragraph[] {
@@ -788,7 +852,9 @@ export async function exportDocx(
   state: PresentationState,
   options: { title?: string } = {},
 ) {
-  const isProposal = state.meta.kind === 'proposal'
+  const smehProposal = isSmehProposal(state.meta.kind)
+  const plainDocument = state.meta.kind === 'document'
+  const usesWordExport = isWordDocument(state.meta.kind)
   const fonts = resolveExportFonts(state)
   DOC_BODY_FONT = fonts.body
   DOC_HEADER_FONT = fonts.header
@@ -799,13 +865,15 @@ export async function exportDocx(
     options.title?.trim() ||
     state.meta.subject?.trim() ||
     titleSlide?.title.replace(/\n/g, ' ').trim() ||
-    (isProposal ? 'Proposal' : 'DBA Preliminary Defense — IT in B2B Marketing Strategies')
+    (usesWordExport ? 'Document' : 'DBA Preliminary Defense — IT in B2B Marketing Strategies')
 
-  const children = isProposal
+  const children = smehProposal
     ? buildProposalChildren(state)
-    : buildDefenseChildren(state)
+    : plainDocument
+      ? buildPlainDocumentChildren(state)
+      : buildDefenseChildren(state)
 
-  const watermarkData = isProposal ? await loadWatermarkBytes() : null
+  const watermarkData = smehProposal ? await loadWatermarkBytes() : null
   const fadedWatermarkAsset = watermarkData
     ? await createFadedWatermarkAsset(watermarkData)
     : null
@@ -833,7 +901,7 @@ export async function exportDocx(
       {
         properties: {
           page: {
-            size: isProposal
+            size: usesWordExport
               ? {
                   width: 11906,
                   height: 16838,
@@ -854,7 +922,7 @@ export async function exportDocx(
   })
 
   const blob = await Packer.toBlob(doc)
-  const fileName = isProposal
+  const fileName = usesWordExport
     ? `${fileSlug(docTitle)}.docx`
     : 'DBA-Preliminary-Defense-Adedapo.docx'
   downloadBlob(blob, fileName)
