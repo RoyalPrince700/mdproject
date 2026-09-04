@@ -16,6 +16,16 @@ import {
   scholarshipCafeProposal,
 } from '../data/scholarshipCafeProposal'
 import {
+  CUPPY_DOCUMENT_ID,
+  CUPPY_DOCUMENT_TITLE,
+  cuppyProposal,
+} from '../data/cuppyProposal'
+import {
+  TUNDE_DOCUMENT_ID,
+  TUNDE_DOCUMENT_TITLE,
+  tundeProposal,
+} from '../data/tundeOnakoyaProposal'
+import {
   LOYALTY_FRAMEWORK_DOCUMENT_ID,
   LOYALTY_FRAMEWORK_DOCUMENT_TITLE,
   loyaltyRewardFramework,
@@ -25,6 +35,54 @@ import {
   WEMA_DOCUMENT_TITLE,
   wemaProposal,
 } from '../data/wemaProposal'
+import {
+  SEPLAT_DOCUMENT_ID,
+  SEPLAT_DOCUMENT_TITLE,
+  seplatProposal,
+} from '../data/seplatProposal'
+import {
+  DEFENSE_QA_DOCUMENT_ID,
+  DEFENSE_QA_DOCUMENT_TITLE,
+  DEFENSE_QA_SLIDES_ID,
+  DEFENSE_QA_SLIDES_TITLE,
+  defenseQaDocument,
+  defenseQaSlides,
+} from '../data/defenseQa'
+import {
+  TRIFONE_REFUND_DOCUMENT_ID,
+  TRIFONE_REFUND_DOCUMENT_TITLE,
+  trifoneRefundLetter,
+} from '../data/trifoneRefundLetter'
+import {
+  CULTURE_EXCELLENCE_DOCUMENT_ID,
+  CULTURE_EXCELLENCE_DOCUMENT_TITLE,
+  cultureExcellenceDocument,
+} from '../data/cultureExcellence'
+import {
+  ACCESSIBLE_SUMMER_DOCUMENT_ID,
+  ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
+  ACCESSIBLE_SUMMER_SLIDES_ID,
+  ACCESSIBLE_SUMMER_SLIDES_TITLE,
+  accessibleSummerDocument,
+  accessibleSummerSlides,
+} from '../data/accessibleSummerTop50'
+import {
+  UNILORIN_JOTTER_DOCUMENT_ID,
+  UNILORIN_JOTTER_DOCUMENT_TITLE,
+  unilorinJotterProposal,
+} from '../data/unilorinConvocationJotterProposal'
+import {
+  ADVANCE_FIELD_SALES_DOCUMENT_ID,
+  ADVANCE_FIELD_SALES_DOCUMENT_TITLE,
+  advanceFieldSalesPartnership,
+} from '../data/advanceFieldSalesPartnership'
+import {
+  EDUCATION_NGO_CATALOG_IDS,
+  EDUCATION_NGO_DIRECTORY_ID,
+  EDUCATION_NGO_DIRECTORY_TITLE,
+  EDUCATION_NGO_PROPOSAL_IDS,
+  educationNgoSeedCatalog,
+} from '../data/educationNgoProposals'
 import type { DocumentEntry } from '../types/document'
 import {
   createBlankPresentation,
@@ -40,10 +98,36 @@ export {
   LOYALTY_FRAMEWORK_DOCUMENT_TITLE,
   SCHOLARSHIP_CAFE_DOCUMENT_ID,
   SCHOLARSHIP_CAFE_DOCUMENT_TITLE,
+  CUPPY_DOCUMENT_ID,
+  CUPPY_DOCUMENT_TITLE,
+  TUNDE_DOCUMENT_ID,
+  TUNDE_DOCUMENT_TITLE,
   WEMA_DOCUMENT_ID,
   WEMA_DOCUMENT_TITLE,
   UNION_DOCUMENT_ID,
   UNION_DOCUMENT_TITLE,
+  SEPLAT_DOCUMENT_ID,
+  SEPLAT_DOCUMENT_TITLE,
+  DEFENSE_QA_DOCUMENT_ID,
+  DEFENSE_QA_DOCUMENT_TITLE,
+  DEFENSE_QA_SLIDES_ID,
+  DEFENSE_QA_SLIDES_TITLE,
+  TRIFONE_REFUND_DOCUMENT_ID,
+  TRIFONE_REFUND_DOCUMENT_TITLE,
+  CULTURE_EXCELLENCE_DOCUMENT_ID,
+  CULTURE_EXCELLENCE_DOCUMENT_TITLE,
+  ACCESSIBLE_SUMMER_DOCUMENT_ID,
+  ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
+  ACCESSIBLE_SUMMER_SLIDES_ID,
+  ACCESSIBLE_SUMMER_SLIDES_TITLE,
+  UNILORIN_JOTTER_DOCUMENT_ID,
+  UNILORIN_JOTTER_DOCUMENT_TITLE,
+  ADVANCE_FIELD_SALES_DOCUMENT_ID,
+  ADVANCE_FIELD_SALES_DOCUMENT_TITLE,
+  EDUCATION_NGO_DIRECTORY_ID,
+  EDUCATION_NGO_DIRECTORY_TITLE,
+  EDUCATION_NGO_CATALOG_IDS,
+  EDUCATION_NGO_PROPOSAL_IDS,
 }
 
 const SEED_CATALOG: Record<
@@ -70,10 +154,55 @@ const SEED_CATALOG: Record<
     title: SCHOLARSHIP_CAFE_DOCUMENT_TITLE,
     getState: () => structuredClone(scholarshipCafeProposal),
   },
+  [CUPPY_DOCUMENT_ID]: {
+    title: CUPPY_DOCUMENT_TITLE,
+    getState: () => structuredClone(cuppyProposal),
+  },
+  [TUNDE_DOCUMENT_ID]: {
+    title: TUNDE_DOCUMENT_TITLE,
+    getState: () => structuredClone(tundeProposal),
+  },
   [UNION_DOCUMENT_ID]: {
     title: UNION_DOCUMENT_TITLE,
     getState: () => structuredClone(unionProposal),
   },
+  [SEPLAT_DOCUMENT_ID]: {
+    title: SEPLAT_DOCUMENT_TITLE,
+    getState: () => structuredClone(seplatProposal),
+  },
+  [DEFENSE_QA_DOCUMENT_ID]: {
+    title: DEFENSE_QA_DOCUMENT_TITLE,
+    getState: () => structuredClone(defenseQaDocument),
+  },
+  [DEFENSE_QA_SLIDES_ID]: {
+    title: DEFENSE_QA_SLIDES_TITLE,
+    getState: () => structuredClone(defenseQaSlides),
+  },
+  [TRIFONE_REFUND_DOCUMENT_ID]: {
+    title: TRIFONE_REFUND_DOCUMENT_TITLE,
+    getState: () => structuredClone(trifoneRefundLetter),
+  },
+  [CULTURE_EXCELLENCE_DOCUMENT_ID]: {
+    title: CULTURE_EXCELLENCE_DOCUMENT_TITLE,
+    getState: () => structuredClone(cultureExcellenceDocument),
+  },
+  [ACCESSIBLE_SUMMER_DOCUMENT_ID]: {
+    title: ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
+    getState: () => structuredClone(accessibleSummerDocument),
+  },
+  [ACCESSIBLE_SUMMER_SLIDES_ID]: {
+    title: ACCESSIBLE_SUMMER_SLIDES_TITLE,
+    getState: () => structuredClone(accessibleSummerSlides),
+  },
+  [UNILORIN_JOTTER_DOCUMENT_ID]: {
+    title: UNILORIN_JOTTER_DOCUMENT_TITLE,
+    getState: () => structuredClone(unilorinJotterProposal),
+  },
+  [ADVANCE_FIELD_SALES_DOCUMENT_ID]: {
+    title: ADVANCE_FIELD_SALES_DOCUMENT_TITLE,
+    getState: () => structuredClone(advanceFieldSalesPartnership),
+  },
+  ...educationNgoSeedCatalog,
 }
 
 export function isSeedDocument(id: string) {
@@ -203,9 +332,10 @@ function migrateLegacyPresentation(): PresentationState {
 
 function catalogEntry(id: string): DocumentEntry {
   const state = getSeedState(id) ?? createBlankPresentation()
-  writePresentation(id, parsePresentation(localStorage.getItem(docStorageKey(id))) ?? state)
-  const stored = parsePresentation(localStorage.getItem(docStorageKey(id))) ?? state
-  return summaryFrom(id, SEED_CATALOG[id].title, stored, { source: 'seed' })
+  const stored = parsePresentation(localStorage.getItem(docStorageKey(id)))
+  return summaryFrom(id, SEED_CATALOG[id].title, stored ?? state, {
+    source: 'seed',
+  })
 }
 
 function seedLibrary(): DocumentEntry[] {
@@ -219,10 +349,25 @@ function seedLibrary(): DocumentEntry[] {
   writePresentation(EKITI_DOCUMENT_ID, ekiti)
   const scholarshipCafe = structuredClone(scholarshipCafeProposal)
   writePresentation(SCHOLARSHIP_CAFE_DOCUMENT_ID, scholarshipCafe)
+  const cuppy = structuredClone(cuppyProposal)
+  writePresentation(CUPPY_DOCUMENT_ID, cuppy)
+  const tunde = structuredClone(tundeProposal)
+  writePresentation(TUNDE_DOCUMENT_ID, tunde)
   const loyaltyFramework = structuredClone(loyaltyRewardFramework)
   writePresentation(LOYALTY_FRAMEWORK_DOCUMENT_ID, loyaltyFramework)
+  const seplat = structuredClone(seplatProposal)
+  writePresentation(SEPLAT_DOCUMENT_ID, seplat)
   const documents = [
+    summaryFrom(SEPLAT_DOCUMENT_ID, SEPLAT_DOCUMENT_TITLE, seplat, {
+      source: 'seed',
+    }),
     summaryFrom(LOYALTY_FRAMEWORK_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_TITLE, loyaltyFramework, {
+      source: 'seed',
+    }),
+    summaryFrom(TUNDE_DOCUMENT_ID, TUNDE_DOCUMENT_TITLE, tunde, {
+      source: 'seed',
+    }),
+    summaryFrom(CUPPY_DOCUMENT_ID, CUPPY_DOCUMENT_TITLE, cuppy, {
       source: 'seed',
     }),
     summaryFrom(SCHOLARSHIP_CAFE_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_TITLE, scholarshipCafe, {
@@ -277,7 +422,7 @@ export function loadLibraryIndex(): DocumentEntry[] {
   } catch {
     /* fall through to seed */
   }
-  return seedLibrary()
+  return ensureCatalogDocuments(seedLibrary())
 }
 
 export function touchLibraryEntry(id: string, state: PresentationState) {
@@ -343,6 +488,27 @@ export function useDocumentLibrary() {
     [documents, persist],
   )
 
+  const restoreEducationNgoCatalog = useCallback(() => {
+    let next = documents
+    let added = 0
+    for (const id of EDUCATION_NGO_CATALOG_IDS) {
+      if (next.some((doc) => doc.id === id)) continue
+      const presentation = getSeedState(id)
+      const catalog = SEED_CATALOG[id]
+      if (!presentation || !catalog) continue
+      writePresentation(id, presentation)
+      next = [
+        summaryFrom(id, catalog.title, presentation, { source: 'seed' }),
+        ...next,
+      ]
+      added += 1
+    }
+    if (added) persist(next)
+    return (
+      next.find((doc) => doc.id === EDUCATION_NGO_DIRECTORY_ID) ?? next[0]
+    )
+  }, [documents, persist])
+
   const restoreDefenseDeck = useCallback(
     () => restoreSeedDocument(SEED_DOCUMENT_ID),
     [restoreSeedDocument],
@@ -377,6 +543,7 @@ export function useDocumentLibrary() {
     createDocument,
     restoreDefenseDeck,
     restoreSeedDocument,
+    restoreEducationNgoCatalog,
     deleteDocument,
     renameDocument,
   }

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
 import {
   Clock,
   FilePlus,
@@ -6,10 +6,11 @@ import {
   FolderOpen,
   Pencil,
   Plus,
+  Search,
   Trash2,
 } from 'lucide-react'
 import type { DocumentLibrary } from '../../store/libraryStore'
-import { EKITI_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_ID, SEED_DOCUMENT_ID, UNION_DOCUMENT_ID, WEMA_DOCUMENT_ID } from '../../store/libraryStore'
+import { ACCESSIBLE_SUMMER_DOCUMENT_ID, ACCESSIBLE_SUMMER_SLIDES_ID, ADVANCE_FIELD_SALES_DOCUMENT_ID, CULTURE_EXCELLENCE_DOCUMENT_ID, CUPPY_DOCUMENT_ID, EDUCATION_NGO_CATALOG_IDS, EKITI_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_ID, SEED_DOCUMENT_ID, SEPLAT_DOCUMENT_ID, TRIFONE_REFUND_DOCUMENT_ID, TUNDE_DOCUMENT_ID, UNION_DOCUMENT_ID, WEMA_DOCUMENT_ID, DEFENSE_QA_DOCUMENT_ID, DEFENSE_QA_SLIDES_ID, UNILORIN_JOTTER_DOCUMENT_ID } from '../../store/libraryStore'
 
 interface Props {
   library: DocumentLibrary
@@ -31,6 +32,7 @@ function formatUpdated(iso: string) {
 export function DocumentsHome({ library, onOpen }: Props) {
   const [creating, setCreating] = useState(false)
   const [newTitle, setNewTitle] = useState('Untitled document')
+  const [search, setSearch] = useState('')
 
   const handleCreate = (event: FormEvent) => {
     event.preventDefault()
@@ -57,7 +59,33 @@ export function DocumentsHome({ library, onOpen }: Props) {
   const hasUnion = library.documents.some((doc) => doc.id === UNION_DOCUMENT_ID)
   const hasEkiti = library.documents.some((doc) => doc.id === EKITI_DOCUMENT_ID)
   const hasScholarshipCafe = library.documents.some((doc) => doc.id === SCHOLARSHIP_CAFE_DOCUMENT_ID)
+  const hasCuppy = library.documents.some((doc) => doc.id === CUPPY_DOCUMENT_ID)
+  const hasTunde = library.documents.some((doc) => doc.id === TUNDE_DOCUMENT_ID)
   const hasLoyaltyFramework = library.documents.some((doc) => doc.id === LOYALTY_FRAMEWORK_DOCUMENT_ID)
+  const hasSeplat = library.documents.some((doc) => doc.id === SEPLAT_DOCUMENT_ID)
+  const hasDefenseQaDoc = library.documents.some((doc) => doc.id === DEFENSE_QA_DOCUMENT_ID)
+  const hasDefenseQaSlides = library.documents.some((doc) => doc.id === DEFENSE_QA_SLIDES_ID)
+  const hasTrifoneRefund = library.documents.some((doc) => doc.id === TRIFONE_REFUND_DOCUMENT_ID)
+  const hasCultureExcellence = library.documents.some((doc) => doc.id === CULTURE_EXCELLENCE_DOCUMENT_ID)
+  const hasAccessibleSummerDoc = library.documents.some((doc) => doc.id === ACCESSIBLE_SUMMER_DOCUMENT_ID)
+  const hasAccessibleSummerSlides = library.documents.some((doc) => doc.id === ACCESSIBLE_SUMMER_SLIDES_ID)
+  const hasUnilorinJotter = library.documents.some((doc) => doc.id === UNILORIN_JOTTER_DOCUMENT_ID)
+  const hasAdvanceFieldSales = library.documents.some((doc) => doc.id === ADVANCE_FIELD_SALES_DOCUMENT_ID)
+  const hasEducationNgoCatalog = EDUCATION_NGO_CATALOG_IDS.every((id) =>
+    library.documents.some((doc) => doc.id === id),
+  )
+
+  const visibleDocuments = useMemo(() => {
+    const query = search.trim().toLowerCase()
+    if (!query) return library.documents
+    return library.documents.filter((doc) => {
+      const haystack = [doc.title, doc.brand, doc.author]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase()
+      return haystack.includes(query)
+    })
+  }, [library.documents, search])
 
   return (
     <div className="library">
@@ -69,6 +97,16 @@ export function DocumentsHome({ library, onOpen }: Props) {
           </div>
         </div>
         <div className="toolbar__actions">
+          <label className="library__search">
+            <Search size={16} strokeWidth={2} aria-hidden="true" />
+            <span className="sr-only">Search documents</span>
+            <input
+              type="search"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Search documents"
+            />
+          </label>
           <button
             type="button"
             className="btn btn--primary"
@@ -126,6 +164,69 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 type="button"
                 className="btn btn--ghost-ink"
                 onClick={() =>
+                  onOpen(library.restoreEducationNgoCatalog().id)
+                }
+              >
+                Restore education NGO directory and 50 proposals
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(ADVANCE_FIELD_SALES_DOCUMENT_ID).id)
+                }
+              >
+                Restore Field & Digital Sales Force partnership (Project ADVANCE)
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(UNILORIN_JOTTER_DOCUMENT_ID).id)
+                }
+              >
+                Restore Unilorin convocation jotter partnership proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(ACCESSIBLE_SUMMER_SLIDES_ID).id)
+                }
+              >
+                Restore Accessible Summer Top 50 slides
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(ACCESSIBLE_SUMMER_DOCUMENT_ID).id)
+                }
+              >
+                Restore Accessible Summer Top 50 document
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(CULTURE_EXCELLENCE_DOCUMENT_ID).id)
+                }
+              >
+                Restore Culture of Excellence and Accountability
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(TRIFONE_REFUND_DOCUMENT_ID).id)
+                }
+              >
+                Restore Trifone power bank refund letter
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
                   onOpen(library.restoreSeedDocument(LOYALTY_FRAMEWORK_DOCUMENT_ID).id)
                 }
               >
@@ -144,10 +245,28 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 type="button"
                 className="btn btn--ghost-ink"
                 onClick={() =>
+                  onOpen(library.restoreSeedDocument(CUPPY_DOCUMENT_ID).id)
+                }
+              >
+                Restore Cuppy Foundation proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(TUNDE_DOCUMENT_ID).id)
+                }
+              >
+                Restore Tunde Onakoya / Chess in Slums proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
                   onOpen(library.restoreSeedDocument(EKITI_DOCUMENT_ID).id)
                 }
               >
-                Restore Ekiti State proposal
+                Restore Ekiti Ministry of Education proposal
               </button>
               <button
                 type="button"
@@ -170,9 +289,36 @@ export function DocumentsHome({ library, onOpen }: Props) {
               <button
                 type="button"
                 className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(SEPLAT_DOCUMENT_ID).id)
+                }
+              >
+                Restore Seplat Energy proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
                 onClick={() => onOpen(library.restoreDefenseDeck().id)}
               >
                 Restore defense presentation
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DEFENSE_QA_DOCUMENT_ID).id)
+                }
+              >
+                Restore defense Q&A document (critical)
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DEFENSE_QA_SLIDES_ID).id)
+                }
+              >
+                Restore defense Q&A slides (critical)
               </button>
             </div>
           </div>
@@ -188,7 +334,7 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 <span>New document</span>
               </button>
             </li>
-            {library.documents.map((doc) => (
+            {visibleDocuments.map((doc) => (
               <li key={doc.id}>
                 <article className="library-card">
                   <button
@@ -251,8 +397,89 @@ export function DocumentsHome({ library, onOpen }: Props) {
           </ul>
         )}
 
-        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasLoyaltyFramework) ? (
+        {library.documents.length > 0 && search.trim() && visibleDocuments.length === 0 ? (
+          <p className="library__empty-filter">No documents match “{search.trim()}”.</p>
+        ) : null}
+
+        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasLoyaltyFramework || !hasSeplat || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
           <p className="library__restore">
+            {!hasEducationNgoCatalog ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreEducationNgoCatalog().id)
+                }
+              >
+                Add education NGO directory and 50 proposals
+              </button>
+            ) : null}
+            {!hasAdvanceFieldSales ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(ADVANCE_FIELD_SALES_DOCUMENT_ID).id)
+                }
+              >
+                Add Field & Digital Sales Force partnership (Project ADVANCE)
+              </button>
+            ) : null}
+            {!hasUnilorinJotter ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(UNILORIN_JOTTER_DOCUMENT_ID).id)
+                }
+              >
+                Add Unilorin convocation jotter partnership proposal
+              </button>
+            ) : null}
+            {!hasAccessibleSummerSlides ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(ACCESSIBLE_SUMMER_SLIDES_ID).id)
+                }
+              >
+                Add Accessible Summer Top 50 slides
+              </button>
+            ) : null}
+            {!hasAccessibleSummerDoc ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(ACCESSIBLE_SUMMER_DOCUMENT_ID).id)
+                }
+              >
+                Add Accessible Summer Top 50 document
+              </button>
+            ) : null}
+            {!hasCultureExcellence ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(CULTURE_EXCELLENCE_DOCUMENT_ID).id)
+                }
+              >
+                Add Culture of Excellence and Accountability
+              </button>
+            ) : null}
+            {!hasTrifoneRefund ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(TRIFONE_REFUND_DOCUMENT_ID).id)
+                }
+              >
+                Add Trifone power bank refund letter
+              </button>
+            ) : null}
             {!hasLoyaltyFramework ? (
               <button
                 type="button"
@@ -275,6 +502,28 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 Add SmartEdu Hub proposal to Scholarships Cafe
               </button>
             ) : null}
+            {!hasCuppy ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(CUPPY_DOCUMENT_ID).id)
+                }
+              >
+                Add SmartEdu Hub proposal to Cuppy Foundation
+              </button>
+            ) : null}
+            {!hasTunde ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(TUNDE_DOCUMENT_ID).id)
+                }
+              >
+                Add SmartEdu Hub proposal to Tunde Onakoya / Chess in Slums
+              </button>
+            ) : null}
             {!hasEkiti ? (
               <button
                 type="button"
@@ -283,7 +532,7 @@ export function DocumentsHome({ library, onOpen }: Props) {
                   onOpen(library.restoreSeedDocument(EKITI_DOCUMENT_ID).id)
                 }
               >
-                Add SmartEdu Hub proposal to Ekiti State Government
+                Add SmartEdu Hub proposal to Ekiti Ministry of Education
               </button>
             ) : null}
             {!hasUnion ? (
@@ -308,6 +557,17 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 Add SmartEdu Hub proposal to Wema Bank
               </button>
             ) : null}
+            {!hasSeplat ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(SEPLAT_DOCUMENT_ID).id)
+                }
+              >
+                Add SmartEdu Hub proposal to Seplat Energy
+              </button>
+            ) : null}
             {!hasSeed ? (
               <button
                 type="button"
@@ -315,6 +575,28 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 onClick={() => onOpen(library.restoreDefenseDeck().id)}
               >
                 Add preliminary defense presentation
+              </button>
+            ) : null}
+            {!hasDefenseQaDoc ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DEFENSE_QA_DOCUMENT_ID).id)
+                }
+              >
+                Add defense Q&A document (critical)
+              </button>
+            ) : null}
+            {!hasDefenseQaSlides ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DEFENSE_QA_SLIDES_ID).id)
+                }
+              >
+                Add defense Q&A slides (critical)
               </button>
             ) : null}
           </p>

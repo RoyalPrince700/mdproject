@@ -217,13 +217,54 @@ export function SlideFields({
       </div>
 
       <div className="field">
-        <label htmlFor="subtitle">Subtitle</label>
+        <label htmlFor="subtitle">
+          {slide.layout === 'finalist' ? 'Finalist name' : 'Subtitle'}
+        </label>
         <input
           id="subtitle"
           value={slide.subtitle ?? ''}
           onChange={(e) => onChange({ subtitle: e.target.value })}
         />
       </div>
+
+      {slide.layout === 'finalist' ? (
+        <>
+          <div className="field">
+            <label htmlFor="state">State</label>
+            <input
+              id="state"
+              value={slide.state ?? ''}
+              onChange={(e) => onChange({ state: e.target.value })}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="school">School</label>
+            <input
+              id="school"
+              value={slide.school ?? ''}
+              onChange={(e) => onChange({ school: e.target.value })}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="score">Score</label>
+            <input
+              id="score"
+              value={slide.score ?? ''}
+              onChange={(e) => onChange({ score: e.target.value })}
+              placeholder="40/50"
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="completionTime">Completion time</label>
+            <input
+              id="completionTime"
+              value={slide.completionTime ?? ''}
+              onChange={(e) => onChange({ completionTime: e.target.value })}
+              placeholder="30mins:20secs"
+            />
+          </div>
+        </>
+      ) : null}
 
       <div className="field">
         <label htmlFor="icon">{inDocument ? 'Section icon' : 'Slide icon'}</label>

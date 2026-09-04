@@ -7,6 +7,7 @@ export type SlideLayout =
   | 'framework'
   | 'chart'
   | 'closing'
+  | 'finalist'
 
 export type ChartType = 'bar' | 'pie'
 
@@ -32,6 +33,14 @@ export interface Slide {
   chartType?: ChartType
   chartData?: ChartDatum[]
   chartCaption?: string
+  /** Finalist announcement — state (e.g. Oyo State). */
+  state?: string
+  /** Finalist announcement — school name. */
+  school?: string
+  /** Finalist announcement — score (e.g. 40/50). */
+  score?: string
+  /** Finalist announcement — completion time (e.g. 30mins:20secs). */
+  completionTime?: string
   notes?: string
   footer?: string
 }
@@ -82,6 +91,7 @@ export const SLIDE_LAYOUTS: { value: SlideLayout; label: string }[] = [
   { value: 'framework', label: 'Card grid' },
   { value: 'chart', label: 'Chart' },
   { value: 'closing', label: 'Closing' },
+  { value: 'finalist', label: 'Finalist announcement' },
 ]
 
 export function createBlankPresentation(title = 'Untitled document'): PresentationState {
@@ -174,6 +184,18 @@ export function createEmptySlide(layout: SlideLayout = 'bullets'): Slide {
         layout,
         title: 'Thank You',
         subtitle: 'Questions & Discussion',
+        notes: '',
+      }
+    case 'finalist':
+      return {
+        id,
+        layout,
+        title: '50th Place',
+        subtitle: 'Finalist name',
+        state: 'Oyo State',
+        school: 'School name',
+        score: '40/50',
+        completionTime: '30mins:20secs',
         notes: '',
       }
     default:

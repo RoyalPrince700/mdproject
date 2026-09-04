@@ -1,8 +1,18 @@
+import { CULTURE_EXCELLENCE_DOCUMENT_ID } from '../data/cultureExcellence'
+import {
+  ACCESSIBLE_SUMMER_DOCUMENT_ID,
+  ACCESSIBLE_SUMMER_SLIDES_ID,
+} from '../data/accessibleSummerTop50'
+import { DEFENSE_QA_DOCUMENT_ID, DEFENSE_QA_SLIDES_ID } from '../data/defenseQa'
 import { LOYALTY_FRAMEWORK_DOCUMENT_ID } from '../data/loyaltyRewardFramework'
 import { EKITI_DOCUMENT_ID } from '../data/ekitiProposal'
 import { SCHOLARSHIP_CAFE_DOCUMENT_ID } from '../data/scholarshipCafeProposal'
+import { CUPPY_DOCUMENT_ID } from '../data/cuppyProposal'
+import { TUNDE_DOCUMENT_ID } from '../data/tundeOnakoyaProposal'
 import { UNION_DOCUMENT_ID } from '../data/unionProposal'
 import { WEMA_DOCUMENT_ID } from '../data/wemaProposal'
+import { SEPLAT_DOCUMENT_ID } from '../data/seplatProposal'
+import { UNILORIN_JOTTER_DOCUMENT_ID } from '../data/unilorinConvocationJotterProposal'
 import type { DocumentKind, EditorViewMode, PresentationState, Slide } from '../types/slide'
 import { parseBulletItem } from './slideIcons'
 import { resolveTwoColumnContent } from './slideLayout'
@@ -11,12 +21,21 @@ export const SMEH_PROPOSAL_IDS = [
   WEMA_DOCUMENT_ID,
   EKITI_DOCUMENT_ID,
   SCHOLARSHIP_CAFE_DOCUMENT_ID,
+  CUPPY_DOCUMENT_ID,
+  TUNDE_DOCUMENT_ID,
   UNION_DOCUMENT_ID,
+  SEPLAT_DOCUMENT_ID,
 ] as const
 
 const NON_SMEH_BRANDED_IDS = new Set([
   'preliminary-defense',
   LOYALTY_FRAMEWORK_DOCUMENT_ID,
+  DEFENSE_QA_DOCUMENT_ID,
+  DEFENSE_QA_SLIDES_ID,
+  CULTURE_EXCELLENCE_DOCUMENT_ID,
+  ACCESSIBLE_SUMMER_DOCUMENT_ID,
+  ACCESSIBLE_SUMMER_SLIDES_ID,
+  UNILORIN_JOTTER_DOCUMENT_ID,
 ])
 
 export function isSmehProposal(kind?: DocumentKind) {
@@ -123,6 +142,10 @@ export function sectionTableRows(slide: Slide): Array<[string, string]> {
 
 export function sectionBullets(slide: Slide): string[] {
   return (slide.bullets ?? []).map(textOf).filter(Boolean)
+}
+
+export function isAccessibleSummerSlides(documentId?: string) {
+  return documentId === ACCESSIBLE_SUMMER_SLIDES_ID
 }
 
 export function defaultEditorView(kind?: DocumentKind): EditorViewMode {

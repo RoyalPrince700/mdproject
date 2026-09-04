@@ -126,7 +126,7 @@ export function Toolbar({
             Reset
           </button>
         ) : null}
-        {!inDocument && onDownloadPptx ? (
+        {onDownloadPptx ? (
           <button
             type="button"
             className="btn btn--ghost"
