@@ -9,7 +9,7 @@ import {
   Trash2,
 } from 'lucide-react'
 import type { DocumentLibrary } from '../../store/libraryStore'
-import { EKITI_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_ID, SEED_DOCUMENT_ID, UNION_DOCUMENT_ID, WEMA_DOCUMENT_ID } from '../../store/libraryStore'
+import { EKITI_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_ID, SEED_DOCUMENT_ID, SEPLAT_DOCUMENT_ID, UBEC_DOCUMENT_ID, UNION_DOCUMENT_ID, WEMA_DOCUMENT_ID } from '../../store/libraryStore'
 
 interface Props {
   library: DocumentLibrary
@@ -58,6 +58,8 @@ export function DocumentsHome({ library, onOpen }: Props) {
   const hasEkiti = library.documents.some((doc) => doc.id === EKITI_DOCUMENT_ID)
   const hasScholarshipCafe = library.documents.some((doc) => doc.id === SCHOLARSHIP_CAFE_DOCUMENT_ID)
   const hasLoyaltyFramework = library.documents.some((doc) => doc.id === LOYALTY_FRAMEWORK_DOCUMENT_ID)
+  const hasSeplat = library.documents.some((doc) => doc.id === SEPLAT_DOCUMENT_ID)
+  const hasUbec = library.documents.some((doc) => doc.id === UBEC_DOCUMENT_ID)
 
   return (
     <div className="library">
@@ -170,6 +172,24 @@ export function DocumentsHome({ library, onOpen }: Props) {
               <button
                 type="button"
                 className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(SEPLAT_DOCUMENT_ID).id)
+                }
+              >
+                Restore Seplat Energy proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(UBEC_DOCUMENT_ID).id)
+                }
+              >
+                Restore UBEC proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
                 onClick={() => onOpen(library.restoreDefenseDeck().id)}
               >
                 Restore defense presentation
@@ -251,7 +271,7 @@ export function DocumentsHome({ library, onOpen }: Props) {
           </ul>
         )}
 
-        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasLoyaltyFramework) ? (
+        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasLoyaltyFramework || !hasSeplat || !hasUbec) ? (
           <p className="library__restore">
             {!hasLoyaltyFramework ? (
               <button
@@ -306,6 +326,28 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 }
               >
                 Add SmartEdu Hub proposal to Wema Bank
+              </button>
+            ) : null}
+            {!hasUbec ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(UBEC_DOCUMENT_ID).id)
+                }
+              >
+                Add SmartEdu Hub proposal to UBEC
+              </button>
+            ) : null}
+            {!hasSeplat ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(SEPLAT_DOCUMENT_ID).id)
+                }
+              >
+                Add SmartEdu Hub proposal to Seplat Energy
               </button>
             ) : null}
             {!hasSeed ? (

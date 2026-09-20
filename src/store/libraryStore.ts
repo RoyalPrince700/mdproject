@@ -25,6 +25,16 @@ import {
   WEMA_DOCUMENT_TITLE,
   wemaProposal,
 } from '../data/wemaProposal'
+import {
+  SEPLAT_DOCUMENT_ID,
+  SEPLAT_DOCUMENT_TITLE,
+  seplatProposal,
+} from '../data/seplatProposal'
+import {
+  UBEC_DOCUMENT_ID,
+  UBEC_DOCUMENT_TITLE,
+  ubecProposal,
+} from '../data/ubecProposal'
 import type { DocumentEntry } from '../types/document'
 import {
   createBlankPresentation,
@@ -44,6 +54,10 @@ export {
   WEMA_DOCUMENT_TITLE,
   UNION_DOCUMENT_ID,
   UNION_DOCUMENT_TITLE,
+  SEPLAT_DOCUMENT_ID,
+  SEPLAT_DOCUMENT_TITLE,
+  UBEC_DOCUMENT_ID,
+  UBEC_DOCUMENT_TITLE,
 }
 
 const SEED_CATALOG: Record<
@@ -73,6 +87,14 @@ const SEED_CATALOG: Record<
   [UNION_DOCUMENT_ID]: {
     title: UNION_DOCUMENT_TITLE,
     getState: () => structuredClone(unionProposal),
+  },
+  [SEPLAT_DOCUMENT_ID]: {
+    title: SEPLAT_DOCUMENT_TITLE,
+    getState: () => structuredClone(seplatProposal),
+  },
+  [UBEC_DOCUMENT_ID]: {
+    title: UBEC_DOCUMENT_TITLE,
+    getState: () => structuredClone(ubecProposal),
   },
 }
 
@@ -221,7 +243,17 @@ function seedLibrary(): DocumentEntry[] {
   writePresentation(SCHOLARSHIP_CAFE_DOCUMENT_ID, scholarshipCafe)
   const loyaltyFramework = structuredClone(loyaltyRewardFramework)
   writePresentation(LOYALTY_FRAMEWORK_DOCUMENT_ID, loyaltyFramework)
+  const seplat = structuredClone(seplatProposal)
+  writePresentation(SEPLAT_DOCUMENT_ID, seplat)
+  const ubec = structuredClone(ubecProposal)
+  writePresentation(UBEC_DOCUMENT_ID, ubec)
   const documents = [
+    summaryFrom(UBEC_DOCUMENT_ID, UBEC_DOCUMENT_TITLE, ubec, {
+      source: 'seed',
+    }),
+    summaryFrom(SEPLAT_DOCUMENT_ID, SEPLAT_DOCUMENT_TITLE, seplat, {
+      source: 'seed',
+    }),
     summaryFrom(LOYALTY_FRAMEWORK_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_TITLE, loyaltyFramework, {
       source: 'seed',
     }),

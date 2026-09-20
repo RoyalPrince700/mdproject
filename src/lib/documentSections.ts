@@ -3,6 +3,8 @@ import { EKITI_DOCUMENT_ID } from '../data/ekitiProposal'
 import { SCHOLARSHIP_CAFE_DOCUMENT_ID } from '../data/scholarshipCafeProposal'
 import { UNION_DOCUMENT_ID } from '../data/unionProposal'
 import { WEMA_DOCUMENT_ID } from '../data/wemaProposal'
+import { SEPLAT_DOCUMENT_ID } from '../data/seplatProposal'
+import { UBEC_DOCUMENT_ID } from '../data/ubecProposal'
 import type { DocumentKind, EditorViewMode, PresentationState, Slide } from '../types/slide'
 import { parseBulletItem } from './slideIcons'
 import { resolveTwoColumnContent } from './slideLayout'
@@ -12,6 +14,8 @@ export const SMEH_PROPOSAL_IDS = [
   EKITI_DOCUMENT_ID,
   SCHOLARSHIP_CAFE_DOCUMENT_ID,
   UNION_DOCUMENT_ID,
+  SEPLAT_DOCUMENT_ID,
+  UBEC_DOCUMENT_ID,
 ] as const
 
 const NON_SMEH_BRANDED_IDS = new Set([
