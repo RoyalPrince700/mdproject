@@ -1,8 +1,8 @@
 import PptxGenJS from 'pptxgenjs'
 import accessibleLogoUrl from '../assets/accessiblelogo.png'
-import logoUrl from '../assets/westclifflogo.svg'
-import { DEFENSE_THEME, PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
-import { hasSmehBranding } from './documentSections'
+import smehLogoUrl from '../assets/smeh.png'
+import { PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
+import { hasSmehBranding, isAccessibleSummerSlides } from './documentSections'
 import { densityFontSize, getColumnDensity, getContentDensity } from './contentDensity'
 import { parseBulletItem } from './slideIcons'
 import { resolveTwoColumnContent, titleBylineLines } from './slideLayout'
@@ -17,6 +17,7 @@ const BORDER = PPT_COLORS.border
 const SECONDARY = PPT_COLORS.secondary
 const FONT_H = PPT_FONTS.header
 const FONT_B = PPT_FONTS.body
+const ACCESSIBLE_BLUE = '0137B3'
 
 /** Design space used by all layout numbers below (matches the 16:9 editor). */
 const DESIGN_W = 10
@@ -35,8 +36,8 @@ function pt(size: number) {
   return Math.round(size * SX)
 }
 
-let logoData: string | null = null
 let accessibleLogoData: string | null = null
+let smehLogoData: string | null = null
 
 async function loadAccessibleLogoData(): Promise<string | null> {
   if (accessibleLogoData) return accessibleLogoData
@@ -55,20 +56,39 @@ async function loadAccessibleLogoData(): Promise<string | null> {
   }
 }
 
-async function loadLogoData(): Promise<string | null> {
-  if (logoData) return logoData
+async function loadSmehLogoData(): Promise<string | null> {
+  if (smehLogoData) return smehLogoData
   try {
-    const res = await fetch(logoUrl)
+    const res = await fetch(smehLogoUrl)
     const blob = await res.blob()
-    logoData = await new Promise<string>((resolve, reject) => {
+    smehLogoData = await new Promise<string>((resolve, reject) => {
       const reader = new FileReader()
       reader.onload = () => resolve(String(reader.result))
       reader.onerror = () => reject(reader.error)
       reader.readAsDataURL(blob)
     })
-    return logoData
+    return smehLogoData
   } catch {
     return null
+  }
+}
+
+function addAccessibleSummerCornerLogos(
+  s: PptxGenJS.Slide,
+  smehLogo: string | null,
+  accessibleLogo: string | null,
+) {
+  if (smehLogo) {
+    s.addImage({
+      data: smehLogo,
+      ...box(0.35, 0.12, 1.15, 0.62),
+    })
+  }
+  if (accessibleLogo) {
+    s.addImage({
+      data: accessibleLogo,
+      ...box(8.35, 0.12, 1.3, 0.45),
+    })
   }
 }
 
@@ -103,7 +123,7 @@ function addDeckFooter(
   index: number,
   total: number,
   dark = false,
-  label = 'WESTCLIFF UNIVERSITY · Doctoral Defense',
+  label = 'Presentation',
 ) {
   const color = dark ? '94A3B8' : MUTED
   s.addText(label, {
@@ -125,13 +145,16 @@ function renderSlide(
   pptx: PptxGenJS,
   slide: Slide,
   meta: PresentationState['meta'],
-  logo: string | null,
   proposalLogo: string | null,
   showSmehBranding: boolean,
+  accessibleSummer: boolean,
+  smehLogo: string | null,
+  accessibleLogo: string | null,
   index: number,
   total: number,
 ) {
   const s = pptx.addSlide()
+  const accent = accessibleSummer ? ACCESSIBLE_BLUE : NAVY
 
   if (slide.notes?.trim()) {
     s.addNotes(slide.notes.trim())
@@ -141,25 +164,75 @@ function renderSlide(
 
   s.addShape(pptx.ShapeType.rect, {
     ...box(0, 0, DESIGN_W, 0.08),
-    fill: { color: NAVY },
-    line: { color: NAVY },
+    fill: { color: accent },
+    line: { color: accent },
   })
 
   const logoLabel =
     meta.kind === 'proposal'
       ? 'SMARTEDU HUB'
-      : meta.kind === 'document'
-        ? meta.brand || 'Document'
-        : DEFENSE_THEME.university
+      : meta.brand || 'Document'
   const footerLabel =
     meta.kind === 'proposal'
       ? `${meta.brand} · Proposal`
       : meta.kind === 'document'
         ? `${meta.brand} · Document`
-        : 'WESTCLIFF UNIVERSITY · Doctoral Defense'
-  addLogo(s, logo, logoLabel)
-  if (showSmehBranding) {
-    addProposalCornerLogos(s, proposalLogo)
+        : meta.brand
+          ? `${meta.brand}${meta.author ? ` · ${meta.author}` : ''}`
+          : 'Presentation'
+  if (accessibleSummer) {
+    addAccessibleSummerCornerLogos(s, smehLogo, accessibleLogo)
+  } else {
+    addLogo(s, null, logoLabel)
+    if (showSmehBranding) {
+      addProposalCornerLogos(s, proposalLogo)
+    }
+  }
+
+  if (slide.layout === 'finalist') {
+    s.addText(slide.title, {
+      ...box(0.4, 1.0, 9.2, 0.55),
+      fontSize: pt(24),
+      fontFace: FONT_H,
+      color: accent,
+      bold: true,
+      align: 'center',
+    })
+    if (slide.subtitle) {
+      s.addText(slide.subtitle, {
+        ...box(0.25, 1.65, 9.5, 2.0),
+        fontSize: pt(56),
+        fontFace: FONT_H,
+        color: accent,
+        bold: true,
+        align: 'center',
+        valign: 'middle',
+      })
+    }
+    const schoolState = [slide.school, slide.state].filter(Boolean).join('  ·  ')
+    if (schoolState) {
+      s.addText(schoolState, {
+        ...box(0.5, 3.95, 9.0, 0.55),
+        fontSize: pt(22),
+        fontFace: FONT_B,
+        color: '1E293B',
+        bold: true,
+        align: 'center',
+      })
+    }
+    const scoreTime = [slide.score, slide.completionTime].filter(Boolean).join('  ·  ')
+    if (scoreTime) {
+      s.addText(scoreTime, {
+        ...box(0.5, 4.55, 9.0, 0.5),
+        fontSize: pt(18),
+        fontFace: FONT_B,
+        color: MUTED,
+        bold: true,
+        align: 'center',
+      })
+    }
+    addDeckFooter(s, index, total, false, '')
+    return
   }
 
   if (slide.layout === 'title') {
@@ -171,7 +244,7 @@ function renderSlide(
       ...box(0.5, 1.35, 9.0, 1.55),
       fontSize: pt(24),
       fontFace: FONT_H,
-      color: NAVY,
+      color: accent,
       bold: true,
       align: 'center',
       valign: 'middle',
@@ -219,7 +292,7 @@ function renderSlide(
       ...box(0.7, 2.25, 8.6, 1.15),
       fontSize: pt(36),
       fontFace: FONT_H,
-      color: NAVY,
+      color: accent,
       bold: true,
       align: 'center',
     })
@@ -251,7 +324,7 @@ function renderSlide(
       ...box(0.45, 0.68, 7.6, 0.5),
       fontSize: pt(26),
       fontFace: FONT_H,
-      color: NAVY,
+      color: accent,
       bold: true,
     })
     s.addShape(pptx.ShapeType.rect, {
@@ -306,7 +379,7 @@ function renderSlide(
     ...box(0.45, slide.chapter ? 0.54 : 0.42, 7.6, 0.42),
     fontSize: pt(22),
     fontFace: FONT_H,
-    color: NAVY,
+    color: accent,
     bold: true,
   })
   s.addShape(pptx.ShapeType.rect, {
@@ -384,7 +457,7 @@ function renderSlide(
             ...box(0.55, 1.4, 8.9, 3.7),
             fontSize: pt(fontSize),
             fontFace: FONT_B,
-            color: NAVY,
+            color: accent,
             paraSpaceAfter: pt(paraSpaceAfter),
             valign: 'middle',
           },
@@ -460,7 +533,7 @@ function renderSlide(
           ...box(x + pad, cardTop + 0.68, cardW - pad * 2, cardH - 0.9),
           fontSize: pt(fontSize),
           fontFace: FONT_B,
-          color: NAVY,
+          color: accent,
           align: 'left',
           valign: 'top',
         })
@@ -498,7 +571,7 @@ function renderSlide(
           ...box(0.45, top, 4.4, headingH),
           fontSize: pt(18),
           fontFace: FONT_H,
-          color: NAVY,
+          color: accent,
           bold: true,
         })
         s.addShape(pptx.ShapeType.rect, {
@@ -517,7 +590,7 @@ function renderSlide(
             ...box(0.45, bodyTop, 4.4, bodyH),
             fontSize: pt(fontSize),
             fontFace: FONT_B,
-            color: NAVY,
+            color: accent,
             paraSpaceAfter: pt(colDensity === 'dense' ? 6 : 8),
             valign: 'top',
           },
@@ -529,7 +602,7 @@ function renderSlide(
           ...box(5.15, top, 4.4, headingH),
           fontSize: pt(18),
           fontFace: FONT_H,
-          color: NAVY,
+          color: accent,
           bold: true,
         })
         s.addShape(pptx.ShapeType.rect, {
@@ -548,7 +621,7 @@ function renderSlide(
             ...box(5.15, bodyTop, 4.4, bodyH),
             fontSize: pt(fontSize),
             fontFace: FONT_B,
-            color: NAVY,
+            color: accent,
             paraSpaceAfter: pt(colDensity === 'dense' ? 6 : 8),
             valign: 'top',
           },
@@ -593,7 +666,7 @@ function renderSlide(
         ...box(x + 0.16, y + 0.1, width - 0.32, 0.32),
         fontSize: pt(labelSize),
         fontFace: FONT_H,
-        color: NAVY,
+        color: accent,
         bold: true,
       })
       if (block.author) {
@@ -631,7 +704,7 @@ function renderSlide(
           ...box(0.6, top + areaH + 0.16, 8.8, 0.44),
           fontSize: pt(11),
           fontFace: FONT_B,
-          color: NAVY,
+          color: accent,
           valign: 'middle',
         },
       )
@@ -697,7 +770,7 @@ function renderSlide(
           ...box(5.7, top, 3.85, 3.7),
           fontSize: pt(fontSize),
           fontFace: FONT_B,
-          color: NAVY,
+          color: accent,
           paraSpaceAfter: pt(fillCol ? 9 : colDensity === 'dense' ? 5 : 7),
           valign: 'top',
         },
@@ -712,15 +785,13 @@ export async function exportPptx(
   state: PresentationState,
   options: { documentId?: string } = {},
 ) {
-  const smehProposal = state.meta.kind === 'proposal'
   const smehBranding = hasSmehBranding(state, options.documentId)
-  const plainDocument = state.meta.kind === 'document'
-  const usesBrandExport = smehProposal || plainDocument
+  const accessibleSummer = isAccessibleSummerSlides(options.documentId)
   const titleSlide = state.slides.find((slide) => slide.layout === 'title')
   const docTitle =
     state.meta.subject?.trim() ||
     titleSlide?.title.replace(/\n/g, ' ').trim() ||
-    (usesBrandExport ? 'Document' : 'DBA Preliminary Defense — IT in B2B Marketing Strategies')
+    'Presentation'
 
   const pptx = new PptxGenJS()
   pptx.author = state.meta.author
@@ -730,25 +801,26 @@ export async function exportPptx(
   pptx.layout = 'LAYOUT_16x9_OFFICE'
   pptx.theme = { headFontFace: FONT_H, bodyFontFace: FONT_B }
 
-  const logo = smehProposal || plainDocument ? null : await loadLogoData()
   const proposalLogo = smehBranding ? await loadAccessibleLogoData() : null
+  const smehLogo = accessibleSummer ? await loadSmehLogoData() : null
+  const accessibleLogo = accessibleSummer ? await loadAccessibleLogoData() : null
 
   for (const [index, slide] of state.slides.entries()) {
     renderSlide(
       pptx,
       slide,
       state.meta,
-      logo,
       proposalLogo,
       smehBranding,
+      accessibleSummer,
+      smehLogo,
+      accessibleLogo,
       index,
       state.slides.length,
     )
   }
 
-  const fileName = usesBrandExport
-    ? `${docTitle.replace(/\n/g, ' ').replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'Document'}.pptx`
-    : 'DBA-Preliminary-Defense-Adedapo.pptx'
+  const fileName = `${docTitle.replace(/\n/g, ' ').replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'Presentation'}.pptx`
 
   await pptx.writeFile({
     fileName,

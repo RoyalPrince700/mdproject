@@ -5,6 +5,7 @@ import { SlideCanvas } from '../editor/SlideCanvas'
 interface Props {
   slide: Slide
   meta: PresentationState['meta']
+  documentId?: string
   index: number
   total: number
   onNext: () => void
@@ -15,6 +16,7 @@ interface Props {
 export function PresenterView({
   slide,
   meta,
+  documentId,
   index,
   total,
   onNext,
@@ -34,6 +36,7 @@ export function PresenterView({
         <SlideCanvas
           slide={slide}
           meta={meta}
+          documentId={documentId}
           index={index}
           total={total}
         />

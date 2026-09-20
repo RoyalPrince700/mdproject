@@ -3,18 +3,20 @@ import {
   getContentDensity,
   type ContentDensity,
 } from '../../lib/contentDensity'
+import { isAccessibleSummerSlides } from '../../lib/documentSections'
 import { parseBulletItem } from '../../lib/slideIcons'
 import { resolveTwoColumnContent, titleBylineLines } from '../../lib/slideLayout'
 import type { FrameworkBlock, PresentationState, Slide } from '../../types/slide'
 import { SlideIcon } from '../icons/SlideIcon'
+import { AccessibleSummerLogos } from './AccessibleSummerLogos'
 import { EditableBulletList } from './EditableBulletList'
 import { EditableText } from './EditableText'
 import { SlideChart } from './SlideChart'
-import { SlideLogo } from './SlideLogo'
 
 interface Props {
   slide: Slide
   meta: PresentationState['meta']
+  documentId?: string
   index?: number
   total?: number
   editable?: boolean
@@ -276,12 +278,20 @@ function FrameworkBlockEditor({
 export function SlideCanvas({
   slide,
   meta,
+  documentId,
   index,
   total,
   editable = false,
   onChange,
 }: Props) {
-  const className = `slide slide--${slide.layout}${editable ? ' slide--editable' : ''}`
+  const accessibleSummer = isAccessibleSummerSlides(documentId)
+  const className = [
+    `slide slide--${slide.layout}`,
+    accessibleSummer ? 'slide--accessible-summer' : '',
+    editable ? 'slide--editable' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
   const canEdit = editable && !!onChange
   const edit = canEdit ? onChange : undefined
   const applyPatch = (patch: Partial<Slide>) => {
@@ -292,19 +302,128 @@ export function SlideCanvas({
       ? `${meta.brand} · Proposal`
       : meta.kind === 'document'
         ? `${meta.brand} · Document`
-        : 'WESTCLIFF UNIVERSITY · Doctoral Preliminary Defense'
-  const logo =
-    meta.kind === 'proposal' ? (
-      <div className="slide-logo slide-logo--text" aria-label={meta.brand}>
-        SmartEdu Hub
-      </div>
-    ) : meta.kind === 'document' ? (
-      <div className="slide-logo slide-logo--text" aria-label={meta.brand}>
-        {meta.brand || 'Document'}
-      </div>
-    ) : (
-      <SlideLogo variant="light" />
+        : meta.brand
+          ? `${meta.brand}${meta.author ? ` · ${meta.author}` : ''}`
+          : 'Presentation'
+  const logo = accessibleSummer ? (
+    <AccessibleSummerLogos />
+  ) : meta.kind === 'proposal' ? (
+    <div className="slide-logo slide-logo--text" aria-label={meta.brand}>
+      SmartEdu Hub
+    </div>
+  ) : meta.brand ? (
+    <div className="slide-logo slide-logo--text" aria-label={meta.brand}>
+      {meta.brand}
+    </div>
+  ) : (
+    <div className="slide-logo slide-logo--text" aria-label="Document">
+      Document
+    </div>
+  )
+
+  if (slide.layout === 'finalist') {
+    return (
+      <article className={className}>
+        {logo}
+        <div className="slide__hero slide__hero--finalist">
+          {canEdit ? (
+            <>
+              <EditableText
+                className="slide__finalist-rank"
+                value={slide.title}
+                onChange={(title) => applyPatch({ title })}
+                tag="p"
+                placeholder="Rank"
+              />
+              <EditableText
+                className="slide__finalist-name"
+                value={slide.subtitle ?? ''}
+                onChange={(subtitle) => applyPatch({ subtitle })}
+                tag="h1"
+                placeholder="Finalist name"
+              />
+              <div className="slide__finalist-meta">
+                <EditableText
+                  className="slide__finalist-school"
+                  value={slide.school ?? ''}
+                  onChange={(school) => applyPatch({ school })}
+                  tag="span"
+                  placeholder="School"
+                />
+                <span className="slide__finalist-meta-sep" aria-hidden="true">
+                  ·
+                </span>
+                <EditableText
+                  className="slide__finalist-state"
+                  value={slide.state ?? ''}
+                  onChange={(state) => applyPatch({ state })}
+                  tag="span"
+                  placeholder="State"
+                />
+              </div>
+              <div className="slide__finalist-stats">
+                <EditableText
+                  className="slide__finalist-score"
+                  value={slide.score ?? ''}
+                  onChange={(score) => applyPatch({ score })}
+                  tag="span"
+                  placeholder="Score"
+                />
+                <span className="slide__finalist-meta-sep" aria-hidden="true">
+                  ·
+                </span>
+                <EditableText
+                  className="slide__finalist-time"
+                  value={slide.completionTime ?? ''}
+                  onChange={(completionTime) => applyPatch({ completionTime })}
+                  tag="span"
+                  placeholder="Completion time"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="slide__finalist-rank">{slide.title}</p>
+              <h1 className="slide__finalist-name">{slide.subtitle}</h1>
+              {slide.school || slide.state ? (
+                <p className="slide__finalist-meta">
+                  {slide.school ? (
+                    <span className="slide__finalist-school">{slide.school}</span>
+                  ) : null}
+                  {slide.school && slide.state ? (
+                    <span className="slide__finalist-meta-sep" aria-hidden="true">
+                      {' '}
+                      ·{' '}
+                    </span>
+                  ) : null}
+                  {slide.state ? (
+                    <span className="slide__finalist-state">{slide.state}</span>
+                  ) : null}
+                </p>
+              ) : null}
+              {slide.score || slide.completionTime ? (
+                <p className="slide__finalist-stats">
+                  {slide.score ? (
+                    <span className="slide__finalist-score">{slide.score}</span>
+                  ) : null}
+                  {slide.score && slide.completionTime ? (
+                    <span className="slide__finalist-meta-sep" aria-hidden="true">
+                      {' '}
+                      ·{' '}
+                    </span>
+                  ) : null}
+                  {slide.completionTime ? (
+                    <span className="slide__finalist-time">{slide.completionTime}</span>
+                  ) : null}
+                </p>
+              ) : null}
+            </>
+          )}
+        </div>
+        <DeckFooter index={index} total={total} label="" />
+      </article>
     )
+  }
 
   if (slide.layout === 'title') {
     const byline = titleBylineLines(slide, meta)

@@ -192,7 +192,7 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
         editorView={editorView}
         documentFont={resolveDocumentFont(store.state.meta)}
         onPresent={inDocument ? undefined : () => setPresenting(true)}
-        onDownloadPptx={inDocument ? undefined : handleDownloadPptx}
+        onDownloadPptx={handleDownloadPptx}
         onDownloadDocx={handleDownloadDocx}
         onAdd={() => store.addSlide(inDocument ? 'bullets' : 'bullets')}
         onReset={isSeed ? handleReset : undefined}
@@ -290,6 +290,7 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
                 <SlideCanvas
                   slide={store.currentSlide}
                   meta={store.state.meta}
+                  documentId={documentId}
                   index={store.state.currentIndex}
                   total={store.state.slides.length}
                   editable
@@ -326,6 +327,7 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
         <PresenterView
           slide={store.currentSlide}
           meta={store.state.meta}
+          documentId={documentId}
           index={store.state.currentIndex}
           total={store.state.slides.length}
           onNext={store.nextSlide}
