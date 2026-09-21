@@ -12,6 +12,7 @@ import { resolveTwoColumnContent } from '../../lib/slideLayout'
 import { resolveDocumentFont } from '../../theme/documentTheme'
 import type { PresentationMeta, PresentationState, Slide } from '../../types/slide'
 import { EditableText } from './EditableText'
+import { InlineFormattedText } from './InlineFormattedText'
 
 interface Props {
   state: PresentationState
@@ -68,7 +69,7 @@ function DocTable({
                   placeholder="—"
                 />
               ) : (
-                left
+                <InlineFormattedText text={left} />
               )}
             </td>
             <td>
@@ -80,7 +81,7 @@ function DocTable({
                   placeholder="—"
                 />
               ) : (
-                right
+                <InlineFormattedText text={right} />
               )}
             </td>
           </tr>
@@ -209,7 +210,9 @@ function SectionBlock({
                 placeholder="Paragraph"
               />
             ) : (
-              <p key={index}>{item}</p>
+              <p key={index}>
+                <InlineFormattedText text={item} />
+              </p>
             ),
           )}
         </div>

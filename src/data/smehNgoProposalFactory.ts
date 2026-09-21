@@ -36,7 +36,7 @@ export function buildSmehNgoProposal(org: EducationNgo): PresentationState {
   const coverLetter = [
     `We respectfully write to introduce SmartEdu Hub, an indigenous AI-powered digital learning and school management platform powered by Accessible Publishers Limited, and to propose a strategic partnership with ${org.name} focused on academic competition sponsorship, inclusive digital learning, and measurable classroom impact for Nigerian learners.`,
     'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning solutions, and the development of quality educational materials for schools and institutions across Nigeria. Since our establishment in 1996, we have remained committed to supporting educational advancement through curriculum-aligned content, digital innovation, and teacher development initiatives.',
-    'Recently, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year 2025. This recognition underscores our commitment to reinventing education delivery through publishing excellence, education innovation, and digital solutions.',
+    'Recently, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year 2025 by Customers’ Choice Quality Awards. This recognition underscores our commitment to reinventing education delivery through publishing excellence, education innovation, and digital solutions.',
     'Accessible Publishers Limited is ISO 9001 certified. Our quality management system governs how we develop, review, produce, and support educational content and digital solutions, so partners can rely on consistent quality, documented processes, and continuous improvement across publishing, printing, and SmartEdu Hub delivery.',
     org.admiration,
     `This proposal invites ${org.shortName} to partner on SmartEdu Hub’s national academic competitions — a platform feature through which students compete for cash prizes, laptops, educational gifts, vacation trips, and national recognition — and on continuous learning through AI Books and the Accessible Publishers educational book catalogue. The ask is tailored to ${org.shortName}’s work on ${categoryInSentence(org.category)}, not copied from a generic CSI template.`,
@@ -105,7 +105,7 @@ export function buildSmehNgoProposal(org: EducationNgo): PresentationState {
       bullets: [
         'Accessible Publishers Limited is an indigenous Nigerian education company headquartered in Ibadan and established in 1996. The company has built a strong reputation across educational publishing, curriculum resources, school support materials, and technology-enabled learning solutions for schools, institutions, government programmes, and corporate partners.',
         'SmartEdu Hub is developed internally by our Technology and Digital team, with input from Editorial, Learning and Development, Media, Production, Marketing, Distribution, Human Resources, and Administration. This gives us direct control over curriculum alignment, localisation, implementation, support, and continuous improvement.',
-        'In 2025, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year. We have implemented a related digital education solution for Abia State, and more than 30 schools have adopted SmartEdu Hub within three months of launch.',
+        'In 2025, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year by Customers’ Choice Quality Awards. We have implemented a related digital education solution for Abia State, and more than 30 schools have adopted SmartEdu Hub within three months of launch.',
         'The company is ISO 9001 certified. Quality assurance is built into how we write, review, print, and digitise learning materials, and into how we build, test, and support SmartEdu Hub — giving partners a process standard, not only a product promise.',
       ],
     },
@@ -301,8 +301,8 @@ export function buildSmehNgoProposal(org: EducationNgo): PresentationState {
       icon: 'Handshake',
       bullets: org.conclusion,
       footer:
-        'Respectfully submitted by:\nAccessible Publishers Limited\nThe Knowledge Hub, 121/123, Obafemi Awolowo Way,\nOke-Ado, Ibadan\nSmartEduHub Accessible Digital Platform Team (SMEH)\nwww.smarteduhub.ng\nwww.accessiblepublishers.com',
-      notes: 'Close with the conclusion and institutional submission block.',
+        'Respectfully submitted by:\nAccessible Publishers Limited\nThe Knowledge Hub, 121/123, Obafemi Awolowo Way,\nOke-Ado, Ibadan\nSmartEduHub Accessible Digital Platform Team (SMEH)\nwww.smarteduhub.ng\nwww.accessiblepublishers.com\n\nFor Further Enquiries\nAkeredolu Tosin S.\nPrincipal Executive Assistant to the MD/CEO\nPhone: +234 803 057 7613\nEmail: officeofthemd@accessiblepublishers.com',
+      notes: 'Close with the conclusion, institutional submission block, and further-enquiries contact.',
     },
   ]
 

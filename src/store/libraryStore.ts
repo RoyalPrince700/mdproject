@@ -59,6 +59,16 @@ import {
   cultureExcellenceDocument,
 } from '../data/cultureExcellence'
 import {
+  DM_CLASS1_DOCUMENT_ID,
+  DM_CLASS1_DOCUMENT_TITLE,
+  dmClass1Document,
+} from '../data/dmClass1Introduction'
+import {
+  DM_CLASS1_SMEH_ASSIGNMENT_ID,
+  DM_CLASS1_SMEH_ASSIGNMENT_TITLE,
+  dmClass1SmehAssignment,
+} from '../data/dmClass1SmehAssignment'
+import {
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
   ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
   ACCESSIBLE_SUMMER_SLIDES_ID,
@@ -66,6 +76,11 @@ import {
   accessibleSummerDocument,
   accessibleSummerSlides,
 } from '../data/accessibleSummerTop50'
+import {
+  ASC_NAPPS_INVITATION_DOCUMENT_ID,
+  ASC_NAPPS_INVITATION_DOCUMENT_TITLE,
+  ascNappsInvitationLetter,
+} from '../data/accessibleSummerNappsInvitationLetter'
 import {
   UNILORIN_JOTTER_DOCUMENT_ID,
   UNILORIN_JOTTER_DOCUMENT_TITLE,
@@ -116,10 +131,16 @@ export {
   TRIFONE_REFUND_DOCUMENT_TITLE,
   CULTURE_EXCELLENCE_DOCUMENT_ID,
   CULTURE_EXCELLENCE_DOCUMENT_TITLE,
+  DM_CLASS1_DOCUMENT_ID,
+  DM_CLASS1_DOCUMENT_TITLE,
+  DM_CLASS1_SMEH_ASSIGNMENT_ID,
+  DM_CLASS1_SMEH_ASSIGNMENT_TITLE,
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
   ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
   ACCESSIBLE_SUMMER_SLIDES_ID,
   ACCESSIBLE_SUMMER_SLIDES_TITLE,
+  ASC_NAPPS_INVITATION_DOCUMENT_ID,
+  ASC_NAPPS_INVITATION_DOCUMENT_TITLE,
   UNILORIN_JOTTER_DOCUMENT_ID,
   UNILORIN_JOTTER_DOCUMENT_TITLE,
   ADVANCE_FIELD_SALES_DOCUMENT_ID,
@@ -186,6 +207,14 @@ const SEED_CATALOG: Record<
     title: CULTURE_EXCELLENCE_DOCUMENT_TITLE,
     getState: () => structuredClone(cultureExcellenceDocument),
   },
+  [DM_CLASS1_DOCUMENT_ID]: {
+    title: DM_CLASS1_DOCUMENT_TITLE,
+    getState: () => structuredClone(dmClass1Document),
+  },
+  [DM_CLASS1_SMEH_ASSIGNMENT_ID]: {
+    title: DM_CLASS1_SMEH_ASSIGNMENT_TITLE,
+    getState: () => structuredClone(dmClass1SmehAssignment),
+  },
   [ACCESSIBLE_SUMMER_DOCUMENT_ID]: {
     title: ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
     getState: () => structuredClone(accessibleSummerDocument),
@@ -193,6 +222,10 @@ const SEED_CATALOG: Record<
   [ACCESSIBLE_SUMMER_SLIDES_ID]: {
     title: ACCESSIBLE_SUMMER_SLIDES_TITLE,
     getState: () => structuredClone(accessibleSummerSlides),
+  },
+  [ASC_NAPPS_INVITATION_DOCUMENT_ID]: {
+    title: ASC_NAPPS_INVITATION_DOCUMENT_TITLE,
+    getState: () => structuredClone(ascNappsInvitationLetter),
   },
   [UNILORIN_JOTTER_DOCUMENT_ID]: {
     title: UNILORIN_JOTTER_DOCUMENT_TITLE,

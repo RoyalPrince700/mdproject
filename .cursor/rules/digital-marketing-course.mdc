@@ -1,0 +1,70 @@
+---
+description: Digital marketing course context — Accessible Publishers group, DM assignments, and class notes
+alwaysApply: true
+---
+
+# Digital Marketing Course — Project Context
+
+## Who and why
+
+The platform user writes **digital marketing (DM) course assignments, reports, class activities, and campaign plans** here.
+
+Accessible Publishers Limited chose **practical expert training** instead of hiring an external digital marketer. The goal is for the user to become **Chief Digital Marketer (Chief DM)** for the group and all subsidiaries. Training is hands-on and fast-paced — help them learn quickly, apply concepts to real brands, and produce submission-ready work.
+
+**Do not assume the user is Gbadega Adedapo** — that name belongs to specific seed documents only (see project-context rule).
+
+## Terminology
+
+- **DM = Digital Marketing** (always; not direct message).
+- When the user says "assignment", "class activity", "report", or "campaign", treat it as DM coursework unless clearly about the DBA dissertation.
+
+## Mother company and subsidiaries
+
+| Entity | What it does |
+|--------|----------------|
+| **Accessible Publishers Limited** | Mother company — educational publishing, printing, digital learning (Ibadan) |
+| **Oxygen FM Ibadan** | Radio station subsidiary |
+| **Smipay** | Fintech subsidiary |
+| **Best Technology** | Software and website development |
+| **SmartEdu Hub** | School Management System (SMS) + Learning Management System (LMS); includes exam bodies (e.g. PQ) on the platform |
+
+Campaign work should often reference these real brands, audiences, and budgets.
+
+## Primary reference files
+
+- **`dm.md`** — tutor materials, class notes, frameworks (RACE, SOSTAC), and elaborated explanations. Read and update when the user adds new class content.
+- **`AGENTS.md`** — document creation rules (plain Word-style default; SMEH proposal layout only when explicitly requested).
+
+## Document defaults for DM work
+
+- Assignments and reports: **`meta.kind: 'document'`**, plain cover (title, subtitle, organisation, author, date).
+- Use **Accessible Publishers Limited** or the relevant subsidiary as organisation unless the brief says otherwise.
+- Do **not** apply SMEH proposal branding unless the user explicitly asks.
+
+## Tutor rules of thumb (Class 1 — apply in activities)
+
+- **Google Ads** — among the most expensive channels, especially for competitive keywords; use mainly when **client budget is high**.
+- **Meta (Facebook/Instagram) Ads** — more affordable default for tighter budgets.
+- **LinkedIn Ads** — also expensive.
+- **TikTok Ads** — available; **X (formerly Twitter)** often works through partner ad networks (e.g. Google can serve ads on X).
+- **Traditional + digital** — many campaigns combine both (billboards, lamp posts, banners + digital).
+- **SEO search engines** — Google and **Bing (Microsoft)**.
+- **Off-page SEO (Nigeria tech/fintech)** — outreach to **TechCabal**, **TechPoint**, **NairaMetrics** when the product is fintech or tech.
+- **CRO** — when ads underperform, diagnose: broken links, slow site, weak landing page, wrong strategy.
+- **DM is not only traffic** — guide users through a **journey with an end goal** (awareness → action → conversion → retention).
+- **RACE** — tutor's day-to-day stack: Reach, Act, Conversion, Engage. High budget: 4 ad sets; tighter budget: combine Reach+Act into one, then Conversion, then Engage (3 sets).
+- **SOSTAC** — use when **presenting to MD/executives**: Situation, Objectives, Strategy, Tactics, Action, Control.
+- **Retargeting** — after ~2 months of awareness/conversion, retarget people who have seen the ads.
+- **Campaign thought process** — problem the product solves → target audience → **buyer personas** → competitor audit → demographics → **top-of-mind** presence.
+
+## SmartEdu Hub buyer persona examples (from tutor)
+
+1. **Students** — Meta, 15+, SS2–SS3.
+2. **Parents** — often women with children in secondary school.
+3. Create as many personas as needed per product line (SMS, LMS, exam bodies, etc.).
+
+## How to help
+
+- Elaborate tutor bullet points into clear, assignment-ready prose when asked.
+- Tie class activities to Accessible group brands and realistic Nigerian market context.
+- When creating in-app documents, follow the registration checklist in `AGENTS.md`.

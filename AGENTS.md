@@ -1,5 +1,22 @@
 # Agent instructions — mdproject
 
+## About this platform
+
+General **document and presentation library** for Accessible Publishers Limited and related work — proposals, reports, letters, slide decks, DM assignments, and more.
+
+**Do not assume the Cursor user is Gbadega Adedapo.** That name appears only inside specific seed documents (DBA preliminary defense candidate; MD/CEO signatory on some proposals). New documents should use the author or signatory named in the user's brief.
+
+## Digital marketing course (DM)
+
+Also used for **digital marketing (DM) coursework** — assignments, reports, class activities, and campaign plans.
+
+- The user is training to become **Chief Digital Marketer** for Accessible Publishers Limited and subsidiaries (Oxygen FM Ibadan, Smipay, Best Technology, SmartEdu Hub).
+- **DM always means Digital Marketing** in this project.
+- **Class notes and tutor material:** `dm.md` (update when new classes are added).
+- **Persistent AI context:** `.cursor/rules/` (syncs via git to other machines).
+
+When the user asks for an assignment or report, default to a plain **`document`** (not SMEH proposal layout) unless they request otherwise.
+
 ## Creating new documents from pasted text
 
 **Default:** treat every new document as a **plain Word-style document**, not an SMEH proposal.

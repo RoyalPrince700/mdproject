@@ -33,6 +33,7 @@ import {
   skipProposalSlide,
   textOf,
 } from './documentSections'
+import { parseInlineFormatting } from './inlineText'
 import { loadAccessibleLogoAsset, loadWatermarkBytes } from './documentWatermark'
 import { resolveTwoColumnContent } from './slideLayout'
 import type { PresentationState, Slide } from '../types/slide'
@@ -127,6 +128,48 @@ function proposalSectionHeading(text: string): Paragraph {
   })
 }
 
+type TextRunOptions = {
+  italics?: boolean
+  bold?: boolean
+  size?: number
+  color?: string
+  font?: string
+}
+
+function inlineTextRuns(
+  text: string,
+  options: TextRunOptions = {},
+): TextRun[] {
+  const segments = parseInlineFormatting(text)
+  const hasMarkers = segments.some((segment) => segment.bold)
+  if (!hasMarkers) {
+    return [
+      new TextRun({
+        text,
+        italics: options.italics,
+        bold: options.bold,
+        size: options.size ?? 22,
+        color: options.color ?? NAVY,
+        font: options.font ?? DOC_BODY_FONT,
+      }),
+    ]
+  }
+
+  return segments
+    .filter((segment) => segment.text.length > 0)
+    .map(
+      (segment) =>
+        new TextRun({
+          text: segment.text,
+          bold: segment.bold ?? options.bold,
+          italics: options.italics,
+          size: options.size ?? 22,
+          color: options.color ?? NAVY,
+          font: options.font ?? DOC_BODY_FONT,
+        }),
+    )
+}
+
 function para(
   text: string,
   options: {
@@ -147,16 +190,7 @@ function para(
       before: options.before ?? 0,
       line: 276,
     },
-    children: [
-      new TextRun({
-        text,
-        italics: options.italics,
-        bold: options.bold,
-        size: options.size ?? 22,
-        color: options.color ?? NAVY,
-        font: options.font ?? DOC_BODY_FONT,
-      }),
-    ],
+    children: inlineTextRuns(text, options),
   })
 }
 
@@ -197,14 +231,7 @@ function bullet(text: string): Paragraph {
   return new Paragraph({
     bullet: { level: 0 },
     spacing: { after: 80, line: 276 },
-    children: [
-      new TextRun({
-        text,
-        size: 22,
-        color: NAVY,
-        font: DOC_BODY_FONT,
-      }),
-    ],
+    children: inlineTextRuns(text),
   })
 }
 
@@ -237,15 +264,12 @@ function tableCell(
     children: [
       new Paragraph({
         spacing: { after: 0, line: 260 },
-        children: [
-          new TextRun({
-            text,
-            bold: options.header || options.bold,
-            size: 20,
-            color: options.header ? WHITE : NAVY,
-            font: options.header ? DOC_HEADER_FONT : DOC_BODY_FONT,
-          }),
-        ],
+        children: inlineTextRuns(text, {
+          bold: options.header || options.bold,
+          size: 20,
+          color: options.header ? WHITE : NAVY,
+          font: options.header ? DOC_HEADER_FONT : DOC_BODY_FONT,
+        }),
       }),
     ],
   })
@@ -331,12 +355,7 @@ function slideBody(slide: Slide): Paragraph[] {
               color: NAVY,
               font: DOC_HEADER_FONT,
             }),
-            new TextRun({
-              text,
-              size: 22,
-              color: NAVY,
-              font: DOC_BODY_FONT,
-            }),
+            ...inlineTextRuns(text),
           ],
         }),
       )
@@ -900,7 +919,7 @@ export async function exportDocx(
     options.title?.trim() ||
     state.meta.subject?.trim() ||
     titleSlide?.title.replace(/\n/g, ' ').trim() ||
-    (usesWordExport ? 'Document' : 'DBA Preliminary Defense — IT in B2B Marketing Strategies')
+    (usesWordExport ? 'Document' : 'Presentation')
 
   const children = smehProposal
     ? buildProposalChildren(state)
@@ -958,8 +977,6 @@ export async function exportDocx(
   })
 
   const blob = await Packer.toBlob(doc)
-  const fileName = usesWordExport
-    ? `${fileSlug(docTitle)}.docx`
-    : 'DBA-Preliminary-Defense-Adedapo.docx'
+  const fileName = `${fileSlug(docTitle)}.docx`
   downloadBlob(blob, fileName)
 }

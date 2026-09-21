@@ -1,0 +1,42 @@
+---
+description: General platform context — document library for Accessible Publishers group work
+alwaysApply: true
+---
+
+# mdproject — Platform Context
+
+## What this project is
+
+A **general document and presentation library** for writing, editing, and exporting DOCX/PPTX files — proposals, reports, letters, slide decks, assignments, and memos.
+
+The platform is **not** tied to one person. Do **not** assume the Cursor user is Gbadega Adedapo or any named author appearing inside a document.
+
+## Organisation context
+
+Work often relates to **Accessible Publishers Limited** and subsidiaries:
+
+- Oxygen FM Ibadan · Smipay (fintech) · Best Technology (software/websites) · SmartEdu Hub (SMS + LMS)
+
+## Named people in seed documents (content only)
+
+| Name | Where it appears | Meaning |
+|------|------------------|---------|
+| **Gbadega Adedapo** | Preliminary defense presentation (`seedSlides.ts`, `defenseTheme.ts`, `project.md`, `guide.md`) | DBA **candidate** for that deck only |
+| **Gbadega Adedapo** | Some SMEH proposals | **MD/CEO** signatory on proposal letter — not the platform user |
+
+When creating **new** documents, ask for or infer author/signatory from the brief. Do not default new work to Gbadega Adedapo.
+
+## Use cases
+
+- SmartEdu Hub / Accessible proposals and partnership letters
+- Company reports, frameworks, and letters
+- **Digital marketing (DM) course** assignments — see `dm.md` and digital-marketing-course rule
+- DBA preliminary defense deck (one catalog template among many)
+
+## Defaults for new documents
+
+- **`meta.kind: 'document'`** — plain Word-style cover unless user requests proposal or presentation layout
+- **Author** — leave blank or use name/org from the user's brief; never assume Gbadega Adedapo
+- **Organisation** — Accessible Publishers Limited or relevant subsidiary when appropriate
+
+See **`AGENTS.md`** for document creation and registration rules.

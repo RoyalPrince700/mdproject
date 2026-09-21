@@ -1,6 +1,7 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import {
   Clock,
+  ExternalLink,
   FilePlus,
   FileText,
   FolderOpen,
@@ -9,8 +10,9 @@ import {
   Search,
   Trash2,
 } from 'lucide-react'
+import { documentHref } from '../../lib/docRoutes'
 import type { DocumentLibrary } from '../../store/libraryStore'
-import { ACCESSIBLE_SUMMER_DOCUMENT_ID, ACCESSIBLE_SUMMER_SLIDES_ID, ADVANCE_FIELD_SALES_DOCUMENT_ID, CULTURE_EXCELLENCE_DOCUMENT_ID, CUPPY_DOCUMENT_ID, EDUCATION_NGO_CATALOG_IDS, EKITI_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_ID, SEED_DOCUMENT_ID, SEPLAT_DOCUMENT_ID, TRIFONE_REFUND_DOCUMENT_ID, TUNDE_DOCUMENT_ID, UNION_DOCUMENT_ID, WEMA_DOCUMENT_ID, DEFENSE_QA_DOCUMENT_ID, DEFENSE_QA_SLIDES_ID, UNILORIN_JOTTER_DOCUMENT_ID } from '../../store/libraryStore'
+import { ACCESSIBLE_SUMMER_DOCUMENT_ID, ACCESSIBLE_SUMMER_SLIDES_ID, ASC_NAPPS_INVITATION_DOCUMENT_ID, ADVANCE_FIELD_SALES_DOCUMENT_ID, CULTURE_EXCELLENCE_DOCUMENT_ID, CUPPY_DOCUMENT_ID, DM_CLASS1_DOCUMENT_ID, DM_CLASS1_SMEH_ASSIGNMENT_ID, EDUCATION_NGO_CATALOG_IDS, EKITI_DOCUMENT_ID, LOYALTY_FRAMEWORK_DOCUMENT_ID, SCHOLARSHIP_CAFE_DOCUMENT_ID, SEED_DOCUMENT_ID, SEPLAT_DOCUMENT_ID, TRIFONE_REFUND_DOCUMENT_ID, TUNDE_DOCUMENT_ID, UNION_DOCUMENT_ID, WEMA_DOCUMENT_ID, DEFENSE_QA_DOCUMENT_ID, DEFENSE_QA_SLIDES_ID, UNILORIN_JOTTER_DOCUMENT_ID } from '../../store/libraryStore'
 
 interface Props {
   library: DocumentLibrary
@@ -67,8 +69,15 @@ export function DocumentsHome({ library, onOpen }: Props) {
   const hasDefenseQaSlides = library.documents.some((doc) => doc.id === DEFENSE_QA_SLIDES_ID)
   const hasTrifoneRefund = library.documents.some((doc) => doc.id === TRIFONE_REFUND_DOCUMENT_ID)
   const hasCultureExcellence = library.documents.some((doc) => doc.id === CULTURE_EXCELLENCE_DOCUMENT_ID)
+  const hasDmClass1 = library.documents.some((doc) => doc.id === DM_CLASS1_DOCUMENT_ID)
+  const hasDmSmehAssignment = library.documents.some(
+    (doc) => doc.id === DM_CLASS1_SMEH_ASSIGNMENT_ID,
+  )
   const hasAccessibleSummerDoc = library.documents.some((doc) => doc.id === ACCESSIBLE_SUMMER_DOCUMENT_ID)
   const hasAccessibleSummerSlides = library.documents.some((doc) => doc.id === ACCESSIBLE_SUMMER_SLIDES_ID)
+  const hasAscNappsInvitation = library.documents.some(
+    (doc) => doc.id === ASC_NAPPS_INVITATION_DOCUMENT_ID,
+  )
   const hasUnilorinJotter = library.documents.some((doc) => doc.id === UNILORIN_JOTTER_DOCUMENT_ID)
   const hasAdvanceFieldSales = library.documents.some((doc) => doc.id === ADVANCE_FIELD_SALES_DOCUMENT_ID)
   const hasEducationNgoCatalog = EDUCATION_NGO_CATALOG_IDS.every((id) =>
@@ -209,10 +218,39 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 type="button"
                 className="btn btn--ghost-ink"
                 onClick={() =>
+                  onOpen(
+                    library.restoreSeedDocument(ASC_NAPPS_INVITATION_DOCUMENT_ID).id,
+                  )
+                }
+              >
+                Restore NAPPS Oyo award presentation invitation
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
                   onOpen(library.restoreSeedDocument(CULTURE_EXCELLENCE_DOCUMENT_ID).id)
                 }
               >
                 Restore Culture of Excellence and Accountability
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DM_CLASS1_DOCUMENT_ID).id)
+                }
+              >
+                Restore Digital Marketing Class 1 study guide
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DM_CLASS1_SMEH_ASSIGNMENT_ID).id)
+                }
+              >
+                Restore Digital Marketing Class 1 SmartEdu Hub assignment
               </button>
               <button
                 type="button"
@@ -377,18 +415,31 @@ export function DocumentsHome({ library, onOpen }: Props) {
                     <button
                       type="button"
                       className="btn btn--ghost-ink"
+                      onClick={() =>
+                        window.open(documentHref(doc.id), '_blank', 'noopener,noreferrer')
+                      }
+                      aria-label="Open in new tab"
+                      title="Open in new tab"
+                    >
+                      <ExternalLink size={14} strokeWidth={2} aria-hidden="true" />
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn--ghost-ink"
                       onClick={() => handleRename(doc.id, doc.title)}
+                      aria-label="Rename"
+                      title="Rename"
                     >
                       <Pencil size={14} strokeWidth={2} aria-hidden="true" />
-                      Rename
                     </button>
                     <button
                       type="button"
                       className="btn btn--danger-ink"
                       onClick={() => handleDelete(doc.id, doc.title)}
+                      aria-label="Delete"
+                      title="Delete"
                     >
                       <Trash2 size={14} strokeWidth={2} aria-hidden="true" />
-                      Delete
                     </button>
                   </div>
                 </article>
@@ -401,7 +452,7 @@ export function DocumentsHome({ library, onOpen }: Props) {
           <p className="library__empty-filter">No documents match “{search.trim()}”.</p>
         ) : null}
 
-        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasLoyaltyFramework || !hasSeplat || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
+        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasLoyaltyFramework || !hasSeplat || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
           <p className="library__restore">
             {!hasEducationNgoCatalog ? (
               <button
@@ -458,6 +509,19 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 Add Accessible Summer Top 50 document
               </button>
             ) : null}
+            {!hasAscNappsInvitation ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(
+                    library.restoreSeedDocument(ASC_NAPPS_INVITATION_DOCUMENT_ID).id,
+                  )
+                }
+              >
+                Add NAPPS Oyo award presentation invitation
+              </button>
+            ) : null}
             {!hasCultureExcellence ? (
               <button
                 type="button"
@@ -467,6 +531,28 @@ export function DocumentsHome({ library, onOpen }: Props) {
                 }
               >
                 Add Culture of Excellence and Accountability
+              </button>
+            ) : null}
+            {!hasDmClass1 ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DM_CLASS1_DOCUMENT_ID).id)
+                }
+              >
+                Add Digital Marketing Class 1 study guide
+              </button>
+            ) : null}
+            {!hasDmSmehAssignment ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DM_CLASS1_SMEH_ASSIGNMENT_ID).id)
+                }
+              >
+                Add Digital Marketing Class 1 SmartEdu Hub assignment
               </button>
             ) : null}
             {!hasTrifoneRefund ? (
