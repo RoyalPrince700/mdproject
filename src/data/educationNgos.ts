@@ -43,7 +43,7 @@ export interface EducationNgo {
   prizeAngle: string
 }
 
-export const EDUCATION_NGO_SEED_REVISION = 3
+export const EDUCATION_NGO_SEED_REVISION = 4
 export const EDUCATION_NGO_DIRECTORY_ID = 'education-ngo-directory'
 export const EDUCATION_NGO_DIRECTORY_TITLE =
   'Education NGOs and Organisations Directory — Top 50 Contacts'

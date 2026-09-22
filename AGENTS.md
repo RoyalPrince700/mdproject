@@ -36,6 +36,19 @@ Use `meta.kind: 'proposal'` **only** when the user clearly requests:
 
 SMEH proposals include: SmartEdu Hub cover banner, “PROPOSAL FOR” label, recipient/submitted-by table, optional cover letter, and watermark on export.
 
+**Cover type sizes are locked** for every `meta.kind: 'proposal'` document. Do not create a per-file cover or override these sizes. They live in `SMEH_COVER_FONT` (`src/theme/documentTheme.ts`) and are applied by `DocumentCanvas` and `exportDocx`:
+
+| Cover line | Size |
+|---|---|
+| SMARTEDUHUB | 28pt |
+| SmartEduHub Accessible Digital Platform (SMEH) / website | 20pt |
+| PROPOSAL FOR | 11pt |
+| Proposal title | 18pt |
+| (Learning Management & School Management System) | 16pt |
+| SUBMITTED TO / SUBMITTED BY and party lines | 16pt |
+
+Submitted by defaults to **Accessible Publishers Limited** and `121/123, The Knowledge Hub, Obafemi Awolowo Way, Oke-Ado, Ibadan, Oyo State.`
+
 ## Document kinds
 
 | `meta.kind`     | Use for                                      |

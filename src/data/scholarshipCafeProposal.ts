@@ -3,7 +3,7 @@ import type { PresentationState, Slide } from '../types/slide'
 export const SCHOLARSHIP_CAFE_DOCUMENT_ID = 'smeh-scholarship-cafe-proposal'
 export const SCHOLARSHIP_CAFE_DOCUMENT_TITLE =
   'SmartEdu Hub Partnership Proposal to Scholarships Cafe'
-export const SCHOLARSHIP_CAFE_SEED_REVISION = 1
+export const SCHOLARSHIP_CAFE_SEED_REVISION = 2
 
 function sectionSlide(
   id: string,
@@ -36,6 +36,8 @@ export const SCHOLARSHIP_CAFE_PROPOSAL_META: PresentationState['meta'] = {
   subject:
     'Proposal for Strategic Partnership between SmartEdu Hub and Scholarships Cafe on Academic Preparation, Scholarship Readiness, and Global Opportunity Pathways for Nigerian Learners',
   website: 'www.smarteduhub.ng',
+  senderAddress:
+    '121/123, The Knowledge Hub,\nObafemi Awolowo Way, Oke-Ado, Ibadan, Oyo State.',
   coverLetter: [
     'We respectfully write to introduce SmartEdu Hub, an indigenous AI-powered digital learning and school management platform powered by Accessible Publishers Limited, and to propose a strategic partnership with Scholarships Cafe founded by Dr. Olumuyiwa Igbalajobi.',
     'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning solutions, and the development of quality educational materials for schools and institutions across Nigeria. Since our establishment in 1996, we have remained committed to supporting educational advancement through curriculum-aligned content, digital innovation, and teacher development initiatives.',

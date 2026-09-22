@@ -22,7 +22,11 @@ import {
   WidthType,
 } from 'docx'
 import { PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
-import { resolveDocumentFont } from '../theme/documentTheme'
+import {
+  proposalSenderLines,
+  resolveDocumentFont,
+  SMEH_COVER_FONT,
+} from '../theme/documentTheme'
 import {
   hasSmehBranding,
   isSmehProposal,
@@ -535,6 +539,11 @@ function createWatermarkHeader(
   })
 }
 
+/** Word point size → docx half-points. */
+function coverPt(points: number) {
+  return points * 2
+}
+
 function coverPartiesTable(state: PresentationState): Table {
   const leftLines = [
     'SUBMITTED TO',
@@ -543,11 +552,7 @@ function coverPartiesTable(state: PresentationState): Table {
     state.meta.recipientAddress || '',
   ].filter(Boolean)
 
-  const rightLines = [
-    'SUBMITTED BY',
-    state.meta.brand,
-    `Date: ${state.meta.date}`,
-  ].filter(Boolean)
+  const rightLines = ['SUBMITTED BY', ...proposalSenderLines(state.meta)]
 
   const cell = (lines: string[], labelIndex: number) =>
     new TableCell({
@@ -561,7 +566,7 @@ function coverPartiesTable(state: PresentationState): Table {
             new TextRun({
               text: line,
               bold: index === labelIndex,
-              size: index === labelIndex ? 18 : 22,
+              size: coverPt(SMEH_COVER_FONT.party),
               color: index === labelIndex ? GOLD : NAVY,
               font: index === labelIndex ? DOC_HEADER_FONT : DOC_BODY_FONT,
             }),
@@ -588,21 +593,26 @@ function buildCoverPage(state: PresentationState): Array<Paragraph | Table> {
     'Proposal'
 
   return [
-    bannerLine('SMART EDU HUB', { bold: true, color: WHITE, size: 28, after: 40 }),
+    bannerLine('SMARTEDUHUB', {
+      bold: true,
+      color: WHITE,
+      size: coverPt(SMEH_COVER_FONT.brand),
+      after: 40,
+    }),
     bannerLine('SmartEduHub Accessible Digital Platform (SMEH)', {
       color: WHITE,
-      size: 20,
+      size: coverPt(SMEH_COVER_FONT.tagline),
       after: 40,
     }),
     bannerLine((state.meta.website || DEFAULT_WEBSITE).replace(/\./g, '.\u200B'), {
       color: WHITE,
-      size: 18,
+      size: coverPt(SMEH_COVER_FONT.website),
       after: 120,
     }),
     para('PROPOSAL FOR', {
       bold: true,
       color: PROPOSAL_BLUE,
-      size: 18,
+      size: coverPt(SMEH_COVER_FONT.proposalFor),
       align: AlignmentType.CENTER,
       before: 280,
       after: 60,
@@ -610,18 +620,18 @@ function buildCoverPage(state: PresentationState): Array<Paragraph | Table> {
     para(subject.toUpperCase(), {
       bold: true,
       font: DOC_HEADER_FONT,
-      size: 28,
+      size: coverPt(SMEH_COVER_FONT.title),
       align: AlignmentType.CENTER,
       after: 80,
     }),
     para('(Learning Management & School Management System)', {
       italics: true,
       color: MUTED,
-      size: 22,
+      size: coverPt(SMEH_COVER_FONT.subtitle),
       align: AlignmentType.CENTER,
       after: 200,
     }),
-    para('', { before: 2200, after: 0 }),
+    para('', { before: 1200, after: 0 }),
     coverPartiesTable(state),
     para('', { before: 240, after: 0 }),
     new Paragraph({

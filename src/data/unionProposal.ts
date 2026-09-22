@@ -3,7 +3,7 @@ import type { PresentationState, Slide } from '../types/slide'
 export const UNION_DOCUMENT_ID = 'smeh-union-proposal'
 export const UNION_DOCUMENT_TITLE =
   'SmartEdu Hub Proposal to Union Bank'
-export const UNION_SEED_REVISION = 1
+export const UNION_SEED_REVISION = 2
 
 function sectionSlide(
   id: string,
@@ -37,6 +37,8 @@ export const UNION_PROPOSAL_META: PresentationState['meta'] = {
   subject:
     'Proposal for Strategic Partnership on SmartEdu Hub for Education Digital Transformation, Teacher Development, and Measurable Edu360 Impact',
   website: 'www.smarteduhub.ng',
+  senderAddress:
+    '121/123, The Knowledge Hub,\nObafemi Awolowo Way, Oke-Ado, Ibadan, Oyo State.',
   coverLetter: [
     'We respectfully write to introduce SmartEdu Hub, an indigenous digital learning and school management platform powered by Accessible Publishers Limited, for the consideration of Union Bank of Nigeria Plc as a strategic education partner under the Bank’s Edu360 and UnionCares programmes.',
     'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning solutions, and the development of quality educational materials for schools and institutions across Nigeria. Since our establishment in 1996, we have remained committed to supporting educational advancement through curriculum-aligned content, digital innovation, and teacher development initiatives.',

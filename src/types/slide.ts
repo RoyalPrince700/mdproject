@@ -68,6 +68,7 @@ export interface PresentationMeta {
   recipient?: string
   recipientOrg?: string
   recipientAddress?: string
+  senderAddress?: string
   subject?: string
   coverLetter?: string[]
   signOff?: string[]

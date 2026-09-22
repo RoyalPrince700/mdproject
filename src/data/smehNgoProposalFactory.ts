@@ -1,4 +1,5 @@
 import type { PresentationState, Slide } from '../types/slide'
+import { DEFAULT_PROPOSAL_SENDER_ADDRESS } from '../theme/documentTheme'
 import {
   EDUCATION_NGO_SEED_REVISION,
   ngoProposalTitle,
@@ -324,6 +325,7 @@ export function buildSmehNgoProposal(org: EducationNgo): PresentationState {
       recipientAddress: addressLine(org),
       subject: `Proposal for Strategic Partnership with ${org.name} on SmartEdu Hub Academic Competitions, AI Books, and Inclusive Digital Learning`,
       website: 'www.smarteduhub.ng',
+      senderAddress: DEFAULT_PROPOSAL_SENDER_ADDRESS,
       coverLetter,
       signOff: [
         'Yours faithfully,',

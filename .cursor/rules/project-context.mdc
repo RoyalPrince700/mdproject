@@ -38,5 +38,6 @@ When creating **new** documents, ask for or infer author/signatory from the brie
 - **`meta.kind: 'document'`** — plain Word-style cover unless user requests proposal or presentation layout
 - **Author** — leave blank or use name/org from the user's brief; never assume Gbadega Adedapo
 - **Organisation** — Accessible Publishers Limited or relevant subsidiary when appropriate
+- **SMEH proposal covers** — any `meta.kind: 'proposal'` uses the shared cover renderer and `SMEH_COVER_FONT` (28 / 20 / 11 / 18 / 16pt). Do not restyle the cover per partner.
 
 See **`AGENTS.md`** for document creation and registration rules.

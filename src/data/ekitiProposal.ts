@@ -3,7 +3,7 @@ import type { PresentationState, Slide } from '../types/slide'
 export const EKITI_DOCUMENT_ID = 'smeh-ekiti-proposal'
 export const EKITI_DOCUMENT_TITLE =
   'SmartEdu Hub Proposal to Ekiti State Ministry of Education'
-export const EKITI_SEED_REVISION = 2
+export const EKITI_SEED_REVISION = 3
 
 function sectionSlide(
   id: string,
@@ -36,6 +36,8 @@ export const EKITI_PROPOSAL_META: PresentationState['meta'] = {
   subject:
     'Proposal for the Adoption of SmartEdu Hub Digital Solutions for Basic Education Transformation across Ekiti State',
   website: 'www.smarteduhub.ng',
+  senderAddress:
+    '121/123, The Knowledge Hub,\nObafemi Awolowo Way, Oke-Ado, Ibadan, Oyo State.',
   coverLetter: [
     'We respectfully write to introduce SmartEdu Hub, an indigenous AI-powered digital learning and school management platform powered by Accessible Publishers Limited, for the consideration and adoption of the Ministry of Education, Ekiti State Government, as a strategic solution for modernising basic education across the state’s 16 Local Government Areas.',
     'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning solutions, and the development of quality educational materials for schools and institutions across Nigeria. Since our establishment in 1996, we have remained committed to supporting educational advancement through curriculum-aligned content, digital innovation, and teacher development initiatives.',

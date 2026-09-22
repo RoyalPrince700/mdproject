@@ -3,7 +3,7 @@ import type { PresentationState, Slide } from '../types/slide'
 export const SEPLAT_DOCUMENT_ID = 'smeh-seplat-proposal'
 export const SEPLAT_DOCUMENT_TITLE =
   'SmartEdu Hub Proposal to Seplat Energy'
-export const SEPLAT_SEED_REVISION = 1
+export const SEPLAT_SEED_REVISION = 2
 
 function sectionSlide(
   id: string,
@@ -36,6 +36,8 @@ export const SEPLAT_PROPOSAL_META: PresentationState['meta'] = {
   subject:
     'Proposal for Strategic Partnership on SmartEdu Hub for Education Digital Transformation, Teacher Empowerment, Workforce Readiness, and Measurable Corporate Social Investment',
   website: 'www.smarteduhub.ng',
+  senderAddress:
+    '121/123, The Knowledge Hub,\nObafemi Awolowo Way, Oke-Ado, Ibadan, Oyo State.',
   coverLetter: [
     'We respectfully write to introduce SmartEdu Hub, an indigenous digital learning and school management platform powered by Accessible Publishers Limited, for the consideration of Seplat Energy Production Nigeria Unlimited as a strategic education technology partner to strengthen the company’s education-focused Corporate Social Investment programmes and HR-led workforce development priorities.',
     'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning solutions, and the development of quality educational materials for schools and institutions across Nigeria. Since our establishment in 1996, we have remained committed to supporting educational advancement through curriculum-aligned content, digital innovation, and teacher development initiatives.',

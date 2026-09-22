@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { accessibleLogoUrl, watermarkUrl } from '../../lib/documentWatermark'
 import {
   hasSmehBranding,
@@ -9,7 +10,13 @@ import {
   sectionTableRows,
 } from '../../lib/documentSections'
 import { resolveTwoColumnContent } from '../../lib/slideLayout'
-import { resolveDocumentFont } from '../../theme/documentTheme'
+import {
+  DEFAULT_PROPOSAL_SENDER_ADDRESS,
+  DEFAULT_PROPOSAL_SENDER_ORG,
+  proposalSenderLines,
+  resolveDocumentFont,
+  smehCoverCssVars,
+} from '../../theme/documentTheme'
 import type { PresentationMeta, PresentationState, Slide } from '../../types/slide'
 import { EditableText } from './EditableText'
 import { InlineFormattedText } from './InlineFormattedText'
@@ -276,14 +283,15 @@ export function DocumentCanvas({
     >
       <section
         id="doc-__cover"
-        className={`doc-cover doc-page-sheet${activeId === '__cover' ? ' doc-section--active' : ''}${smehProposal ? '' : ' doc-cover--plain'}`}
+        className={`doc-cover doc-page-sheet${activeId === '__cover' ? ' doc-section--active' : ''}${smehProposal ? ' doc-cover--smeh' : ' doc-cover--plain'}`}
+        style={smehProposal ? (smehCoverCssVars() as CSSProperties) : undefined}
         onClick={() => onSelect('__cover')}
       >
         {smehBranding ? <ProposalCornerLogos /> : null}
         {smehProposal ? (
           <>
             <div className="doc-cover__banner">
-              <p className="doc-cover__brand">SMART EDU HUB</p>
+              <p className="doc-cover__brand">SMARTEDUHUB</p>
               <p className="doc-cover__tagline">
                 SmartEduHub Accessible Digital Platform (SMEH)
               </p>
@@ -322,6 +330,7 @@ export function DocumentCanvas({
                   {canEdit ? (
                     <>
                       <EditableText
+                        className="doc-cover__party-text"
                         value={meta.recipient ?? ''}
                         onChange={(recipient) => onMetaChange({ recipient })}
                         onFocusSelect={() => onSelect('__cover')}
@@ -329,6 +338,7 @@ export function DocumentCanvas({
                         placeholder="Recipient name"
                       />
                       <EditableText
+                        className="doc-cover__party-text"
                         value={meta.recipientOrg ?? ''}
                         onChange={(recipientOrg) => onMetaChange({ recipientOrg })}
                         onFocusSelect={() => onSelect('__cover')}
@@ -336,6 +346,7 @@ export function DocumentCanvas({
                         placeholder="Organisation"
                       />
                       <EditableText
+                        className="doc-cover__party-text"
                         value={meta.recipientAddress ?? ''}
                         onChange={(recipientAddress) =>
                           onMetaChange({ recipientAddress })
@@ -348,9 +359,9 @@ export function DocumentCanvas({
                     </>
                   ) : (
                     <>
-                      <p>{meta.recipient}</p>
-                      <p>{meta.recipientOrg}</p>
-                      <p>{meta.recipientAddress}</p>
+                      <p className="doc-cover__party-text">{meta.recipient}</p>
+                      <p className="doc-cover__party-text">{meta.recipientOrg}</p>
+                      <p className="doc-cover__party-text">{meta.recipientAddress}</p>
                     </>
                   )}
                 </div>
@@ -359,25 +370,31 @@ export function DocumentCanvas({
                   {canEdit ? (
                     <>
                       <EditableText
-                        value={meta.brand}
+                        className="doc-cover__party-text"
+                        value={meta.brand || DEFAULT_PROPOSAL_SENDER_ORG}
                         onChange={(brand) => onMetaChange({ brand })}
                         onFocusSelect={() => onSelect('__cover')}
                         tag="p"
                         placeholder="Organisation"
                       />
                       <EditableText
-                        value={meta.date}
-                        onChange={(date) => onMetaChange({ date })}
+                        className="doc-cover__party-text"
+                        value={
+                          meta.senderAddress || DEFAULT_PROPOSAL_SENDER_ADDRESS
+                        }
+                        onChange={(senderAddress) => onMetaChange({ senderAddress })}
                         onFocusSelect={() => onSelect('__cover')}
                         tag="p"
-                        placeholder="Date"
+                        multiline
+                        placeholder="Address"
                       />
                     </>
                   ) : (
-                    <>
-                      <p>{meta.brand}</p>
-                      <p>Date: {meta.date}</p>
-                    </>
+                    proposalSenderLines(meta).map((line) => (
+                      <p key={line} className="doc-cover__party-text">
+                        {line}
+                      </p>
+                    ))
                   )}
                 </div>
               </div>

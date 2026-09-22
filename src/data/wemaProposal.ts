@@ -3,7 +3,7 @@ import type { PresentationState, Slide } from '../types/slide'
 export const WEMA_DOCUMENT_ID = 'smeh-wema-proposal'
 export const WEMA_DOCUMENT_TITLE =
   'SmartEdu Hub Proposal to Wema Bank'
-export const WEMA_SEED_REVISION = 5
+export const WEMA_SEED_REVISION = 6
 
 function sectionSlide(
   id: string,
@@ -36,6 +36,8 @@ export const WEMA_PROPOSAL_META: PresentationState['meta'] = {
   subject:
     'Proposal for Strategic Partnership on SmartEdu Hub for Education Digital Transformation, Youth Empowerment, and Measurable Corporate Social Investment',
   website: 'www.smarteduhub.ng',
+  senderAddress:
+    '121/123, The Knowledge Hub,\nObafemi Awolowo Way, Oke-Ado, Ibadan, Oyo State.',
   coverLetter: [
     'We respectfully write to introduce SmartEdu Hub, an indigenous digital learning and school management platform powered by Accessible Publishers Limited, for the consideration of Wema Bank Plc as a strategic education partner under the Bank’s Corporate Social Investment programme.',
     'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning solutions, and the development of quality educational materials for schools and institutions across Nigeria. Since our establishment in 1996, we have remained committed to supporting educational advancement through curriculum-aligned content, digital innovation, and teacher development initiatives.',

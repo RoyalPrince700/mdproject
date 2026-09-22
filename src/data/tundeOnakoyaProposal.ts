@@ -3,7 +3,7 @@
 export const TUNDE_DOCUMENT_ID = 'smeh-tunde-onakoya-proposal'
 export const TUNDE_DOCUMENT_TITLE =
   'SmartEdu Hub Proposal to Tunde Onakoya (Chess in Slums Africa)'
-export const TUNDE_SEED_REVISION = 4
+export const TUNDE_SEED_REVISION = 5
 
 function sectionSlide(
   id: string,
@@ -36,6 +36,8 @@ export const TUNDE_PROPOSAL_META: PresentationState['meta'] = {
   subject:
     'Proposal for Strategic Partnership with Chess in Slums Africa on SmartEdu Hub Academic Competition Sponsorship, AI Books, and Learning Access for Underserved Champions',
   website: 'www.smarteduhub.ng',
+  senderAddress:
+    '121/123, The Knowledge Hub,\nObafemi Awolowo Way, Oke-Ado, Ibadan, Oyo State.',
   coverLetter: [
     'We respectfully write to introduce SmartEdu Hub, an indigenous AI-powered digital learning and school management platform powered by Accessible Publishers Limited, and to propose a strategic partnership with Tunde Onakoya and Chess in Slums Africa focused on sponsorship of academic competitions and digital learning access for children in underserved communities.',
     'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning solutions, and the development of quality educational materials for schools and institutions across Nigeria. Since our establishment in 1996, we have remained committed to supporting educational advancement through curriculum-aligned content, digital innovation, and teacher development initiatives.',
