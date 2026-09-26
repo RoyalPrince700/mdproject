@@ -34,6 +34,7 @@ import {
   DEFENSE_QA_SLIDES_ID,
   DM_CLASS1_DOCUMENT_ID,
   DM_CLASS1_SMEH_ASSIGNMENT_ID,
+  DM_CLASS2_SOSTAC_PRESENTATION_ID,
   EDUCATION_NGO_CATALOG_IDS,
   EKITI_DOCUMENT_ID,
   LOYALTY_FRAMEWORK_DOCUMENT_ID,
@@ -118,6 +119,9 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
   const hasDmClass1 = library.documents.some((doc) => doc.id === DM_CLASS1_DOCUMENT_ID)
   const hasDmSmehAssignment = library.documents.some(
     (doc) => doc.id === DM_CLASS1_SMEH_ASSIGNMENT_ID,
+  )
+  const hasDmClass2Sostac = library.documents.some(
+    (doc) => doc.id === DM_CLASS2_SOSTAC_PRESENTATION_ID,
   )
   const hasAccessibleSummerDoc = library.documents.some((doc) => doc.id === ACCESSIBLE_SUMMER_DOCUMENT_ID)
   const hasAccessibleSummerSlides = library.documents.some((doc) => doc.id === ACCESSIBLE_SUMMER_SLIDES_ID)
@@ -320,6 +324,17 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 }
               >
                 Restore Digital Marketing Class 1 SmartEdu Hub assignment
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(
+                    library.restoreSeedDocument(DM_CLASS2_SOSTAC_PRESENTATION_ID).id,
+                  )
+                }
+              >
+                Restore SmartEdu Hub SOSTAC presentation
               </button>
               <button
                 type="button"
@@ -580,7 +595,7 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
           <p className="library__empty-filter">No documents match “{search.trim()}”.</p>
         ) : null}
 
-        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
+        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasDmClass2Sostac || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
           <p className="library__restore">
             {!hasEducationNgoCatalog ? (
               <button
@@ -692,6 +707,19 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 }
               >
                 Add Digital Marketing Class 1 SmartEdu Hub assignment
+              </button>
+            ) : null}
+            {!hasDmClass2Sostac ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(
+                    library.restoreSeedDocument(DM_CLASS2_SOSTAC_PRESENTATION_ID).id,
+                  )
+                }
+              >
+                Add SmartEdu Hub SOSTAC presentation
               </button>
             ) : null}
             {!hasTrifoneRefund ? (
