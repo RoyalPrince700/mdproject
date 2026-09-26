@@ -3,7 +3,7 @@
 export const CUPPY_DOCUMENT_ID = 'smeh-cuppy-proposal'
 export const CUPPY_DOCUMENT_TITLE =
   'SmartEdu Hub Proposal to Florence Otedola (Cuppy Foundation)'
-export const CUPPY_SEED_REVISION = 4
+export const CUPPY_SEED_REVISION = 5
 
 function sectionSlide(
   id: string,
@@ -36,6 +36,8 @@ export const CUPPY_PROPOSAL_META: PresentationState['meta'] = {
   subject:
     'Proposal for Strategic Partnership with the Cuppy Foundation on Sponsorship of SmartEdu Hub National Academic Competitions, Inclusive Digital Learning, and Youth Education Impact',
   website: 'www.smarteduhub.ng',
+  senderAddress:
+    '121/123, The Knowledge Hub,\nObafemi Awolowo Way, Oke-Ado, Ibadan, Oyo State.',
   coverLetter: [
     'We respectfully write to introduce SmartEdu Hub, an indigenous AI-powered digital learning and school management platform powered by Accessible Publishers Limited, and to propose a strategic partnership with Florence Ifeoluwa Otedola and the Cuppy Foundation focused on sponsorship of national academic competitions and inclusive education access for Nigerian learners.',
     'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning solutions, and the development of quality educational materials for schools and institutions across Nigeria. Since our establishment in 1996, we have remained committed to supporting educational advancement through curriculum-aligned content, digital innovation, and teacher development initiatives.',

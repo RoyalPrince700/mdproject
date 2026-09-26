@@ -97,6 +97,13 @@ export function DocumentMetaFields({ meta, saveStatus, onSave, onChange }: Props
             multiline
           />
           <Field
+            id="senderAddress"
+            label="Submitted-by address"
+            value={meta.senderAddress ?? ''}
+            onChange={(senderAddress) => onChange({ senderAddress })}
+            multiline
+          />
+          <Field
             id="letterDate"
             label="Letter date"
             value={meta.letterDate ?? ''}

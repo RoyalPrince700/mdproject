@@ -26,6 +26,11 @@ import {
   tundeProposal,
 } from '../data/tundeOnakoyaProposal'
 import {
+  ADEKANMBI_DOCUMENT_ID,
+  ADEKANMBI_DOCUMENT_TITLE,
+  adekanmbiProposal,
+} from '../data/adekanmbiProposal'
+import {
   LOYALTY_FRAMEWORK_DOCUMENT_ID,
   LOYALTY_FRAMEWORK_DOCUMENT_TITLE,
   loyaltyRewardFramework,
@@ -59,6 +64,16 @@ import {
   cultureExcellenceDocument,
 } from '../data/cultureExcellence'
 import {
+  DM_CLASS1_DOCUMENT_ID,
+  DM_CLASS1_DOCUMENT_TITLE,
+  dmClass1Document,
+} from '../data/dmClass1Introduction'
+import {
+  DM_CLASS1_SMEH_ASSIGNMENT_ID,
+  DM_CLASS1_SMEH_ASSIGNMENT_TITLE,
+  dmClass1SmehAssignment,
+} from '../data/dmClass1SmehAssignment'
+import {
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
   ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
   ACCESSIBLE_SUMMER_SLIDES_ID,
@@ -66,6 +81,15 @@ import {
   accessibleSummerDocument,
   accessibleSummerSlides,
 } from '../data/accessibleSummerTop50'
+import {
+  ASC_NAPPS_INVITATION_DOCUMENT_ID,
+  ASC_NAPPS_INVITATION_DOCUMENT_TITLE,
+  ascNappsInvitationLetter,
+} from '../data/accessibleSummerNappsInvitationLetter'
+import {
+  ASC_WINNER_SCHOOL_PROPOSAL_IDS,
+  ascWinnerSchoolSeedCatalog,
+} from '../data/accessibleSummerWinnerSchoolLetters'
 import {
   UNILORIN_JOTTER_DOCUMENT_ID,
   UNILORIN_JOTTER_DOCUMENT_TITLE,
@@ -88,7 +112,7 @@ import {
   UBEC_DOCUMENT_TITLE,
   ubecProposal,
 } from '../data/ubecProposal'
-import type { DocumentEntry } from '../types/document'
+import type { DocumentEntry, DocumentTrackingStatus } from '../types/document'
 import {
   createBlankPresentation,
   type PresentationState,
@@ -107,6 +131,8 @@ export {
   CUPPY_DOCUMENT_TITLE,
   TUNDE_DOCUMENT_ID,
   TUNDE_DOCUMENT_TITLE,
+  ADEKANMBI_DOCUMENT_ID,
+  ADEKANMBI_DOCUMENT_TITLE,
   WEMA_DOCUMENT_ID,
   WEMA_DOCUMENT_TITLE,
   UNION_DOCUMENT_ID,
@@ -121,10 +147,17 @@ export {
   TRIFONE_REFUND_DOCUMENT_TITLE,
   CULTURE_EXCELLENCE_DOCUMENT_ID,
   CULTURE_EXCELLENCE_DOCUMENT_TITLE,
+  DM_CLASS1_DOCUMENT_ID,
+  DM_CLASS1_DOCUMENT_TITLE,
+  DM_CLASS1_SMEH_ASSIGNMENT_ID,
+  DM_CLASS1_SMEH_ASSIGNMENT_TITLE,
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
   ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
   ACCESSIBLE_SUMMER_SLIDES_ID,
   ACCESSIBLE_SUMMER_SLIDES_TITLE,
+  ASC_NAPPS_INVITATION_DOCUMENT_ID,
+  ASC_NAPPS_INVITATION_DOCUMENT_TITLE,
+  ASC_WINNER_SCHOOL_PROPOSAL_IDS,
   UNILORIN_JOTTER_DOCUMENT_ID,
   UNILORIN_JOTTER_DOCUMENT_TITLE,
   ADVANCE_FIELD_SALES_DOCUMENT_ID,
@@ -169,6 +202,10 @@ const SEED_CATALOG: Record<
     title: TUNDE_DOCUMENT_TITLE,
     getState: () => structuredClone(tundeProposal),
   },
+  [ADEKANMBI_DOCUMENT_ID]: {
+    title: ADEKANMBI_DOCUMENT_TITLE,
+    getState: () => structuredClone(adekanmbiProposal),
+  },
   [UNION_DOCUMENT_ID]: {
     title: UNION_DOCUMENT_TITLE,
     getState: () => structuredClone(unionProposal),
@@ -197,6 +234,14 @@ const SEED_CATALOG: Record<
     title: CULTURE_EXCELLENCE_DOCUMENT_TITLE,
     getState: () => structuredClone(cultureExcellenceDocument),
   },
+  [DM_CLASS1_DOCUMENT_ID]: {
+    title: DM_CLASS1_DOCUMENT_TITLE,
+    getState: () => structuredClone(dmClass1Document),
+  },
+  [DM_CLASS1_SMEH_ASSIGNMENT_ID]: {
+    title: DM_CLASS1_SMEH_ASSIGNMENT_TITLE,
+    getState: () => structuredClone(dmClass1SmehAssignment),
+  },
   [ACCESSIBLE_SUMMER_DOCUMENT_ID]: {
     title: ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
     getState: () => structuredClone(accessibleSummerDocument),
@@ -205,6 +250,11 @@ const SEED_CATALOG: Record<
     title: ACCESSIBLE_SUMMER_SLIDES_TITLE,
     getState: () => structuredClone(accessibleSummerSlides),
   },
+  [ASC_NAPPS_INVITATION_DOCUMENT_ID]: {
+    title: ASC_NAPPS_INVITATION_DOCUMENT_TITLE,
+    getState: () => structuredClone(ascNappsInvitationLetter),
+  },
+  ...ascWinnerSchoolSeedCatalog,
   [UNILORIN_JOTTER_DOCUMENT_ID]: {
     title: UNILORIN_JOTTER_DOCUMENT_TITLE,
     getState: () => structuredClone(unilorinJotterProposal),
@@ -325,6 +375,10 @@ function summaryFrom(
     updatedAt: extra?.updatedAt ?? nowIso(),
     source: extra?.source,
     kind: extra?.kind ?? state.meta.kind,
+    trackingStatus: extra?.trackingStatus,
+    submittedAt: extra?.submittedAt,
+    respondedAt: extra?.respondedAt,
+    responseNote: extra?.responseNote,
   }
 }
 
@@ -364,6 +418,8 @@ function seedLibrary(): DocumentEntry[] {
   writePresentation(CUPPY_DOCUMENT_ID, cuppy)
   const tunde = structuredClone(tundeProposal)
   writePresentation(TUNDE_DOCUMENT_ID, tunde)
+  const adekanmbi = structuredClone(adekanmbiProposal)
+  writePresentation(ADEKANMBI_DOCUMENT_ID, adekanmbi)
   const loyaltyFramework = structuredClone(loyaltyRewardFramework)
   writePresentation(LOYALTY_FRAMEWORK_DOCUMENT_ID, loyaltyFramework)
   const seplat = structuredClone(seplatProposal)
@@ -376,6 +432,9 @@ function seedLibrary(): DocumentEntry[] {
       source: 'seed',
     }),
     summaryFrom(TUNDE_DOCUMENT_ID, TUNDE_DOCUMENT_TITLE, tunde, {
+      source: 'seed',
+    }),
+    summaryFrom(ADEKANMBI_DOCUMENT_ID, ADEKANMBI_DOCUMENT_TITLE, adekanmbi, {
       source: 'seed',
     }),
     summaryFrom(CUPPY_DOCUMENT_ID, CUPPY_DOCUMENT_TITLE, cuppy, {
@@ -408,6 +467,13 @@ function seedLibrary(): DocumentEntry[] {
 function ensureCatalogDocuments(documents: DocumentEntry[]): DocumentEntry[] {
   let next = documents
   let changed = false
+  // Drop obsolete combined ASC letter pack (replaced by four SMEH proposals).
+  const obsoleteCombinedId = 'accessible-summer-winner-school-letters'
+  if (next.some((doc) => doc.id === obsoleteCombinedId)) {
+    localStorage.removeItem(docStorageKey(obsoleteCombinedId))
+    next = next.filter((doc) => doc.id !== obsoleteCombinedId)
+    changed = true
+  }
   for (const id of Object.keys(SEED_CATALOG)) {
     if (!next.some((doc) => doc.id === id)) {
       next = [catalogEntry(id), ...next]
@@ -520,6 +586,25 @@ export function useDocumentLibrary() {
     )
   }, [documents, persist])
 
+  const restoreAscWinnerSchoolProposals = useCallback(() => {
+    let next = documents
+    let added = 0
+    for (const id of ASC_WINNER_SCHOOL_PROPOSAL_IDS) {
+      if (next.some((doc) => doc.id === id)) continue
+      const presentation = getSeedState(id)
+      const catalog = SEED_CATALOG[id]
+      if (!presentation || !catalog) continue
+      writePresentation(id, presentation)
+      next = [
+        summaryFrom(id, catalog.title, presentation, { source: 'seed' }),
+        ...next,
+      ]
+      added += 1
+    }
+    if (added) persist(next)
+    return next.find((doc) => doc.id === ASC_WINNER_SCHOOL_PROPOSAL_IDS[0]) ?? next[0]
+  }, [documents, persist])
+
   const restoreDefenseDeck = useCallback(
     () => restoreSeedDocument(SEED_DOCUMENT_ID),
     [restoreSeedDocument],
@@ -548,6 +633,53 @@ export function useDocumentLibrary() {
     [documents, persist],
   )
 
+  const setDocumentTracking = useCallback(
+    (
+      id: string,
+      status: DocumentTrackingStatus,
+      options?: { responseNote?: string },
+    ) => {
+      const stamp = nowIso()
+      persist(
+        documents.map((doc) => {
+          if (doc.id !== id) return doc
+          if (status === 'draft') {
+            return {
+              ...doc,
+              trackingStatus: 'draft',
+              submittedAt: undefined,
+              respondedAt: undefined,
+              responseNote: undefined,
+              updatedAt: stamp,
+            }
+          }
+          if (status === 'submitted') {
+            return {
+              ...doc,
+              trackingStatus: 'submitted',
+              submittedAt: doc.submittedAt ?? stamp,
+              respondedAt: undefined,
+              responseNote: undefined,
+              updatedAt: stamp,
+            }
+          }
+          return {
+            ...doc,
+            trackingStatus: 'responded',
+            submittedAt: doc.submittedAt ?? stamp,
+            respondedAt: stamp,
+            responseNote:
+              options && 'responseNote' in options
+                ? options.responseNote?.trim() || undefined
+                : doc.responseNote,
+            updatedAt: stamp,
+          }
+        }),
+      )
+    },
+    [documents, persist],
+  )
+
   return {
     documents,
     refresh,
@@ -555,8 +687,10 @@ export function useDocumentLibrary() {
     restoreDefenseDeck,
     restoreSeedDocument,
     restoreEducationNgoCatalog,
+    restoreAscWinnerSchoolProposals,
     deleteDocument,
     renameDocument,
+    setDocumentTracking,
   }
 }
 

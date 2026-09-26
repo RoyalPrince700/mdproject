@@ -1,17 +1,20 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { PresentationEditor } from './components/editor/PresentationEditor'
 import { DocumentsHome } from './components/library/DocumentsHome'
+import { ResponsesPage } from './components/library/ResponsesPage'
+import { TrackingPage } from './components/library/TrackingPage'
 import { DocumentTabs } from './components/layout/DocumentTabs'
-import { documentHash } from './lib/docRoutes'
+import {
+  libraryRouteHash,
+  readLibraryRoute,
+  type LibraryRoute,
+} from './lib/docRoutes'
 import { DocumentTabsContext } from './store/documentTabs'
 import { useDocumentLibrary } from './store/libraryStore'
 
 const OPEN_TABS_KEY = 'md-open-tabs-v1'
 
-function readHashId() {
-  const match = window.location.hash.match(/^#\/doc\/([^/]+)$/)
-  return match ? decodeURIComponent(match[1]) : null
-}
+type LibraryView = Extract<LibraryRoute['kind'], 'home' | 'track' | 'responses'>
 
 function readStoredTabs(): string[] {
   try {
@@ -23,15 +26,26 @@ function readStoredTabs(): string[] {
   }
 }
 
+function initialRoute() {
+  return readLibraryRoute()
+}
+
 export default function App() {
   const library = useDocumentLibrary()
+  const initial = initialRoute()
   const [openIds, setOpenIds] = useState<string[]>(() => {
     const stored = readStoredTabs()
-    const hashId = readHashId()
-    if (hashId && !stored.includes(hashId)) return [...stored, hashId]
+    if (initial.kind === 'doc' && !stored.includes(initial.id)) {
+      return [...stored, initial.id]
+    }
     return stored
   })
-  const [activeId, setActiveId] = useState<string | null>(readHashId)
+  const [activeId, setActiveId] = useState<string | null>(() =>
+    initial.kind === 'doc' ? initial.id : null,
+  )
+  const [libraryView, setLibraryView] = useState<LibraryView>(() =>
+    initial.kind === 'doc' ? 'home' : initial.kind,
+  )
 
   useEffect(() => {
     localStorage.setItem(OPEN_TABS_KEY, JSON.stringify(openIds))
@@ -53,31 +67,41 @@ export default function App() {
 
   useEffect(() => {
     const onHashChange = () => {
-      const id = readHashId()
-      if (!id) {
-        setActiveId(null)
+      const route = readLibraryRoute()
+      if (route.kind === 'doc') {
+        setOpenIds((prev) =>
+          prev.includes(route.id) ? prev : [...prev, route.id],
+        )
+        setActiveId(route.id)
+        setLibraryView('home')
         return
       }
-      setOpenIds((prev) => (prev.includes(id) ? prev : [...prev, id]))
-      setActiveId(id)
+      setActiveId(null)
+      setLibraryView(route.kind)
     }
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
 
   useEffect(() => {
-    if (activeId) {
-      const hash = documentHash(activeId)
-      if (window.location.hash !== hash) window.location.hash = hash
-    } else if (window.location.hash) {
-      const { pathname, search } = window.location
-      window.history.pushState(null, '', `${pathname}${search}`)
+    const desired: LibraryRoute = activeId
+      ? { kind: 'doc', id: activeId }
+      : { kind: libraryView }
+    const hash = libraryRouteHash(desired)
+    if (window.location.hash !== hash) {
+      if (hash) {
+        window.location.hash = hash
+      } else {
+        const { pathname, search } = window.location
+        window.history.pushState(null, '', `${pathname}${search}`)
+      }
     }
-  }, [activeId])
+  }, [activeId, libraryView])
 
   const openDocument = useCallback((id: string) => {
     setOpenIds((prev) => (prev.includes(id) ? prev : [...prev, id]))
     setActiveId(id)
+    setLibraryView('home')
   }, [])
 
   const closeDocument = useCallback(
@@ -96,6 +120,13 @@ export default function App() {
   const goHome = useCallback(() => {
     library.refresh()
     setActiveId(null)
+    setLibraryView('home')
+  }, [library])
+
+  const goTrack = useCallback(() => {
+    library.refresh()
+    setActiveId(null)
+    setLibraryView('track')
   }, [library])
 
   const tabsApi = useMemo(
@@ -110,12 +141,23 @@ export default function App() {
     [library.documents],
   )
 
-  const home = <DocumentsHome library={library} onOpen={openDocument} />
+  const libraryPage =
+    libraryView === 'track' ? (
+      <TrackingPage library={library} onOpen={openDocument} onHome={goHome} />
+    ) : libraryView === 'responses' ? (
+      <ResponsesPage library={library} onOpen={openDocument} onHome={goHome} />
+    ) : (
+      <DocumentsHome
+        library={library}
+        onOpen={openDocument}
+        onTrack={goTrack}
+      />
+    )
 
   if (openIds.length === 0) {
     return (
       <DocumentTabsContext.Provider value={tabsApi}>
-        {home}
+        {libraryPage}
       </DocumentTabsContext.Provider>
     )
   }
@@ -126,13 +168,18 @@ export default function App() {
         <DocumentTabs
           tabs={openIds.map((id) => ({ id, title: titleFor(id) }))}
           activeId={activeId}
-          onSelect={setActiveId}
+          onSelect={(id) => {
+            setActiveId(id)
+            setLibraryView('home')
+          }}
           onClose={closeDocument}
           onHome={goHome}
         />
         <div className="tabbed-app__panels">
           {activeId === null ? (
-            <div className="doc-panel doc-panel--home is-active">{home}</div>
+            <div className="doc-panel doc-panel--home is-active">
+              {libraryPage}
+            </div>
           ) : null}
           {openIds.map((id) => (
             <div

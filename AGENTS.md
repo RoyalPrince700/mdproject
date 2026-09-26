@@ -1,5 +1,22 @@
 # Agent instructions — mdproject
 
+## About this platform
+
+General **document and presentation library** for Accessible Publishers Limited and related work — proposals, reports, letters, slide decks, DM assignments, and more.
+
+**Do not assume the Cursor user is Gbadega Adedapo.** That name appears only inside specific seed documents (DBA preliminary defense candidate; MD/CEO signatory on some proposals). New documents should use the author or signatory named in the user's brief.
+
+## Digital marketing course (DM)
+
+Also used for **digital marketing (DM) coursework** — assignments, reports, class activities, and campaign plans.
+
+- The user is training to become **Chief Digital Marketer** for Accessible Publishers Limited and subsidiaries (Oxygen FM Ibadan, Smipay, Best Technology, SmartEdu Hub).
+- **DM always means Digital Marketing** in this project.
+- **Class notes and tutor material:** `dm.md` (update when new classes are added).
+- **Persistent AI context:** `.cursor/rules/` (syncs via git to other machines).
+
+When the user asks for an assignment or report, default to a plain **`document`** (not SMEH proposal layout) unless they request otherwise.
+
 ## Creating new documents from pasted text
 
 **Default:** treat every new document as a **plain Word-style document**, not an SMEH proposal.
@@ -18,6 +35,19 @@ Use `meta.kind: 'proposal'` **only** when the user clearly requests:
 - A proposal to a bank, state government, or partner using the standard SmartEdu Hub template
 
 SMEH proposals include: SmartEdu Hub cover banner, “PROPOSAL FOR” label, recipient/submitted-by table, optional cover letter, and watermark on export.
+
+**Cover type sizes are locked** for every `meta.kind: 'proposal'` document. Do not create a per-file cover or override these sizes. They live in `SMEH_COVER_FONT` (`src/theme/documentTheme.ts`) and are applied by `DocumentCanvas` and `exportDocx`:
+
+| Cover line | Size |
+|---|---|
+| SMARTEDUHUB | 28pt |
+| SmartEduHub Accessible Digital Platform (SMEH) / website | 20pt |
+| PROPOSAL FOR | 11pt |
+| Proposal title | 18pt |
+| (Learning Management & School Management System) | 16pt |
+| SUBMITTED TO / SUBMITTED BY and party lines | 16pt |
+
+Submitted by defaults to **Accessible Publishers Limited** and `121/123, The Knowledge Hub, Obafemi Awolowo Way, Oke-Ado, Ibadan, Oyo State.`
 
 ## Document kinds
 

@@ -22,7 +22,11 @@ import {
   WidthType,
 } from 'docx'
 import { PPT_COLORS, PPT_FONTS } from '../theme/defenseTheme'
-import { resolveDocumentFont } from '../theme/documentTheme'
+import {
+  proposalSenderLines,
+  resolveDocumentFont,
+  SMEH_COVER_FONT,
+} from '../theme/documentTheme'
 import {
   hasSmehBranding,
   isSmehProposal,
@@ -33,6 +37,7 @@ import {
   skipProposalSlide,
   textOf,
 } from './documentSections'
+import { parseInlineFormatting } from './inlineText'
 import { loadAccessibleLogoAsset, loadWatermarkBytes } from './documentWatermark'
 import { resolveTwoColumnContent } from './slideLayout'
 import type { PresentationState, Slide } from '../types/slide'
@@ -127,6 +132,48 @@ function proposalSectionHeading(text: string): Paragraph {
   })
 }
 
+type TextRunOptions = {
+  italics?: boolean
+  bold?: boolean
+  size?: number
+  color?: string
+  font?: string
+}
+
+function inlineTextRuns(
+  text: string,
+  options: TextRunOptions = {},
+): TextRun[] {
+  const segments = parseInlineFormatting(text)
+  const hasMarkers = segments.some((segment) => segment.bold)
+  if (!hasMarkers) {
+    return [
+      new TextRun({
+        text,
+        italics: options.italics,
+        bold: options.bold,
+        size: options.size ?? 22,
+        color: options.color ?? NAVY,
+        font: options.font ?? DOC_BODY_FONT,
+      }),
+    ]
+  }
+
+  return segments
+    .filter((segment) => segment.text.length > 0)
+    .map(
+      (segment) =>
+        new TextRun({
+          text: segment.text,
+          bold: segment.bold ?? options.bold,
+          italics: options.italics,
+          size: options.size ?? 22,
+          color: options.color ?? NAVY,
+          font: options.font ?? DOC_BODY_FONT,
+        }),
+    )
+}
+
 function para(
   text: string,
   options: {
@@ -147,16 +194,7 @@ function para(
       before: options.before ?? 0,
       line: 276,
     },
-    children: [
-      new TextRun({
-        text,
-        italics: options.italics,
-        bold: options.bold,
-        size: options.size ?? 22,
-        color: options.color ?? NAVY,
-        font: options.font ?? DOC_BODY_FONT,
-      }),
-    ],
+    children: inlineTextRuns(text, options),
   })
 }
 
@@ -197,14 +235,7 @@ function bullet(text: string): Paragraph {
   return new Paragraph({
     bullet: { level: 0 },
     spacing: { after: 80, line: 276 },
-    children: [
-      new TextRun({
-        text,
-        size: 22,
-        color: NAVY,
-        font: DOC_BODY_FONT,
-      }),
-    ],
+    children: inlineTextRuns(text),
   })
 }
 
@@ -237,15 +268,12 @@ function tableCell(
     children: [
       new Paragraph({
         spacing: { after: 0, line: 260 },
-        children: [
-          new TextRun({
-            text,
-            bold: options.header || options.bold,
-            size: 20,
-            color: options.header ? WHITE : NAVY,
-            font: options.header ? DOC_HEADER_FONT : DOC_BODY_FONT,
-          }),
-        ],
+        children: inlineTextRuns(text, {
+          bold: options.header || options.bold,
+          size: 20,
+          color: options.header ? WHITE : NAVY,
+          font: options.header ? DOC_HEADER_FONT : DOC_BODY_FONT,
+        }),
       }),
     ],
   })
@@ -331,12 +359,7 @@ function slideBody(slide: Slide): Paragraph[] {
               color: NAVY,
               font: DOC_HEADER_FONT,
             }),
-            new TextRun({
-              text,
-              size: 22,
-              color: NAVY,
-              font: DOC_BODY_FONT,
-            }),
+            ...inlineTextRuns(text),
           ],
         }),
       )
@@ -516,6 +539,11 @@ function createWatermarkHeader(
   })
 }
 
+/** Word point size → docx half-points. */
+function coverPt(points: number) {
+  return points * 2
+}
+
 function coverPartiesTable(state: PresentationState): Table {
   const leftLines = [
     'SUBMITTED TO',
@@ -524,11 +552,7 @@ function coverPartiesTable(state: PresentationState): Table {
     state.meta.recipientAddress || '',
   ].filter(Boolean)
 
-  const rightLines = [
-    'SUBMITTED BY',
-    state.meta.brand,
-    `Date: ${state.meta.date}`,
-  ].filter(Boolean)
+  const rightLines = ['SUBMITTED BY', ...proposalSenderLines(state.meta)]
 
   const cell = (lines: string[], labelIndex: number) =>
     new TableCell({
@@ -542,7 +566,7 @@ function coverPartiesTable(state: PresentationState): Table {
             new TextRun({
               text: line,
               bold: index === labelIndex,
-              size: index === labelIndex ? 18 : 22,
+              size: coverPt(SMEH_COVER_FONT.party),
               color: index === labelIndex ? GOLD : NAVY,
               font: index === labelIndex ? DOC_HEADER_FONT : DOC_BODY_FONT,
             }),
@@ -569,21 +593,26 @@ function buildCoverPage(state: PresentationState): Array<Paragraph | Table> {
     'Proposal'
 
   return [
-    bannerLine('SMART EDU HUB', { bold: true, color: WHITE, size: 28, after: 40 }),
+    bannerLine('SMARTEDUHUB', {
+      bold: true,
+      color: WHITE,
+      size: coverPt(SMEH_COVER_FONT.brand),
+      after: 40,
+    }),
     bannerLine('SmartEduHub Accessible Digital Platform (SMEH)', {
       color: WHITE,
-      size: 20,
+      size: coverPt(SMEH_COVER_FONT.tagline),
       after: 40,
     }),
     bannerLine((state.meta.website || DEFAULT_WEBSITE).replace(/\./g, '.\u200B'), {
       color: WHITE,
-      size: 18,
+      size: coverPt(SMEH_COVER_FONT.website),
       after: 120,
     }),
     para('PROPOSAL FOR', {
       bold: true,
       color: PROPOSAL_BLUE,
-      size: 18,
+      size: coverPt(SMEH_COVER_FONT.proposalFor),
       align: AlignmentType.CENTER,
       before: 280,
       after: 60,
@@ -591,18 +620,18 @@ function buildCoverPage(state: PresentationState): Array<Paragraph | Table> {
     para(subject.toUpperCase(), {
       bold: true,
       font: DOC_HEADER_FONT,
-      size: 28,
+      size: coverPt(SMEH_COVER_FONT.title),
       align: AlignmentType.CENTER,
       after: 80,
     }),
     para('(Learning Management & School Management System)', {
       italics: true,
       color: MUTED,
-      size: 22,
+      size: coverPt(SMEH_COVER_FONT.subtitle),
       align: AlignmentType.CENTER,
       after: 200,
     }),
-    para('', { before: 2200, after: 0 }),
+    para('', { before: 1200, after: 0 }),
     coverPartiesTable(state),
     para('', { before: 240, after: 0 }),
     new Paragraph({
@@ -900,7 +929,7 @@ export async function exportDocx(
     options.title?.trim() ||
     state.meta.subject?.trim() ||
     titleSlide?.title.replace(/\n/g, ' ').trim() ||
-    (usesWordExport ? 'Document' : 'DBA Preliminary Defense — IT in B2B Marketing Strategies')
+    (usesWordExport ? 'Document' : 'Presentation')
 
   const children = smehProposal
     ? buildProposalChildren(state)
@@ -958,8 +987,6 @@ export async function exportDocx(
   })
 
   const blob = await Packer.toBlob(doc)
-  const fileName = usesWordExport
-    ? `${fileSlug(docTitle)}.docx`
-    : 'DBA-Preliminary-Defense-Adedapo.docx'
+  const fileName = `${fileSlug(docTitle)}.docx`
   downloadBlob(blob, fileName)
 }
