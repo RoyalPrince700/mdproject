@@ -131,6 +131,13 @@ export function usePresentationStore(documentId: string) {
 
   const applyRemoteState = useCallback(
     (next: PresentationState) => {
+      const seed = getSeedState(documentId)
+      if (
+        seed?.seedRevision != null &&
+        (next.seedRevision ?? 0) < seed.seedRevision
+      ) {
+        return
+      }
       fingerprintRef.current = contentFingerprint(next)
       setState(next)
       writePresentation(documentId, next)

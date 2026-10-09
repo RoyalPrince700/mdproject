@@ -3,7 +3,7 @@ import type { PresentationState, Slide } from '../types/slide'
 export const EKITI_DOCUMENT_ID = 'smeh-ekiti-proposal'
 export const EKITI_DOCUMENT_TITLE =
   'SmartEdu Hub Proposal to Ekiti State Ministry of Education'
-export const EKITI_SEED_REVISION = 3
+export const EKITI_SEED_REVISION = 10
 
 function sectionSlide(
   id: string,
@@ -41,11 +41,13 @@ export const EKITI_PROPOSAL_META: PresentationState['meta'] = {
   coverLetter: [
     'We respectfully write to introduce SmartEdu Hub, an indigenous AI-powered digital learning and school management platform powered by Accessible Publishers Limited, for the consideration and adoption of the Ministry of Education, Ekiti State Government, as a strategic solution for modernising basic education across the state’s 16 Local Government Areas.',
     'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning solutions, and the development of quality educational materials for schools and institutions across Nigeria. Since our establishment in 1996, we have remained committed to supporting educational advancement through curriculum-aligned content, digital innovation, and teacher development initiatives.',
-    'Recently, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year 2025. This recognition underscores our commitment to reinventing education delivery through publishing excellence, education innovation, and digital solutions.',
+    'Recently, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year 2025 by Customers’ Choice Quality Awards. This recognition underscores our commitment to reinventing education delivery through publishing excellence, education innovation, and digital solutions.',
+    'We are ISO 9001 certified, with a quality management system that governs editorial review, production, digital product assurance, and partner delivery so educational materials and SmartEdu Hub services meet consistent, documented standards.',
     'We recognise the Ministry’s commitment to improving learning outcomes, strengthening school administration, and building a technology-ready education system for Ekiti State. SmartEdu Hub is designed to support that vision by giving learners curriculum-aligned digital content, giving teachers practical classroom tools, and giving SUBEB officials and ministry leadership real-time visibility into school performance across all LGAs.',
     'This proposal presents SmartEdu Hub as the learning, assessment, school-management, and reporting layer that can help the Ministry convert education reform goals into measurable classroom use, teacher productivity, learner outcomes, and state-wide education data.',
     'A key strength of Accessible Publishers Limited is that our digital products are developed internally by our Technology and Digital team, working closely with our Editorial, Learning and Development, Media, Marketing, Distribution, and Administration teams. This gives us strong control over product development, localisation, implementation, support, and continuous improvement.',
     'We have also developed and implemented a related digital education solution for Abia State, and more than 30 schools have adopted SmartEdu Hub within three months of launch. This demonstrates practical experience in building and deploying education technology solutions at institutional and government scale.',
+    'We have already completed the Accessible Summer Competition on SmartEdu Hub, a free national contest for JSS 1–JSS 3 students held in celebration of Accessible Publishers @30. The body of this proposal sets out that exercise.',
     'We would be honoured to present SmartEdu Hub to Your Honour, SUBEB leadership, and designated technical stakeholders at your convenience.',
   ],
   signOff: [
@@ -78,7 +80,8 @@ export const ekitiProposalSlides: Slide[] = [
     bullets: [
       'We respectfully write to introduce SmartEdu Hub, an indigenous AI-powered digital learning and school management platform powered by Accessible Publishers Limited, for the consideration and adoption of the Ministry of Education, Ekiti State Government, as a strategic solution for modernising basic education across the state’s 16 Local Government Areas.',
       'Accessible Publishers Limited is an indigenous, award-winning Nigerian education company with core expertise in educational publishing, printing, technology-enabled learning, and curriculum-aligned materials. Established in 1996, we support schools through content, digital innovation, and teacher development.',
-      'Recently, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year 2025.',
+      'Recently, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year 2025 by Customers’ Choice Quality Awards.',
+      'We are ISO 9001 certified, with a quality management system that governs editorial review, production, digital product assurance, and partner delivery so educational materials and SmartEdu Hub services meet consistent, documented standards.',
       'We recognise the Ministry’s commitment to improving learning outcomes, strengthening school administration, and building a technology-ready education system for Ekiti State.',
     ],
     notes:
@@ -94,6 +97,7 @@ export const ekitiProposalSlides: Slide[] = [
       'SmartEdu Hub is designed to support that vision by giving learners curriculum-aligned digital content, giving teachers practical classroom tools, and giving SUBEB officials and state education leaders real-time visibility into school performance across all LGAs.',
       'Our digital products are developed internally by our Technology and Digital team, working with Editorial, Learning and Development, Media, Marketing, Distribution, and Administration. This gives us control over localisation, implementation, support, and improvement.',
       'We have developed a related digital education solution for Abia State, and more than 30 schools have adopted SmartEdu Hub within three months of launch.',
+      'We have already completed the Accessible Summer Competition on SmartEdu Hub, a free national contest for JSS 1–JSS 3 students held in celebration of Accessible Publishers @30. The body of this proposal sets out that exercise.',
       'We would be honoured to present SmartEdu Hub to Your Honour, SUBEB leadership, and designated technical stakeholders at your convenience.',
     ],
   },
@@ -121,7 +125,10 @@ export const ekitiProposalSlides: Slide[] = [
     bullets: [
       'SmartEdu Hub was founded with a singular mission: to simplify and strengthen the way schools operate and students learn. With years of experience in educational technology, Accessible Publishers Limited has designed the platform to address the unique challenges of Nigerian schools, including offline accessibility, multilingual content support, and ease of use for teachers with varying levels of digital literacy.',
       'Accessible Publishers Limited is an indigenous Nigerian education company headquartered in Ibadan and established in 1996. Over the years, the company has built a strong reputation across educational publishing, curriculum resources, school support materials, and technology-enabled learning solutions for schools, institutions, government programmes, and corporate partners.',
-      'In 2025, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year. With a national footprint, a staff strength of about 250 people, and deep understanding of the realities of Nigerian public schools, we are positioned to support Ekiti State with solutions that are both locally grounded and institutionally scalable.',
+      'In 2025, Accessible Publishers Limited was recognised as Nigeria’s Most Innovative Educational Publishing Company of the Year by Customers’ Choice Quality Awards. With a national footprint, a staff strength of about 250 people, and deep understanding of the realities of Nigerian public schools, we are positioned to support Ekiti State with solutions that are both locally grounded and institutionally scalable.',
+      'In celebration of Accessible Publishers @30, we completed the Accessible Summer Competition on SmartEdu Hub. It was open free of charge to JSS 1–JSS 3 students nationwide. More than 5,000 candidates registered. Registration, the practice season, and the Gold Stage final on 31 August 2026 all ran on the platform, and every sitting was proctored and evidence-reviewed.',
+      'That volume is a direct test of the software. SmartEdu Hub carried more than 5,000 registrations, the practice sittings, and the Gold Stage final. The same platform proposed here for school management, assessment, and learner records across the state has already handled national competition traffic at that scale.',
+      'The competition was also our way of giving back to the community. The prize fund was over ₦2.2 million: ₦1,000,000 for first place, ₦500,000 for second, ₦250,000 for third, and ₦10,000 each for 4th to 50th place. On 18th September 2026 we held the prize-giving ceremony at The Knowledge Hub, Ibadan, and flew our winners in from across Nigeria. First prize went to Happiness John of Joy Prime Model Secondary School, Akwa Ibom; second prize to Agaga-Oamen Dave-Wisdom of The Oasis Schools, Ekpoma, Edo State; and third place was tied between Daniel Barry Monsigia of Teko School, Rivers State, and Okunoye Mojolaoluwa Deborah of Oritamefa Baptist Model School, Ibadan, each receiving ₦250,000.',
     ],
   },
   {
@@ -140,6 +147,11 @@ export const ekitiProposalSlides: Slide[] = [
         label: 'Field-validated',
         text: 'SmartEdu Hub has been deployed and stress-tested in schools, including those with intermittent power and low-speed internet. We do not build for ideal conditions; we build for the real world.',
         icon: 'ShieldCheck',
+      },
+      {
+        label: 'Proven under national traffic',
+        text: 'The Accessible Summer Competition put more than 5,000 registrations through SmartEdu Hub, from entry and practice through to the Gold Stage final. The software carried that number. The same exercise gave back to the community: over ₦2.2 million in prizes, and a prize-giving on 18th September 2026 for winners flown in from across Nigeria.',
+        icon: 'Users',
       },
       {
         label: 'Curriculum-first',
@@ -502,7 +514,7 @@ export const ekitiProposalSlides: Slide[] = [
       'We respect the weight of the decision before the Ministry of Education and are committed to earning Your Honour’s confidence through transparency, demonstration, and measurable results. A state-wide adoption of SmartEdu Hub would give Ekiti a structured way to modernise basic education, strengthen teacher capacity, improve learner preparation, and build an evidence base for education policy across all 16 Local Government Areas.',
     ],
     footer:
-      'Respectfully submitted by:\nAccessible Publishers Limited\nThe Knowledge Hub, 121/123, Obafemi Awolowo Way,\nOke-Ado, Ibadan\nSmartEduHub Accessible Digital Platform Team (SMEH)\nwww.smarteduhub.ng\nwww.accessiblepublishers.com',
+      'Respectfully submitted by:\nAccessible Publishers Limited\nThe Knowledge Hub, 121/123, Obafemi Awolowo Way, Oke-Ado, Ibadan\nwww.smarteduhub.ng; www.accessiblepublishers.com\n\nFor Further Enquiries\nAkeredolu Tosin S.\nPrincipal Executive Assistant to the MD/CEO\nPhone: +234 803 057 7613\nEmail: officeofthemd@accessiblepublishers.com',
     notes:
       'Close with the conclusion and institutional submission block, not a personal signature line.',
   },

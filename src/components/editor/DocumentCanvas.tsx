@@ -106,6 +106,7 @@ function SectionBlock({
   showCornerLogos,
   editable,
   onSlideChange,
+  numbered = true,
 }: {
   slide: Slide
   slides: Slide[]
@@ -114,6 +115,7 @@ function SectionBlock({
   showCornerLogos?: boolean
   editable?: boolean
   onSlideChange?: (slideId: string, patch: Partial<Slide>) => void
+  numbered?: boolean
 }) {
   const sectionNumber = proposalSectionNumber(slides, slide.id)
   const tableRows = sectionTableRows(slide)
@@ -162,7 +164,7 @@ function SectionBlock({
     >
       {showCornerLogos ? <ProposalCornerLogos /> : null}
       <h2 className="doc-section__heading">
-        {sectionNumber}.{' '}
+        {numbered ? `${sectionNumber}. ` : null}
         {canEdit ? (
           <EditableText
             value={slide.title.replace(/\n/g, ' ')}
@@ -534,7 +536,13 @@ export function DocumentCanvas({
               {(meta.signOff ?? ['Yours faithfully,', meta.author]).map((line, index) => (
                 <EditableText
                   key={index}
-                  className={line.startsWith('Yours') ? 'doc-letter__signoff' : undefined}
+                  className={
+                    line.startsWith('Yours') ||
+                    line.startsWith('Respectfully') ||
+                    line.startsWith('For Further')
+                      ? 'doc-letter__signoff'
+                      : undefined
+                  }
                   value={line}
                   onChange={(text) => {
                     const next = [...(meta.signOff ?? ['Yours faithfully,', meta.author])]
@@ -563,7 +571,11 @@ export function DocumentCanvas({
                 <p
                   key={index}
                   className={
-                    line.startsWith('Yours') ? 'doc-letter__signoff' : undefined
+                    line.startsWith('Yours') ||
+                    line.startsWith('Respectfully') ||
+                    line.startsWith('For Further')
+                      ? 'doc-letter__signoff'
+                      : undefined
                   }
                 >
                   {line}
@@ -584,6 +596,7 @@ export function DocumentCanvas({
           showCornerLogos={smehBranding}
           editable={canEdit}
           onSlideChange={onSlideChange}
+          numbered={meta.numberedSections !== false}
         />
       ))}
     </article>

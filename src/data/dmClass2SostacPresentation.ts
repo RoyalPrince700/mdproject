@@ -4,7 +4,7 @@ export const DM_CLASS2_SOSTAC_PRESENTATION_ID =
   'dm-class2-smarteduhub-sostac-presentation'
 export const DM_CLASS2_SOSTAC_PRESENTATION_TITLE =
   'SmartEdu Hub Digital Marketing Plan — SOSTAC'
-export const DM_CLASS2_SOSTAC_PRESENTATION_REVISION = 2
+export const DM_CLASS2_SOSTAC_PRESENTATION_REVISION = 4
 
 const FOOTER = 'SmartEduHub'
 
@@ -26,7 +26,7 @@ export const dmClass2SostacPresentationSlides: Slide[] = [
     title: 'What is SmartEdu Hub?',
     icon: 'GraduationCap',
     bullets: [
-      '**SmartEdu Hub is an all-in-one education platform** developed by Accessible Publishers Limited.',
+      'SmartEdu Hub is an all-in-one education platform developed by Accessible Publishers Limited.',
       'It combines school management, teaching and learning, AI Books, exam preparation, competitions, parent communication, and finance tools.',
       'It serves school proprietors, administrators, teachers, students, and parents from one connected platform.',
       'Its key advantage is integration: competitors often provide either school administration or digital learning, while SmartEdu Hub brings both together.',
@@ -147,6 +147,30 @@ export const dmClass2SostacPresentationSlides: Slide[] = [
     footer: FOOTER,
   },
   {
+    id: 'sostac-strategy-channel-roles',
+    layout: 'twoColumn',
+    chapter: 'Strategy',
+    title: 'The role of each channel',
+    icon: 'Waypoints',
+    leftTitle: 'Create demand and credibility',
+    leftBullets: [
+      'Meta ads: create affordable, segmented awareness and generate leads among schools, teachers, parents, and students.',
+      'Influencer/UGC: use credible teachers, school leaders, parents, and education creators to demonstrate the platform and provide social proof.',
+      'Oxygen FM, events, and print: build local trust, reach school communities offline, and support NAPPS meetings and school activations.',
+      'Google Ads: run a small, controlled test only for high-intent searches where the approved budget can support the higher cost.',
+    ],
+    rightTitle: 'Capture, convert, and retain demand',
+    rightBullets: [
+      'Website and landing pages: explain the offer by audience and convert interest into enquiries, demos, and registrations.',
+      'SEO and content: build long-term visibility on Google and Bing and answer questions prospects ask before buying.',
+      'Email/CRM and WhatsApp: nurture leads, follow up demo prospects, onboard users, share updates, and reactivate inactive users.',
+      'Sales and school visits: qualify leads, deliver demonstrations, manage pilots, and convert institutional interest into subscriptions.',
+    ],
+    footer: FOOTER,
+    notes:
+      'This slide establishes the strategic reason for every channel that later receives budget. Google Ads is deliberately a limited high-intent test because it is more expensive than Meta.',
+  },
+  {
     id: 'sostac-tactics',
     layout: 'twoColumn',
     chapter: 'Tactics',
@@ -157,7 +181,8 @@ export const dmClass2SostacPresentationSlides: Slide[] = [
       'Rewrite the homepage to show school management, learning, AI Books, exam prep, finance, and competitions.',
       'Create separate landing pages and short demo videos for schools, teachers, parents, and students.',
       'Publish SEO articles, news updates, case studies, and competition stories.',
-      'Run audience-specific Meta campaigns and use Oxygen FM, NAPPS, WhatsApp, and school visits for local reach.',
+      'Run audience-specific Meta campaigns and a limited Google Search test for high-intent school-management and exam-preparation searches.',
+      'Commission teacher, parent, and education-creator UGC to demonstrate real use and strengthen campaign credibility.',
     ],
     rightTitle: 'Conversion and retention',
     rightBullets: [
@@ -165,23 +190,67 @@ export const dmClass2SostacPresentationSlides: Slide[] = [
       'Follow up every qualified school lead quickly and move interested schools into guided pilots.',
       'Retarget people who watched videos, visited key pages, opened forms, or registered without completing the next step.',
       'Provide onboarding, tutorials, reminders, support, newsletters, and progress reports to encourage regular use and renewal.',
+      'Use Oxygen FM, NAPPS events, school visits, flyers, email, and WhatsApp to reinforce campaigns and support sales follow-up.',
     ],
     footer: FOOTER,
   },
   {
-    id: 'sostac-action',
-    layout: 'bullets',
+    id: 'sostac-action-digital',
+    layout: 'framework',
     chapter: 'Action',
-    title: 'Actions we will take',
+    title: 'Action plan: digital workstreams',
     icon: 'ListChecks',
-    bullets: [
-      'Fix the website message, broken or generic social links, page speed, mobile experience, analytics, and conversion tracking.',
-      'Create audience landing pages, audience-specific demonstrations, testimonials, and clear calls to action.',
-      'Launch Meta awareness, lead-generation, conversion, and retargeting campaigns with separate creative for each priority audience.',
-      'Optimise priority pages and publish consistent SEO content to rank on Google and Bing.',
-      'Use WhatsApp, email, Oxygen FM, NAPPS meetings, and school visits to support lead nurturing and sales follow-up.',
-      'Train the sales and customer-success teams to deliver demonstrations, onboard pilots, support users, and record lead status.',
-      'Review campaign and platform data regularly, improve weak pages or adverts, and move budget to activities producing qualified conversions.',
+    frameworkBlocks: [
+      {
+        label: 'Website optimisation',
+        text: 'Web/Product: improve messaging, mobile speed, links, audience landing pages, forms, calls to action, analytics, and conversion tracking.',
+        icon: 'Monitor',
+      },
+      {
+        label: 'Content and SEO',
+        text: 'Marketing: publish optimised articles, case studies, competition stories, testimonials, and demo videos for Google and Bing visibility.',
+        icon: 'Search',
+      },
+      {
+        label: 'Paid media',
+        text: 'Marketing: launch segmented Meta campaigns; retarget engaged visitors; test Google Ads only on high-intent terms within an approved cost limit.',
+        icon: 'Megaphone',
+      },
+      {
+        label: 'Influencer and UGC',
+        text: 'Marketing: brief credible teachers, parents, school leaders, and education creators; approve demonstrations and track links or referral codes.',
+        icon: 'Users',
+      },
+    ],
+    footer: FOOTER,
+  },
+  {
+    id: 'sostac-action-nurture',
+    layout: 'framework',
+    chapter: 'Action',
+    title: 'Action plan: nurturing and activation',
+    icon: 'Workflow',
+    frameworkBlocks: [
+      {
+        label: 'Email marketing and CRM',
+        text: 'Marketing/Sales: segment school and learner leads; send welcome, demo follow-up, onboarding, newsletter, reactivation, and renewal emails.',
+        icon: 'Mail',
+      },
+      {
+        label: 'Radio, events, and print',
+        text: 'Marketing/Sales: coordinate Oxygen FM mentions, NAPPS events, school activations, and printed support materials around priority campaigns.',
+        icon: 'Radio',
+      },
+      {
+        label: 'Sales and onboarding',
+        text: 'Sales/Customer Success: respond to leads, conduct demos, manage pilots, train users, record lead status, and pursue subscriptions and renewals.',
+        icon: 'Handshake',
+      },
+      {
+        label: 'Review and optimisation',
+        text: 'Marketing/Management: review results regularly, fix weak pages or campaigns, and move budget toward channels producing qualified conversions.',
+        icon: 'BarChart3',
+      },
     ],
     footer: FOOTER,
   },
@@ -191,19 +260,21 @@ export const dmClass2SostacPresentationSlides: Slide[] = [
     chapter: 'Control',
     title: 'How performance and retention will be controlled',
     icon: 'BarChart3',
-    leftTitle: 'Performance measures',
+    leftTitle: 'Acquisition and conversion KPIs',
     leftBullets: [
       'Awareness: reach, impressions, video views, website visits, and search rankings.',
       'Interest: CTA clicks, WhatsApp enquiries, qualified leads, and demo bookings.',
       'Conversion: completed demonstrations, school pilots, paid school subscriptions, and paid learner registrations.',
       'Efficiency: cost per qualified lead, landing-page conversion rate, and return on advertising spend.',
     ],
-    rightTitle: 'Retention measures',
+    rightTitle: 'Retention and churn KPIs',
     rightBullets: [
-      'Track active schools, active teachers, completed learner sessions, and parent portal use.',
-      'Monitor pilot-to-paid conversion, renewal rate, support issues, and reasons for inactivity.',
-      'Use onboarding, reminders, training, customer support, newsletters, and retargeting to bring users back.',
-      'Collect testimonials and referrals from satisfied schools, teachers, parents, and students.',
+      'Returning-user rate: percentage of schools and learners who return within 7, 30, and 90 days.',
+      'Churn and inactivity rate: percentage of customers who stop using the platform or fail to renew.',
+      'Journey-abandonment rate: percentage who start a form, registration, demo, pilot, or payment but do not complete it.',
+      'Renewal and repeat-use rate: school subscription renewals, repeat learner purchases, and repeat competition registrations.',
+      'Usage depth: active schools and users, login frequency, completed learning or CBT sessions, and parent-portal activity.',
+      'Loyalty indicators: customer satisfaction, referral rate, testimonial rate, and reasons for cancellation or inactivity.',
     ],
     footer: FOOTER,
   },
@@ -225,7 +296,7 @@ export const dmClass2SostacPresentationSlides: Slide[] = [
       { name: 'Google Ads test — 3%', value: 3 },
     ],
     chartCaption:
-      'Allocate by percentage so the plan can scale to the approved budget. Meta leads paid media; SEO, content, and website improvements build lasting visibility and conversion.',
+      'Every allocation supports a strategy, tactic, and action workstream defined earlier. Meta is the affordable paid-media lead; Google Ads remains a small, controlled high-intent test.',
     footer: FOOTER,
   },
   {

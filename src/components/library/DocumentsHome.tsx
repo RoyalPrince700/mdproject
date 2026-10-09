@@ -35,8 +35,12 @@ import {
   DM_CLASS1_DOCUMENT_ID,
   DM_CLASS1_SMEH_ASSIGNMENT_ID,
   DM_CLASS2_SOSTAC_PRESENTATION_ID,
+  CUSTOMER_SERVICE_WEEK_SLIDES_ID,
+  DM_CONTENT_STRATEGY_ASSIGNMENT_ID,
+  SMEH_CONTENT_STRATEGY_ID,
   EDUCATION_NGO_CATALOG_IDS,
   EKITI_DOCUMENT_ID,
+  STATE_EDUCATION_PROPOSAL_IDS,
   LOYALTY_FRAMEWORK_DOCUMENT_ID,
   SCHOLARSHIP_CAFE_DOCUMENT_ID,
   SEED_DOCUMENT_ID,
@@ -44,6 +48,8 @@ import {
   TRIFONE_REFUND_DOCUMENT_ID,
   TUNDE_DOCUMENT_ID,
   UBEC_DOCUMENT_ID,
+  MAKINDE_DOCUMENT_ID,
+  OSUN_SSG_DOCUMENT_ID,
   UNILORIN_JOTTER_DOCUMENT_ID,
   UNION_DOCUMENT_ID,
   WEMA_DOCUMENT_ID,
@@ -112,6 +118,8 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
   const hasLoyaltyFramework = library.documents.some((doc) => doc.id === LOYALTY_FRAMEWORK_DOCUMENT_ID)
   const hasSeplat = library.documents.some((doc) => doc.id === SEPLAT_DOCUMENT_ID)
   const hasUbec = library.documents.some((doc) => doc.id === UBEC_DOCUMENT_ID)
+  const hasMakinde = library.documents.some((doc) => doc.id === MAKINDE_DOCUMENT_ID)
+  const hasOsunSsg = library.documents.some((doc) => doc.id === OSUN_SSG_DOCUMENT_ID)
   const hasDefenseQaDoc = library.documents.some((doc) => doc.id === DEFENSE_QA_DOCUMENT_ID)
   const hasDefenseQaSlides = library.documents.some((doc) => doc.id === DEFENSE_QA_SLIDES_ID)
   const hasTrifoneRefund = library.documents.some((doc) => doc.id === TRIFONE_REFUND_DOCUMENT_ID)
@@ -122,6 +130,15 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
   )
   const hasDmClass2Sostac = library.documents.some(
     (doc) => doc.id === DM_CLASS2_SOSTAC_PRESENTATION_ID,
+  )
+  const hasCustomerServiceWeek = library.documents.some(
+    (doc) => doc.id === CUSTOMER_SERVICE_WEEK_SLIDES_ID,
+  )
+  const hasContentStrategy = library.documents.some(
+    (doc) => doc.id === DM_CONTENT_STRATEGY_ASSIGNMENT_ID,
+  )
+  const hasSmehContentStrategy = library.documents.some(
+    (doc) => doc.id === SMEH_CONTENT_STRATEGY_ID,
   )
   const hasAccessibleSummerDoc = library.documents.some((doc) => doc.id === ACCESSIBLE_SUMMER_DOCUMENT_ID)
   const hasAccessibleSummerSlides = library.documents.some((doc) => doc.id === ACCESSIBLE_SUMMER_SLIDES_ID)
@@ -134,6 +151,9 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
   const hasUnilorinJotter = library.documents.some((doc) => doc.id === UNILORIN_JOTTER_DOCUMENT_ID)
   const hasAdvanceFieldSales = library.documents.some((doc) => doc.id === ADVANCE_FIELD_SALES_DOCUMENT_ID)
   const hasEducationNgoCatalog = EDUCATION_NGO_CATALOG_IDS.every((id) =>
+    library.documents.some((doc) => doc.id === id),
+  )
+  const hasStateEducationProposals = STATE_EDUCATION_PROPOSAL_IDS.every((id) =>
     library.documents.some((doc) => doc.id === id),
   )
 
@@ -329,12 +349,32 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 type="button"
                 className="btn btn--ghost-ink"
                 onClick={() =>
+                  onOpen(library.restoreSeedDocument(SMEH_CONTENT_STRATEGY_ID).id)
+                }
+              >
+                Restore Content strategy
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
                   onOpen(
                     library.restoreSeedDocument(DM_CLASS2_SOSTAC_PRESENTATION_ID).id,
                   )
                 }
               >
                 Restore SmartEdu Hub SOSTAC presentation
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(
+                    library.restoreSeedDocument(CUSTOMER_SERVICE_WEEK_SLIDES_ID).id,
+                  )
+                }
+              >
+                Restore Customer Service Week slides
               </button>
               <button
                 type="button"
@@ -398,6 +438,33 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 }
               >
                 Restore Ekiti Ministry of Education proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(MAKINDE_DOCUMENT_ID).id)
+                }
+              >
+                Restore Hon. Dr. Abiola Makinde proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(OSUN_SSG_DOCUMENT_ID).id)
+                }
+              >
+                Restore Osun SSG / Hon. Chief Teslim Igbalaye proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreStateEducationProposals().id)
+                }
+              >
+                Restore SmartEdu Hub proposals for the other 35 states
               </button>
               <button
                 type="button"
@@ -595,7 +662,7 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
           <p className="library__empty-filter">No documents match “{search.trim()}”.</p>
         ) : null}
 
-        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasDmClass2Sostac || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
+        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasStateEducationProposals || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasContentStrategy || !hasSmehContentStrategy || !hasDmClass2Sostac || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
           <p className="library__restore">
             {!hasEducationNgoCatalog ? (
               <button
@@ -709,6 +776,30 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 Add Digital Marketing Class 1 SmartEdu Hub assignment
               </button>
             ) : null}
+            {!hasContentStrategy ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(
+                    library.restoreSeedDocument(DM_CONTENT_STRATEGY_ASSIGNMENT_ID).id,
+                  )
+                }
+              >
+                Add content strategy assignment
+              </button>
+            ) : null}
+            {!hasSmehContentStrategy ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(SMEH_CONTENT_STRATEGY_ID).id)
+                }
+              >
+                Add Content strategy
+              </button>
+            ) : null}
             {!hasDmClass2Sostac ? (
               <button
                 type="button"
@@ -720,6 +811,19 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 }
               >
                 Add SmartEdu Hub SOSTAC presentation
+              </button>
+            ) : null}
+            {!hasCustomerServiceWeek ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(
+                    library.restoreSeedDocument(CUSTOMER_SERVICE_WEEK_SLIDES_ID).id,
+                  )
+                }
+              >
+                Add Customer Service Week slides
               </button>
             ) : null}
             {!hasTrifoneRefund ? (
@@ -797,6 +901,39 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 }
               >
                 Add SmartEdu Hub proposal to Ekiti Ministry of Education
+              </button>
+            ) : null}
+            {!hasMakinde ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(MAKINDE_DOCUMENT_ID).id)
+                }
+              >
+                Add SmartEdu Hub proposal to Hon. Dr. Abiola Makinde
+              </button>
+            ) : null}
+            {!hasOsunSsg ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(OSUN_SSG_DOCUMENT_ID).id)
+                }
+              >
+                Add SmartEdu Hub proposal to Hon. Chief Teslim Igbalaye (SSG, Osun)
+              </button>
+            ) : null}
+            {!hasStateEducationProposals ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreStateEducationProposals().id)
+                }
+              >
+                Add SmartEdu Hub proposals for the other 35 states
               </button>
             ) : null}
             {!hasUnion ? (

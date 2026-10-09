@@ -79,6 +79,21 @@ import {
   dmClass2SostacPresentation,
 } from '../data/dmClass2SostacPresentation'
 import {
+  CUSTOMER_SERVICE_WEEK_SLIDES_ID,
+  CUSTOMER_SERVICE_WEEK_SLIDES_TITLE,
+  customerServiceWeekPresentation,
+} from '../data/customerServiceWeekSlides'
+import {
+  DM_CONTENT_STRATEGY_ASSIGNMENT_ID,
+  DM_CONTENT_STRATEGY_ASSIGNMENT_TITLE,
+  dmContentStrategyAssignment,
+} from '../data/dmContentStrategyAssignment'
+import {
+  SMEH_CONTENT_STRATEGY_ID,
+  SMEH_CONTENT_STRATEGY_TITLE,
+  smehContentStrategy,
+} from '../data/smehContentStrategy'
+import {
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
   ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
   ACCESSIBLE_SUMMER_SLIDES_ID,
@@ -113,10 +128,24 @@ import {
   educationNgoSeedCatalog,
 } from '../data/educationNgoProposals'
 import {
+  STATE_EDUCATION_PROPOSAL_IDS,
+  stateEducationSeedCatalog,
+} from '../data/smehStateProposalFactory'
+import {
   UBEC_DOCUMENT_ID,
   UBEC_DOCUMENT_TITLE,
   ubecProposal,
 } from '../data/ubecProposal'
+import {
+  MAKINDE_DOCUMENT_ID,
+  MAKINDE_DOCUMENT_TITLE,
+  makindeProposal,
+} from '../data/abiolaMakindeProposal'
+import {
+  OSUN_SSG_DOCUMENT_ID,
+  OSUN_SSG_DOCUMENT_TITLE,
+  osunSsgProposal,
+} from '../data/osunSsgProposal'
 import type { DocumentEntry, DocumentTrackingStatus } from '../types/document'
 import {
   createBlankPresentation,
@@ -158,6 +187,12 @@ export {
   DM_CLASS1_SMEH_ASSIGNMENT_TITLE,
   DM_CLASS2_SOSTAC_PRESENTATION_ID,
   DM_CLASS2_SOSTAC_PRESENTATION_TITLE,
+  CUSTOMER_SERVICE_WEEK_SLIDES_ID,
+  CUSTOMER_SERVICE_WEEK_SLIDES_TITLE,
+  DM_CONTENT_STRATEGY_ASSIGNMENT_ID,
+  DM_CONTENT_STRATEGY_ASSIGNMENT_TITLE,
+  SMEH_CONTENT_STRATEGY_ID,
+  SMEH_CONTENT_STRATEGY_TITLE,
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
   ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
   ACCESSIBLE_SUMMER_SLIDES_ID,
@@ -173,8 +208,13 @@ export {
   EDUCATION_NGO_DIRECTORY_TITLE,
   EDUCATION_NGO_CATALOG_IDS,
   EDUCATION_NGO_PROPOSAL_IDS,
+  STATE_EDUCATION_PROPOSAL_IDS,
   UBEC_DOCUMENT_ID,
   UBEC_DOCUMENT_TITLE,
+  MAKINDE_DOCUMENT_ID,
+  MAKINDE_DOCUMENT_TITLE,
+  OSUN_SSG_DOCUMENT_ID,
+  OSUN_SSG_DOCUMENT_TITLE,
 }
 
 const SEED_CATALOG: Record<
@@ -225,6 +265,14 @@ const SEED_CATALOG: Record<
     title: UBEC_DOCUMENT_TITLE,
     getState: () => structuredClone(ubecProposal),
   },
+  [MAKINDE_DOCUMENT_ID]: {
+    title: MAKINDE_DOCUMENT_TITLE,
+    getState: () => structuredClone(makindeProposal),
+  },
+  [OSUN_SSG_DOCUMENT_ID]: {
+    title: OSUN_SSG_DOCUMENT_TITLE,
+    getState: () => structuredClone(osunSsgProposal),
+  },
   [DEFENSE_QA_DOCUMENT_ID]: {
     title: DEFENSE_QA_DOCUMENT_TITLE,
     getState: () => structuredClone(defenseQaDocument),
@@ -253,6 +301,18 @@ const SEED_CATALOG: Record<
     title: DM_CLASS2_SOSTAC_PRESENTATION_TITLE,
     getState: () => structuredClone(dmClass2SostacPresentation),
   },
+  [CUSTOMER_SERVICE_WEEK_SLIDES_ID]: {
+    title: CUSTOMER_SERVICE_WEEK_SLIDES_TITLE,
+    getState: () => structuredClone(customerServiceWeekPresentation),
+  },
+  [DM_CONTENT_STRATEGY_ASSIGNMENT_ID]: {
+    title: DM_CONTENT_STRATEGY_ASSIGNMENT_TITLE,
+    getState: () => structuredClone(dmContentStrategyAssignment),
+  },
+  [SMEH_CONTENT_STRATEGY_ID]: {
+    title: SMEH_CONTENT_STRATEGY_TITLE,
+    getState: () => structuredClone(smehContentStrategy),
+  },
   [ACCESSIBLE_SUMMER_DOCUMENT_ID]: {
     title: ACCESSIBLE_SUMMER_DOCUMENT_TITLE,
     getState: () => structuredClone(accessibleSummerDocument),
@@ -275,6 +335,7 @@ const SEED_CATALOG: Record<
     getState: () => structuredClone(advanceFieldSalesPartnership),
   },
   ...educationNgoSeedCatalog,
+  ...stateEducationSeedCatalog,
 }
 
 export function isSeedDocument(id: string) {
@@ -597,6 +658,27 @@ export function useDocumentLibrary() {
     )
   }, [documents, persist])
 
+  const restoreStateEducationProposals = useCallback(() => {
+    let next = documents
+    let added = 0
+    for (const id of STATE_EDUCATION_PROPOSAL_IDS) {
+      if (next.some((doc) => doc.id === id)) continue
+      const presentation = getSeedState(id)
+      const catalog = SEED_CATALOG[id]
+      if (!presentation || !catalog) continue
+      writePresentation(id, presentation)
+      next = [
+        summaryFrom(id, catalog.title, presentation, { source: 'seed' }),
+        ...next,
+      ]
+      added += 1
+    }
+    if (added) persist(next)
+    return (
+      next.find((doc) => doc.id === STATE_EDUCATION_PROPOSAL_IDS[0]) ?? next[0]
+    )
+  }, [documents, persist])
+
   const restoreAscWinnerSchoolProposals = useCallback(() => {
     let next = documents
     let added = 0
@@ -698,6 +780,7 @@ export function useDocumentLibrary() {
     restoreDefenseDeck,
     restoreSeedDocument,
     restoreEducationNgoCatalog,
+    restoreStateEducationProposals,
     restoreAscWinnerSchoolProposals,
     deleteDocument,
     renameDocument,

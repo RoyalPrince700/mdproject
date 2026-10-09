@@ -5,7 +5,7 @@ import { Server } from 'socket.io'
 
 const PORT = Number(process.env.PORT) || 3001
 const HOST = process.env.HOST || '0.0.0.0'
-const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173')
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5174')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean)

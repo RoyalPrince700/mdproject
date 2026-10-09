@@ -64,6 +64,8 @@ export interface PresentationMeta {
   letterDate?: string
   kind?: DocumentKind
   editorView?: EditorViewMode
+  /** When false, document headings stay as headlines without 1. 2. 3. prefixes. */
+  numberedSections?: boolean
   documentFont?: DocumentFont
   recipient?: string
   recipientOrg?: string

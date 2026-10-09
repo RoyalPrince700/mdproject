@@ -1,0 +1,102 @@
+Content SEO Strategy
+Adebayo Egbetade
+
+Content Marketing Fundamentals
+Content marketing is the process of creating and distributing valuable content to attract, engage, and convert a target audience.
+Common Formats: Blog posts • Videos • Social media • Guides & ebooks • Case studies • Infographics • Product/service pages
+
+Goal: Attract → Educate → Build Trust → Convert → Retain
+
+Search Intent & Content Types
+Search intent = what the user wants to accomplish when they search.
+• Informational - “How does SEO work?” → Guide / Blog
+• Commercial - “Best SEO tools” → Comparison / List
+• Transactional - “Buy books online” → Product / Service page
+• Navigational - “SmartHub Edu website” → Brand / Homepage
+Key principle: Create content that matches the user's intent.
+
+
+
+Content Strategy
+A content strategy defines what content to create, who it is for, and how it supports business goals.
+Key elements:
+• Target audience • Business goals • Topics • Content formats
+• Keywords & search intent • Distribution channels • Publishing schedule • Performance measurement
+
+Example: Goal → Generate SEO leads | Audience → Small business owners | Content → SEO guides, case studies, service pages
+
+Content Briefs
+A content brief gives a writer clear instructions before creating content.
+A good brief includes:
+• Primary keyword • Search intent • Target audience • Content angle
+• Recommended title • Headings/topics • Competitor references
+• Internal links • Call-to-action
+
+Purpose: Improve content quality, consistency, and SEO alignment.
+
+Topic Research
+Topic research is finding subjects that are relevant to your audience and business.
+Sources for topic ideas:
+• Keyword research tools • Google Search suggestions • People Also Ask
+• Competitor websites • Reddit/forums • Customer questions
+• Sales/support teams • Industry trends
+
+Good topics should be: Relevant + Useful + Searchable + Valuable to the business
+
+Content Clusters
+A content cluster is a group of related content pieces built around a central topic.
+Example: SEO
+Main topic: SEO
+↳ Keyword Research ↳ Technical SEO ↳ On-Page SEO ↳ Link Building ↳ Local SEO ↳ SEO Tools
+
+Benefit: Builds topical depth and creates opportunities for internal linking.
+
+Pillar Pages
+A pillar page is a comprehensive page covering a broad topic and linking to more detailed supporting content.
+Example:
+Pillar: Complete Guide to SEO
+↓
+Technical SEO • Keyword Research • On-Page SEO • Link Building • Local SEO
+Think of it as: Pillar page = Main topic | Cluster content = Supporting topics
+
+Competitor Content Analysis
+Competitor content analysis involves studying what competitors are publishing and how their content performs.
+What to look at
+• Topics they cover • Keywords they target • Content formats • Content depth
+• Search intent • Backlinks • Internal linking • Content gaps
+
+Goal: Find opportunities to create more useful, relevant, or comprehensive content.
+
+Internal Linking Strategy
+Internal links connect one page on your website to another page on the same website.
+Example: “How SEO Works” → “SEO Services” → “Technical SEO Guide”
+Best Practices:
+• Link relevant pages together
+• Use descriptive anchor text
+• Link important pages where relevant
+Help users and search engines discover related content
+
+
+Backlinks & Link Building
+A backlink is a link from another website to your website.
+Link building is the process of earning or acquiring relevant backlinks.
+Common Methods:
+• Link-worthy content • Digital PR • Guest contributions
+• Industry directories • Resource pages • Partnerships • Original research/data
+
+Key principle: Focus on relevant, trustworthy links—not simply the largest number of links.
+
+Local SEO Fundamentals
+Local SEO helps businesses become more visible when people search for products or services in a specific location.
+Important areas:
+• Google Business Profile • Consistent business information • Local keywords
+• Reviews • Local citations/directories • Location/service pages • Local backlinks
+
+Example: Instead of “book publishers”, you could target “book publishers in Nigeria”.
+
+Summary
+SEO Content Process:
+Research → Strategy → Topic Selection → Content Brief → Create Content → Internal Linking → Promotion/Link Building → Measure → Improve
+Key takeaway: The goal isn't simply to publish more content.
+
+Create the right content for the right audience, search intent, and business goal.

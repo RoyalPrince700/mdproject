@@ -1,6 +1,8 @@
 import { CULTURE_EXCELLENCE_DOCUMENT_ID } from '../data/cultureExcellence'
 import { DM_CLASS1_DOCUMENT_ID } from '../data/dmClass1Introduction'
 import { DM_CLASS1_SMEH_ASSIGNMENT_ID } from '../data/dmClass1SmehAssignment'
+import { DM_CONTENT_STRATEGY_ASSIGNMENT_ID } from '../data/dmContentStrategyAssignment'
+import { SMEH_CONTENT_STRATEGY_ID } from '../data/smehContentStrategy'
 import {
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
   ACCESSIBLE_SUMMER_SLIDES_ID,
@@ -15,6 +17,8 @@ import { UNION_DOCUMENT_ID } from '../data/unionProposal'
 import { WEMA_DOCUMENT_ID } from '../data/wemaProposal'
 import { SEPLAT_DOCUMENT_ID } from '../data/seplatProposal'
 import { UBEC_DOCUMENT_ID } from '../data/ubecProposal'
+import { MAKINDE_DOCUMENT_ID } from '../data/abiolaMakindeProposal'
+import { OSUN_SSG_DOCUMENT_ID } from '../data/osunSsgProposal'
 import { UNILORIN_JOTTER_DOCUMENT_ID } from '../data/unilorinConvocationJotterProposal'
 import type { DocumentKind, EditorViewMode, PresentationState, Slide } from '../types/slide'
 import { parseBulletItem } from './slideIcons'
@@ -29,6 +33,8 @@ export const SMEH_PROPOSAL_IDS = [
   UNION_DOCUMENT_ID,
   SEPLAT_DOCUMENT_ID,
   UBEC_DOCUMENT_ID,
+  MAKINDE_DOCUMENT_ID,
+  OSUN_SSG_DOCUMENT_ID,
 ] as const
 
 const NON_SMEH_BRANDED_IDS = new Set([
@@ -39,6 +45,8 @@ const NON_SMEH_BRANDED_IDS = new Set([
   CULTURE_EXCELLENCE_DOCUMENT_ID,
   DM_CLASS1_DOCUMENT_ID,
   DM_CLASS1_SMEH_ASSIGNMENT_ID,
+  DM_CONTENT_STRATEGY_ASSIGNMENT_ID,
+  SMEH_CONTENT_STRATEGY_ID,
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
   ACCESSIBLE_SUMMER_SLIDES_ID,
   UNILORIN_JOTTER_DOCUMENT_ID,
@@ -100,12 +108,13 @@ export function outlineEntries(state: PresentationState) {
     entries.push({ id: '__letter', label: 'Cover letter', kind: 'letter' })
   }
 
+  const numbered = state.meta.numberedSections !== false
   proposalBodySlides(state.slides).forEach((slide, index) => {
     entries.push({
       id: slide.id,
       label: slide.title.replace(/\n/g, ' ').trim() || `Section ${index + 1}`,
       kind: 'section',
-      sectionNumber: index + 1,
+      sectionNumber: numbered ? index + 1 : undefined,
     })
   })
 

@@ -676,7 +676,14 @@ function buildCoverLetter(state: PresentationState): Paragraph[] {
   }
 
   for (const line of state.meta.signOff ?? []) {
-    out.push(para(line, { after: line.startsWith('Yours') ? 200 : 40 }))
+    const lead =
+      line.startsWith('Respectfully') || line.startsWith('For Further')
+    out.push(
+      para(line, {
+        before: lead ? 200 : 0,
+        after: line.startsWith('Yours') ? 200 : 40,
+      }),
+    )
   }
 
   out.push(divider())
@@ -837,13 +844,15 @@ function buildPlainCoverPage(state: PresentationState): Array<Paragraph | Table>
 function buildWordBodyChildren(state: PresentationState): Array<Paragraph | Table> {
   const children: Array<Paragraph | Table> = []
   let sectionNumber = 0
+  const numbered = state.meta.numberedSections !== false
 
   for (const slide of state.slides) {
     if (skipProposalSlide(slide)) continue
     sectionNumber += 1
     const title = slide.title.trim() || `Section ${sectionNumber}`
+    const heading = title.replace(/\n/g, ' ')
     children.push(
-      proposalSectionHeading(`${sectionNumber}. ${title.replace(/\n/g, ' ')}`),
+      proposalSectionHeading(numbered ? `${sectionNumber}. ${heading}` : heading),
     )
     if (slide.subtitle?.trim() && slide.layout !== 'closing') {
       children.push(
