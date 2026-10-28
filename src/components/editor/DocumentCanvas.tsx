@@ -47,50 +47,53 @@ function DocTable({
   editable,
   onCellChange,
 }: {
-  headers: [string, string]
-  rows: Array<[string, string]>
+  headers: string[]
+  rows: string[][]
   variant?: 'blue' | 'orange'
   editable?: boolean
-  onCellChange?: (rowIndex: number, col: 0 | 1, value: string) => void
+  onCellChange?: (rowIndex: number, col: number, value: string) => void
 }) {
   if (!rows.length && !editable) return null
-  const displayRows = rows.length ? rows : editable ? [['', '']] : []
+  const columnCount = Math.max(headers.length, rows[0]?.length ?? 0, 2)
+  const displayRows = rows.length
+    ? rows
+    : editable
+      ? [Array.from({ length: columnCount }, () => '')]
+      : []
 
   return (
-    <table className={`doc-table doc-table--${variant}`}>
+    <table
+      className={`doc-table doc-table--${variant}${
+        columnCount === 3 ? ' doc-table--cols-3' : ''
+      }`}
+    >
       <thead>
         <tr>
-          <th>{headers[0]}</th>
-          <th>{headers[1]}</th>
+          {Array.from({ length: columnCount }, (_, index) => (
+            <th key={index}>{headers[index] ?? ''}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        {displayRows.map(([left, right], index) => (
+        {displayRows.map((row, index) => (
           <tr key={index}>
-            <td>
-              {editable && onCellChange ? (
-                <EditableText
-                  value={left}
-                  onChange={(value) => onCellChange(index, 0, value)}
-                  tag="span"
-                  placeholder="—"
-                />
-              ) : (
-                <InlineFormattedText text={left} />
-              )}
-            </td>
-            <td>
-              {editable && onCellChange ? (
-                <EditableText
-                  value={right}
-                  onChange={(value) => onCellChange(index, 1, value)}
-                  tag="span"
-                  placeholder="—"
-                />
-              ) : (
-                <InlineFormattedText text={right} />
-              )}
-            </td>
+            {Array.from({ length: columnCount }, (_, col) => {
+              const value = row[col] ?? ''
+              return (
+                <td key={col}>
+                  {editable && onCellChange ? (
+                    <EditableText
+                      value={value}
+                      onChange={(next) => onCellChange(index, col, next)}
+                      tag="span"
+                      placeholder="—"
+                    />
+                  ) : (
+                    <InlineFormattedText text={value} />
+                  )}
+                </td>
+              )
+            })}
           </tr>
         ))}
       </tbody>
@@ -121,22 +124,42 @@ function SectionBlock({
   const tableRows = sectionTableRows(slide)
   const bullets = sectionBullets(slide)
   const columns = slide.layout === 'twoColumn' ? resolveTwoColumnContent(slide) : null
-  const tableHeaders: [string, string] = columns
-    ? [columns.leftTitle || 'Item', columns.rightTitle || 'Detail']
+  const hasMiddle = Boolean(slide.middleTitle?.trim() || slide.middleBullets?.length)
+  const tableHeaders: string[] = columns
+    ? hasMiddle
+      ? [
+          columns.leftTitle || 'Page',
+          slide.middleTitle || 'Current title',
+          columns.rightTitle || 'Recommended title',
+        ]
+      : [columns.leftTitle || 'Item', columns.rightTitle || 'Detail']
     : slide.layout === 'framework' || (slide.frameworkBlocks?.length ?? 0) > 0
       ? ['Item', 'Detail']
       : ['Column 1', 'Column 2']
   const isActive = activeId === slide.id
   const canEdit = editable && !!onSlideChange
 
-  const handleTableCell = (rowIndex: number, col: 0 | 1, value: string) => {
+  const handleTableCell = (rowIndex: number, col: number, value: string) => {
     if (!onSlideChange) return
 
     if (slide.layout === 'twoColumn') {
       const left = columns?.leftBullets.map((b) => b.replace(/^\[[^\]]+\]\s*/, '')) ?? []
+      const middle = (slide.middleBullets ?? []).map((b) => b.replace(/^\[[^\]]+\]\s*/, ''))
       const right = columns?.rightBullets.map((b) => b.replace(/^\[[^\]]+\]\s*/, '')) ?? []
       while (left.length <= rowIndex) left.push('')
       while (right.length <= rowIndex) right.push('')
+      if (hasMiddle) {
+        while (middle.length <= rowIndex) middle.push('')
+        if (col === 0) left[rowIndex] = value
+        else if (col === 1) middle[rowIndex] = value
+        else right[rowIndex] = value
+        onSlideChange(slide.id, {
+          leftBullets: left,
+          middleBullets: middle,
+          rightBullets: right,
+        })
+        return
+      }
       if (col === 0) left[rowIndex] = value
       else right[rowIndex] = value
       onSlideChange(slide.id, { leftBullets: left, rightBullets: right })

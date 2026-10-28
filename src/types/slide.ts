@@ -27,6 +27,9 @@ export interface Slide {
   bullets?: string[]
   leftTitle?: string
   leftBullets?: string[]
+  /** Optional middle column when a two-column slide is shown as a 3-column table. */
+  middleTitle?: string
+  middleBullets?: string[]
   rightTitle?: string
   rightBullets?: string[]
   frameworkBlocks?: FrameworkBlock[]

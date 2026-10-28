@@ -5,10 +5,12 @@ import { useKeyboardNav } from '../../hooks/useKeyboardNav'
 import { defaultEditorView, isSmehProposal, isWordDocument } from '../../lib/documentSections'
 import { adaptSlideToLayout } from '../../lib/slideLayout'
 import { exportDocx } from '../../lib/exportDocx'
+import { exportOnPageSeoExcel } from '../../lib/exportOnPageSeoExcel'
 import { exportPptx } from '../../lib/exportPptx'
 import { resolveDocumentFont } from '../../theme/documentTheme'
 import { useDocumentTabs } from '../../store/documentTabs'
 import { SEED_DOCUMENT_ID, isSeedDocument } from '../../store/libraryStore'
+import { DM_ONPAGE_SEO_TITLES_ID } from '../../data/dmOnPageSeoTitles'
 import { usePresentationStore } from '../../store/presentationStore'
 import type { SlideLayout } from '../../types/slide'
 import { SlideFilmstrip } from '../filmstrip/SlideFilmstrip'
@@ -74,6 +76,18 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
       setExporting(null)
     }
   }, [documentTitle, store.state])
+
+  const handleDownloadExcel = useCallback(async () => {
+    setExporting('xlsx')
+    try {
+      await exportOnPageSeoExcel()
+    } catch (err) {
+      console.error(err)
+      window.alert('Could not export the Excel file. Please try again.')
+    } finally {
+      setExporting(null)
+    }
+  }, [])
 
   const handleReset = useCallback(() => {
     const ok = window.confirm(
@@ -194,6 +208,9 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
         onPresent={inDocument ? undefined : () => setPresenting(true)}
         onDownloadPptx={handleDownloadPptx}
         onDownloadDocx={handleDownloadDocx}
+        onDownloadExcel={
+          documentId === DM_ONPAGE_SEO_TITLES_ID ? handleDownloadExcel : undefined
+        }
         onAdd={() => store.addSlide(inDocument ? 'bullets' : 'bullets')}
         onReset={isSeed ? handleReset : undefined}
         onViewChange={store.setEditorView}

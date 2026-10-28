@@ -1,15 +1,30 @@
 /**
  * State-specific education context for the 35 proposals cloned from the Ekiti seed.
- * Ekiti keeps its own file. Facts used here were checked against public sources:
- * UNICEF education fact sheets (MICS) and the Nov 2024 BAY-states note;
- * official pages for EdoBEST 2.0, EKOEXCEL, KwaraLEARN, and BayelsaPRIME;
- * Enugu Smart Green Schools, Anambra Smart Learn, Abia free basic education,
- * Oyo BESDA AF-TESS, Nasarawa AGILE, and the Kogi SUBEB UBE guideline 2025–2030.
- * Osun: State Government releases on the Imole Teachers Corps (30 July 2025, 1,750),
- * the 2026 teachers’ recruitment (22 March 2026: 1,241 — 660 SUBEB, 526 TESCOM,
- * 55 education officers), and the 2026 NECO result (29 September 2026: 5th nationally,
- * 74.31 per cent). Osun copy does not cite Opon Imo or any earlier administration’s programme.
- * Programme names stay with the state that runs them.
+ * Ekiti keeps its own file.
+ *
+ * Copy recognises what the current administration is doing in 2025–2026.
+ * It does not cite a previous government's programme, and it does not
+ * describe a state by an out-of-school statistic. Programme names stay
+ * with the state that runs them.
+ *
+ * Checked against public reporting, including: Abia smart schools (July 2026);
+ * Adamawa teacher recruitment and model schools (January 2026); BayelsaPRIME
+ * (technical working committee, June 2026); Benue free basic education and
+ * BRACE-UP (February 2026); Cross River curriculum distribution (July 2026);
+ * Delta UBEC counterpart and classrooms (August 2026); Edo SHINE Agenda;
+ * Enugu Smart Green Schools; Gombe HOPE-EDU counterpart; JigawaUNITE and the
+ * 2026 manpower plan; Kaduna basic-education commissioning and the 2025/2026
+ * school census; Kano 2026 NECO and teacher recruitment; Katsina Building Your
+ * Future (May 2026); Kebbi school rebuilding (February 2026); Kogi UBE guideline
+ * 2025–2030; KwaraLEARN (still cited by the state in 2026); EKOEXCEL and the
+ * Eko Learners’ Support Programme; Nasarawa 2026 education budget and Lafia
+ * smart model schools; Niger classroom renewal (August 2026); Ondo federal
+ * recognition (October 2026); Osun teacher recruitment and the 2026 NECO result;
+ * Oyo teacher tablets (August 2025) and free education still in force; Plateau
+ * HOPE-EDU and classroom renovation; Sokoto free basic education and integrated
+ * Qur’anic models; Taraba free education and 2026 WAEC registration.
+ * Osun copy does not cite Opon Imo. Edo copy does not cite EdoBEST.
+ * Oyo copy does not cite BESDA.
  */
 
 export type StateEducationProfile = {
@@ -33,16 +48,16 @@ export type StateEducationProfile = {
 export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
   abia: {
     letterBullet:
-      'We recognise the Ministry’s work to make basic education free and compulsory from Primary 1 to JSS 3, to renovate public schools across all 17 Local Government Areas, and to prepare teachers for smart schools in Umuahia, Aba, and Ohafia.',
+      'We recognise Abia’s free and compulsory basic education from Primary 1 to JSS 3, the recruitment and retraining of teachers, and the smart-school rollout opened in July 2026 with Ogbo Central Smart School, Ubakala. The state has devoted about a fifth of its annual budget to education, and the smart schools are opening across the senatorial districts, with one digital campus planned for every Local Government Area. More than 30 schools in Abia have already adopted SmartEdu Hub.',
     coverParagraph:
-      'We recognise the Ministry’s work to make basic education free and compulsory from Primary 1 to JSS 3, to renovate public schools across all 17 Local Government Areas, and to prepare teachers for smart schools in Umuahia, Aba, and Ohafia. SmartEdu Hub gives that reform a daily system for enrolment, attendance, lessons, and SUBEB reporting, building on schools in Abia that have already adopted the platform.',
+      'We recognise Abia’s free and compulsory basic education from Primary 1 to JSS 3, the recruitment and retraining of teachers, and the smart-school rollout opened in July 2026 with Ogbo Central Smart School, Ubakala. The state has devoted about a fifth of its annual budget to education, and the smart schools are opening across the senatorial districts, with one digital campus planned for every Local Government Area. More than 30 schools in Abia have already adopted SmartEdu Hub. SmartEdu Hub gives that reform a daily system for enrolment, attendance, lessons, and SUBEB reporting.',
     summarySentence:
-      'For Abia State, SmartEdu Hub connects free compulsory basic education and the smart-school programme to enrolment, classroom tools, and a SUBEB view across all 17 LGAs, starting from schools in the state that already use the platform.',
+      'For Abia State, SmartEdu Hub connects free compulsory basic education and the 2026 smart-school rollout to enrolment, classroom tools, and a SUBEB view across all 17 LGAs, starting from schools in the state that already use the platform.',
     priorities: [
-      'See whether free, compulsory basic education from Primary 1 to JSS 3 is filling classrooms.',
-      'Support teachers moving into renovated and smart schools in Umuahia, Aba, Isiala Ngwa, and Ohafia.',
+      'Support free, compulsory basic education from Primary 1 to JSS 3 with daily enrolment and attendance.',
+      'Equip teachers in the new smart schools, beginning with Ubakala and the campuses opening across the senatorial districts.',
       'Hold one performance view across the Abia North, Central, and South senatorial districts.',
-      'Give supervisors lesson notes and assessment records when they visit new classrooms.',
+      'Give supervisors lesson notes and assessment records when they visit renovated classrooms.',
       'Use the schools already on SmartEdu Hub in Abia as the reference group for a wider rollout.',
     ],
     contributions: [
@@ -52,56 +67,56 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
       'Downloadable lesson notes and continuous-assessment records for ministry supervisors.',
       'A living pilot inside Abia, where more than 30 schools adopted SmartEdu Hub within three months of launch.',
     ],
-    pilotPlace: 'Umuahia, Aba, and Ohafia, including schools already on SmartEdu Hub',
+    pilotPlace: 'Umuahia, Aba, and Ubakala, including schools already on SmartEdu Hub',
     rolloutNote:
-      'The wider rollout has to serve both the Aba commercial corridor and the northern LGAs around Ohafia and Bende.',
+      'The wider rollout should follow the smart schools as they open, and still serve both the Aba corridor and the northern LGAs around Ohafia and Bende.',
     conclusionSentence:
-      'A state-wide adoption would give Abia one operating system for free compulsory education and the smart-school programme, across all 17 Local Government Areas, with classrooms in the state already able to show how the platform behaves.',
+      'A state-wide adoption would give Abia one operating system for free compulsory education and the smart-school rollout, across all 17 Local Government Areas, with classrooms in the state already able to show how the platform behaves.',
     languages: 'English and Igbo',
     sectionLine:
-      'Free compulsory basic education and smart schools across Abia’s 17 LGAs',
+      'Free compulsory basic education and the 2026 smart schools across Abia’s 17 LGAs',
   },
 
   adamawa: {
     letterBullet:
-      'We recognise the Ministry’s work in a state that shares the north-east learning crisis with Borno and Yobe. In November 2024 UNICEF reported about two million out-of-school children across the three states, with more than half of displaced children not in school. Adamawa’s own task is to keep Yola, Numan, and the southern LGAs learning while absorbing displaced learners, especially along the Mubi axis.',
+      'We recognise the Government of Adamawa State’s current investment in education: free basic and secondary education, public-examination support, 21 model basic schools prepared for use, the rehabilitation of 68 secondary schools, and a further 5,000 teachers whose recruitment process was concluded in 2026. Integrated Qur’anic centres are being linked to formal instruction in English and Mathematics. The Ministry supervises 21 Local Government Areas, from Yola and Numan to the Mubi axis.',
     coverParagraph:
-      'We recognise the Ministry’s work in a state that shares the north-east learning crisis with Borno and Yobe. In November 2024 UNICEF reported about two million out-of-school children across the three states, with more than half of displaced children not in school. Adamawa’s own task is to keep Yola, Numan, and the southern LGAs learning while absorbing displaced learners, especially along the Mubi axis. SmartEdu Hub offers offline catch-up content, learner records that survive a transfer, and a SUBEB view of which schools are actually being reached.',
+      'We recognise the Government of Adamawa State’s current investment in education: free basic and secondary education, public-examination support, 21 model basic schools prepared for use, the rehabilitation of 68 secondary schools, and a further 5,000 teachers whose recruitment process was concluded in 2026. Integrated Qur’anic centres are being linked to formal instruction in English and Mathematics. The Ministry supervises 21 Local Government Areas, from Yola and Numan to the Mubi axis. SmartEdu Hub gives those new schools and that expanded teaching force a shared system for lessons, attendance, and SUBEB reporting.',
     summarySentence:
-      'For Adamawa State, SmartEdu Hub is a catch-up and records system for schools in Yola and Numan and for displaced learners arriving from harder-hit LGAs, with offline content and attendance the Ministry can see across all 21 LGAs.',
+      'For Adamawa State, SmartEdu Hub supports the model schools, the rehabilitated secondary schools, and the teachers recruited in 2026, with one SUBEB record across all 21 LGAs.',
     priorities: [
-      'Enrol and keep displaced children who have settled in Yola, Mubi, and host communities.',
-      'Protect learning time in functioning schools across the southern LGAs around Numan and Demsa.',
-      'Support teachers where qualified staff are scarce, a problem UNICEF has flagged across the north-east.',
-      'Carry learner records when a child moves between an IDP setting and a formal school.',
-      'Give SUBEB a true picture of the 21 LGAs, including those officers cannot visit every week.',
+      'Put lesson notes and continuous assessment in the hands of the teachers recruited in 2026.',
+      'Give the 21 model basic schools and the rehabilitated secondary schools the same NERDC content.',
+      'Keep Yola, Numan, and the Mubi axis equally visible to SUBEB.',
+      'Carry learner records between integrated Qur’anic centres and formal schools.',
+      'Prepare public-school candidates for the examinations the state already supports.',
     ],
     contributions: [
-      'Simple digital enrolment and attendance that host schools can open for newly arrived learners.',
-      'Offline NERDC iBooks and lesson notes so southern and central schools keep teaching through power cuts.',
-      'Teacher guides, worked examples, and refresher training that help a thin teaching force cover the syllabus.',
-      'Transferable learner records, so a child is not re-registered as a stranger in the next school.',
-      'An LGA dashboard for Yola North, Yola South, Mubi, and the rest of the state.',
+      'Digital enrolment, attendance, and parent alerts for free basic and secondary education.',
+      'Offline NERDC iBooks and lesson notes for schools across the 21 LGAs.',
+      'Teacher guides and refresher training for newly recruited staff.',
+      'Transferable learner records between integrated centres and formal schools.',
+      'An LGA dashboard for Yola North, Yola South, Numan, Mubi, and the rest of the state.',
     ],
-    pilotPlace: 'Yola North, Yola South, and one LGA on the Mubi axis hosting displaced learners',
+    pilotPlace: 'Yola North, Yola South, and one LGA on the Mubi axis',
     rolloutNote:
-      'Later phases need a different plan for the Mubi corridor than for Numan, Guyuk, and the southern LGAs.',
+      'Later phases should keep the southern LGAs around Numan and Guyuk on the same timetable as the Mubi axis.',
     conclusionSentence:
-      'A state-wide adoption would give Adamawa a way to hold displaced and host-community learners in one record, and to keep ordinary schools in Yola and the south teaching with materials that work offline, across all 21 Local Government Areas.',
+      'A state-wide adoption would give Adamawa a classroom and records system for the model schools, the rehabilitated secondary schools, and the teachers now being engaged, across all 21 Local Government Areas.',
     languages: 'English, Hausa, and Fulfulde',
     sectionLine:
-      'Learning continuity for host schools and displaced learners across Adamawa’s 21 LGAs',
+      'Model schools, new teachers, and one SUBEB record across Adamawa’s 21 LGAs',
   },
 
   'akwa-ibom': {
     letterBullet:
       'We recognise Akwa Ibom’s long commitment to free and compulsory education from primary through secondary, including learning materials and public-examination support, across 31 Local Government Areas that run from Uyo to coastal communities such as Mbo, Eastern Obolo, and Ibeno. We were also glad that Happiness John of Joy Prime Model Secondary School in this state won the national first prize of the Accessible Summer Competition on SmartEdu Hub.',
     coverParagraph:
-      'We recognise Akwa Ibom’s long commitment to free and compulsory education from primary through secondary, including learning materials and public-examination support, across 31 Local Government Areas that run from Uyo to coastal communities such as Mbo, Eastern Obolo, and Ibeno. We were also glad that Happiness John of Joy Prime Model Secondary School in this state won the national first prize of the Accessible Summer Competition on SmartEdu Hub. The same platform can help the Ministry see whether free education is producing attendance, completed syllabuses, and examination readiness in both upland and riverine schools.',
+      'We recognise Akwa Ibom’s long commitment to free and compulsory education from primary through secondary, including learning materials and public-examination support, across 31 Local Government Areas that run from Uyo to coastal communities such as Mbo, Eastern Obolo, and Ibeno. We were also glad that Happiness John of Joy Prime Model Secondary School in this state won the national first prize of the Accessible Summer Competition on SmartEdu Hub. The same platform can help the Ministry see attendance, completed syllabuses, and examination readiness in both upland and riverine schools, and extend a standard the state is already proud of.',
     summarySentence:
       'For Akwa Ibom State, SmartEdu Hub turns a long-running free-education policy into attendance, lesson, and examination data across 31 LGAs, from Uyo to the coastal schools that supervisors reach with more difficulty.',
     priorities: [
-      'Show that free primary and secondary education is producing attendance, not only enrolment.',
+      'Keep free primary and secondary education visible in daily attendance, lessons, and results.',
       'Reach coastal and riverine LGAs such as Mbo, Eastern Obolo, Ibeno, and Oron with the same learning materials as Uyo.',
       'Prepare candidates for WAEC, NECO, and JAMB in a state that already pays public examination support.',
       'Give SUBEB one view of 31 LGAs, one of the largest LGA maps in the federation.',
@@ -126,16 +141,16 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   anambra: {
     letterBullet:
-      'We recognise Anambra’s Smart Learn programme, already piloted in 22 public schools across the 21 Local Government Areas, and the state’s decision to make public education free from nursery through SS3. Anambra also has a long reputation for strong examination performance, which raises the standard any digital system must meet.',
+      'We recognise Anambra’s Smart Learn programme, the state’s own digital public-school investment across the 21 Local Government Areas, and the decision to make public education free from nursery through SS3. Anambra’s long reputation for strong examination performance is a strength any digital system should be ready to match.',
     coverParagraph:
-      'We recognise Anambra’s Smart Learn programme, already piloted in 22 public schools across the 21 Local Government Areas, and the state’s decision to make public education free from nursery through SS3. Anambra also has a long reputation for strong examination performance, which raises the standard any digital system must meet. SmartEdu Hub can sit with that investment as the learner content, continuous assessment, CBT practice, and SUBEB reporting layer for smart-school classrooms from Awka and Onitsha to the smaller towns.',
+      'We recognise Anambra’s Smart Learn programme, the state’s own digital public-school investment across the 21 Local Government Areas, and the decision to make public education free from nursery through SS3. Anambra’s long reputation for strong examination performance is a strength any digital system should be ready to match. SmartEdu Hub can sit with that investment as the learner content, continuous assessment, CBT practice, and SUBEB reporting layer for smart-school classrooms from Awka and Onitsha to the smaller towns.',
     summarySentence:
       'For Anambra State, SmartEdu Hub supplies NERDC content, examination practice, and school records for the Smart Learn schools and for the wider free-education system across all 21 LGAs.',
     priorities: [
-      'Fill Smart Learn classrooms with syllabus-aligned content, not only devices and connectivity.',
+      'Place syllabus-aligned content beside Smart Learn’s classrooms and devices.',
       'Keep free education from nursery to SS3 visible as attendance, results, and teacher activity.',
       'Match the examination standard families in Awka, Onitsha, and Nnewi already expect.',
-      'Extend the same digital learning to LGAs outside the first 22 smart-school sites.',
+      'Extend the same digital learning to every LGA, so the standard grows with Smart Learn.',
       'Give the Ministry one academic record across all 21 LGAs.',
     ],
     contributions: [
@@ -145,9 +160,9 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
       'The same content library for schools still waiting for the next smart-school batch.',
       'A SUBEB and ministry dashboard by school and LGA, from Onitsha North to Ihiala and Aguata.',
     ],
-    pilotPlace: 'the 22 Smart Learn schools, with at least one school in each senatorial district',
+    pilotPlace: 'Smart Learn schools in Awka, Onitsha, and Nnewi, with at least one school in each senatorial district',
     rolloutNote:
-      'The second wave should cover LGAs that were not in the first smart-school batch, so the digital standard does not stop at 22 campuses.',
+      'The second wave should move with the smart schools as they open, so every senatorial district is on the same timetable.',
     conclusionSentence:
       'A state-wide adoption would give Anambra a learning and records system worthy of Smart Learn and of the free nursery-to-SS3 policy, across all 21 Local Government Areas.',
     languages: 'English and Igbo',
@@ -157,40 +172,40 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   bauchi: {
     letterBullet:
-      'We recognise the scale of the task before the Ministry. UNICEF education fact sheets place Bauchi among the states where more than half of primary-school-age children are out of school. The work in front of SUBEB is to bring those children in, to link formal schools with integrated Qur’anic and tsangaya centres, and to supervise widely scattered rural communities across 20 Local Government Areas.',
+      'We recognise the Government of Bauchi State’s investment in free, quality basic education: the rehabilitation and construction of schools, the recruitment of teachers into basic and senior secondary classrooms, and a clear place for integrated Qur’anic education beside the formal school. The Ministry supervises 20 Local Government Areas, from Bauchi metropolis and Azare to widely spread rural communities such as Alkaleri, Toro, and Darazo.',
     coverParagraph:
-      'We recognise the scale of the task before the Ministry. UNICEF education fact sheets place Bauchi among the states where more than half of primary-school-age children are out of school. The work in front of SUBEB is to bring those children in, to link formal schools with integrated Qur’anic and tsangaya centres, and to supervise widely scattered rural communities across 20 Local Government Areas. SmartEdu Hub helps the Ministry see who is enrolled, who is attending, and who is learning, including children moving between tsangaya centres and formal classrooms.',
+      'We recognise the Government of Bauchi State’s investment in free, quality basic education: the rehabilitation and construction of schools, the recruitment of teachers into basic and senior secondary classrooms, and a clear place for integrated Qur’anic education beside the formal school. The Ministry supervises 20 Local Government Areas, from Bauchi metropolis and Azare to widely spread rural communities such as Alkaleri, Toro, and Darazo. SmartEdu Hub helps the Ministry see enrolment, attendance, and learning across both formal schools and integrated Qur’anic centres.',
     summarySentence:
-      'For Bauchi State, SmartEdu Hub is a practical system for finding out-of-school children, supporting girls into junior secondary school, and giving SUBEB a view of formal schools and integrated Qur’anic centres across all 20 LGAs.',
+      'For Bauchi State, SmartEdu Hub gives SUBEB one view of formal schools and integrated Qur’anic centres, and gives teachers lesson tools across all 20 LGAs.',
     priorities: [
-      'Reduce the out-of-school population, which UNICEF places above half of primary-age children.',
-      'Support girls to enter and stay through junior secondary school.',
-      'Keep a record of learners in integrated Qur’anic and tsangaya centres as well as formal schools.',
-      'Reach rural LGAs such as Alkaleri, Toro, and Darazo with offline materials.',
+      'Support free, quality basic education with enrolment and daily attendance the Ministry can see.',
+      'Keep girls’ participation and the move into junior secondary school visible and encouraged.',
+      'Keep a shared record for learners in integrated Qur’anic and tsangaya centres and in formal schools.',
+      'Reach rural LGAs such as Alkaleri, Toro, and Darazo with offline materials of the same standard as the capital.',
       'Give Bauchi SUBEB comparable data for Bauchi metropolis, Azare, and the rural LGAs.',
     ],
     contributions: [
-      'Community and school enrolment tools that make an out-of-school child visible to the LGEA.',
-      'Attendance tracking and parent communication aimed at girls’ retention into JSS.',
+      'Enrolment and attendance tools an LGEA can use during community enrolment.',
+      'Parent communication that supports girls’ continuity into JSS.',
       'Learner records that a tsangaya centre and a formal school can both update.',
       'Offline iBooks, lesson notes, and quizzes for schools with weak power and connectivity.',
-      'A dashboard split by LGA, so Azare, Misau, and Alkaleri are not hidden behind the capital.',
+      'A dashboard split by LGA, so Azare, Misau, and Alkaleri stand beside the capital.',
     ],
     pilotPlace: 'Bauchi metropolis, Katagum (Azare), and one large rural LGA such as Alkaleri',
     rolloutNote:
       'Alkaleri and the other large rural LGAs need an offline-first deployment, with a different school density from Bauchi metropolis.',
     conclusionSentence:
-      'A state-wide adoption would give Bauchi a way to count, teach, and follow learners in formal schools and integrated Qur’anic centres across all 20 Local Government Areas.',
+      'A state-wide adoption would give Bauchi a way to teach and follow learners in formal schools and integrated Qur’anic centres across all 20 Local Government Areas.',
     languages: 'English and Hausa',
     sectionLine:
-      'Out-of-school children, girls’ transition, and tsangaya integration across Bauchi’s 20 LGAs',
+      'Formal schools and integrated Qur’anic education across Bauchi’s 20 LGAs',
   },
 
   bayelsa: {
     letterBullet:
-      'We recognise BayelsaPRIME as the state’s primary-school reform, built for all public primary schools across the eight Local Government Areas, in a state where many communities are reached by water. This proposal sits beside that programme. It adds junior secondary records, learner content, examination practice, and parent communication, especially for creek communities where an officer cannot pass every week.',
+      'We recognise BayelsaPRIME, still the state’s primary-school reform in 2026, guiding public primary schools across the eight Local Government Areas, including communities reached by water. This proposal sits beside that programme. It adds junior secondary records, learner content, examination practice, and parent communication, so creek communities share the same learning standard as Yenagoa.',
     coverParagraph:
-      'We recognise BayelsaPRIME as the state’s primary-school reform, built for all public primary schools across the eight Local Government Areas, in a state where many communities are reached by water. This proposal sits beside that programme. It adds junior secondary records, learner content, examination practice, and parent communication, especially for creek communities where an officer cannot pass every week. SmartEdu Hub is the learning and school-management layer for the years and the functions around BayelsaPRIME.',
+      'We recognise BayelsaPRIME, still the state’s primary-school reform in 2026, guiding public primary schools across the eight Local Government Areas, including communities reached by water. This proposal sits beside that programme. It adds junior secondary records, learner content, examination practice, and parent communication, so creek communities share the same learning standard as Yenagoa. SmartEdu Hub is the learning and school-management layer for the years and the functions around BayelsaPRIME.',
     summarySentence:
       'For Bayelsa State, SmartEdu Hub sits beside BayelsaPRIME and extends digital learning, examination practice, and school records into junior secondary and into riverine LGAs across all eight local governments.',
     priorities: [
@@ -203,7 +218,7 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
     contributions: [
       'Junior-secondary iBooks, assessment, and records that complement BayelsaPRIME in primary schools.',
       'Offline content packs for creek and riverine schools.',
-      'A live dashboard so a closed school in a riverine LGA is visible without a physical visit.',
+      'A live dashboard so a riverine school is visible to SUBEB without waiting for the next boat.',
       'BECE and basic-education CBT practice assigned by the class teacher.',
       'A learner record that follows the child from primary into JSS inside the same state system.',
     ],
@@ -220,77 +235,77 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   benue: {
     letterBullet:
-      'We recognise the Ministry’s effort to keep schools open in Makurdi, Gboko, and Otukpo while restoring learning in LGAs where conflict has closed classrooms or turned them into shelters for displaced families, including communities in Guma, Logo, Agatu, Kwande, and Gwer West. Children in Benue need a record that survives that movement, and teachers need materials they can use when a term is interrupted.',
+      'We recognise the Government of Benue State’s decision, set out at the Basic Education Summit in February 2026, to make Basic 1 to Basic 9 free and compulsory, the recruitment of more than 9,700 teachers, and the BRACE-UP strategy to enrol, retain, and follow every child through basic education. The Ministry supervises 23 Local Government Areas across Makurdi, Gboko, Otukpo, and the Tiv, Idoma, and Igede communities.',
     coverParagraph:
-      'We recognise the Ministry’s effort to keep schools open in Makurdi, Gboko, and Otukpo while restoring learning in LGAs where conflict has closed classrooms or turned them into shelters for displaced families, including communities in Guma, Logo, Agatu, Kwande, and Gwer West. Children in Benue need a record that survives that movement, and teachers need materials they can use when a term is interrupted. SmartEdu Hub is offered as that continuity layer for all 23 Local Government Areas.',
+      'We recognise the Government of Benue State’s decision, set out at the Basic Education Summit in February 2026, to make Basic 1 to Basic 9 free and compulsory, the recruitment of more than 9,700 teachers, and the BRACE-UP strategy to enrol, retain, and follow every child through basic education. The Ministry supervises 23 Local Government Areas across Makurdi, Gboko, Otukpo, and the Tiv, Idoma, and Igede communities. SmartEdu Hub is the daily enrolment, lesson, and SUBEB layer for that policy.',
     summarySentence:
-      'For Benue State, SmartEdu Hub keeps learner records and catch-up lessons available for children moving between displaced communities and open schools in Makurdi, Gboko, and Otukpo, across all 23 LGAs.',
+      'For Benue State, SmartEdu Hub supports free and compulsory basic education, the teachers recruited by the current administration, and the BRACE-UP learner record across all 23 LGAs.',
     priorities: [
-      'Restore learning in LGAs where schools have been closed or used as shelters.',
-      'Keep a continuous record for children moving between camps, host communities, and town schools.',
-      'Support teachers in Makurdi, Gboko, and Otukpo who have absorbed extra learners.',
+      'Support free and compulsory basic education with daily enrolment and attendance.',
+      'Give the newly recruited teachers shared lesson notes and continuous assessment.',
+      'Help BRACE-UP follow each learner from enrolment through completion.',
       'Cover Tiv, Idoma, and Igede communities with the same SUBEB standard.',
-      'See all 23 LGAs, including those officers cannot safely visit on a fixed round.',
+      'See all 23 LGAs clearly from Makurdi, Gboko, and Otukpo outward.',
     ],
     contributions: [
-      'Catch-up iBooks and short assessments for learners who have missed terms.',
-      'Transferable enrolment and attendance records between host schools and home LGAs.',
-      'Lesson notes and class tools for teachers handling overcrowded town schools.',
+      'Digital enrolment, attendance, and parent alerts for the free basic-education cohort.',
+      'Lesson notes, quizzes, and refresher training for the expanded teaching force.',
+      'A learner record BRACE-UP teams and school heads can update together.',
       'One state dashboard covering Benue North-East, North-West, and Benue South.',
       'Offline use, so a school that reconnects later still syncs its attendance and results.',
     ],
-    pilotPlace: 'Makurdi, Gboko, and one LGA hosting displaced learners',
+    pilotPlace: 'Makurdi, Gboko, and Otukpo',
     rolloutNote:
-      'Gboko and Otukpo should not wait for every riverine or conflict-affected LGA to be fully open. Parallel tracks will be needed.',
+      'Gboko and Otukpo should open in the same term as Makurdi, so the three education axes move together.',
     conclusionSentence:
-      'A state-wide adoption would give Benue a way to keep teaching and to keep track of children across all 23 Local Government Areas, including those whose schools have been interrupted.',
+      'A state-wide adoption would give Benue a classroom and learner record worthy of free basic education and of the teachers the state has recruited, across all 23 Local Government Areas.',
     languages: 'English, Tiv, and Idoma, configured as the Ministry requires',
     sectionLine:
-      'Learning continuity for open schools and displaced communities across Benue’s 23 LGAs',
+      'Free basic education and BRACE-UP across Benue’s 23 LGAs',
   },
 
   borno: {
     letterBullet:
-      'We recognise the Ministry’s work to restore learning in the state most affected by attacks on education. UNICEF’s November 2024 note on Borno, Adamawa, and Yobe reported about two million out-of-school children across the three states, more than half of displaced children out of school, and fewer than three in ten schools with teachers who meet the minimum qualification. In Borno that burden is heaviest in Maiduguri and Jere, where enrolment has concentrated, and in northern LGAs that remain hard to reach.',
+      'We recognise the mega-school programme that is placing modern classrooms, laboratories, and ICT facilities in communities across Borno’s 27 Local Government Areas, including schools commissioned in Maiduguri and new campuses under construction in the south. Teachers are being recruited to staff these schools, and integrated Qur’anic education remains part of the state’s learning life.',
     coverParagraph:
-      'We recognise the Ministry’s work to restore learning in the state most affected by attacks on education. UNICEF’s November 2024 note on Borno, Adamawa, and Yobe reported about two million out-of-school children across the three states, more than half of displaced children out of school, and fewer than three in ten schools with teachers who meet the minimum qualification. In Borno that burden is heaviest in Maiduguri and Jere, where enrolment has concentrated, and in northern LGAs that remain hard to reach. SmartEdu Hub is offered as an offline catch-up and records system for all 27 Local Government Areas, respectful of integrated Qur’anic schooling and of the teachers carrying more than a normal load.',
+      'We recognise the mega-school programme that is placing modern classrooms, laboratories, and ICT facilities in communities across Borno’s 27 Local Government Areas, including schools commissioned in Maiduguri and new campuses under construction in the south. Teachers are being recruited to staff these schools, and integrated Qur’anic education remains part of the state’s learning life. SmartEdu Hub is the lesson, assessment, and records layer for that expanding school map.',
     summarySentence:
-      'For Borno State, SmartEdu Hub supports catch-up learning and learner records in Maiduguri and Jere, and gives SUBEB a way to follow schools in harder-to-reach LGAs, across a system of 27 LGAs still recovering from attacks on education.',
+      'For Borno State, SmartEdu Hub puts NERDC content, teacher tools, and a SUBEB record into the mega schools, from Maiduguri and Jere across all 27 LGAs.',
     priorities: [
-      'Bring displaced and out-of-school children into a record the Ministry can trust.',
-      'Support the large school population now concentrated in Maiduguri and Jere.',
-      'Keep a line of sight to northern and eastern LGAs that officers cannot visit routinely.',
-      'Help teachers who are below the qualification standard to deliver the NERDC syllabus.',
-      'Include learners in integrated Qur’anic and tsangaya settings in the state’s picture.',
+      'Place syllabus-aligned content and continuous assessment in the mega schools as they open.',
+      'Support the large and growing school population in Maiduguri and Jere.',
+      'Keep every LGA visible to SUBEB, from the capital to Biu and the southern communities.',
+      'Give newly recruited teachers lesson notes, worked examples, and refresher training.',
+      'Include learners in integrated Qur’anic settings in the state’s picture, with respect.',
     ],
     contributions: [
-      'Rapid enrolment and attendance for camp, host-community, and formal schools.',
-      'Offline iBooks, lesson notes, and short quizzes sized for overcrowded urban schools.',
-      'A dashboard that still shows a silent LGA, so absence of data is itself a signal.',
-      'Worked examples, common-mistake prompts, and teacher guides that travel with the lesson.',
+      'Enrolment, attendance, and parent alerts sized for large new campuses.',
+      'Offline iBooks, lesson notes, and quizzes that travel with the teacher.',
+      'A 27-LGA dashboard, so a school outside Maiduguri is as visible as one inside it.',
+      'Teacher guides and common-mistake prompts tied to the NERDC syllabus.',
       'Learner profiles that a tsangaya centre and a formal school can share.',
     ],
-    pilotPlace: 'Maiduguri, Jere, and one southern LGA such as Biu where schools are functioning',
+    pilotPlace: 'Maiduguri, Jere, and one southern LGA such as Biu or Hawul',
     rolloutNote:
-      'Northern LGAs that are still hard to reach need offline kits and a security-aware schedule, separate from the Maiduguri rollout.',
+      'Southern LGAs receiving new mega schools should be on the rollout map from the first MOU, with offline kits packed before teams travel.',
     conclusionSentence:
-      'A state-wide adoption would give Borno an offline learning and records system for Maiduguri, Jere, and the LGAs still being restored, across all 27 Local Government Areas.',
+      'A state-wide adoption would give Borno a learning and records system for the mega schools and the teachers now being engaged, across all 27 Local Government Areas.',
     languages: 'English, Hausa, and Kanuri',
     sectionLine:
-      'Catch-up learning and school records for Borno’s recovery across 27 LGAs',
+      'Lesson content and school records for Borno’s mega schools across 27 LGAs',
   },
 
   'cross-river': {
     letterBullet:
-      'We recognise the range the Ministry has to cover: urban schools in Calabar, coastal communities in Bakassi and Akpabuyo, and highland schools toward Obudu and Obanliku, plus the forested central LGAs. Calabar, the coast, and the highlands each need a supervision plan of their own. The state needs learning materials and school records that travel to places an officer reaches only occasionally.',
+      'We recognise the Government of Cross River State’s basic-education drive: revised curriculum materials and learning resources distributed in 2026 to 1,084 public primary schools, classrooms and school furniture delivered with UBEC support across the 18 Local Government Areas, consistent WAEC registration for public-school students, and the Senior Secondary Education Board Law of 2026. Calabar, the Bakassi coast, and the Obudu highlands can now be held to one standard.',
     coverParagraph:
-      'We recognise the range the Ministry has to cover: urban schools in Calabar, coastal communities in Bakassi and Akpabuyo, and highland schools toward Obudu and Obanliku, plus the forested central LGAs. Calabar, the coast, and the highlands each need a supervision plan of their own. The state needs learning materials and school records that travel to places an officer reaches only occasionally. SmartEdu Hub is that shared layer, with offline content for the hills and the coast and a live dashboard for SUBEB in Calabar.',
+      'We recognise the Government of Cross River State’s basic-education drive: revised curriculum materials and learning resources distributed in 2026 to 1,084 public primary schools, classrooms and school furniture delivered with UBEC support across the 18 Local Government Areas, consistent WAEC registration for public-school students, and the Senior Secondary Education Board Law of 2026. Calabar, the Bakassi coast, and the Obudu highlands can now be held to one standard. SmartEdu Hub is that shared layer, with offline content for the hills and the coast and a live dashboard for SUBEB in Calabar.',
     summarySentence:
-      'For Cross River State, SmartEdu Hub gives Calabar, the Bakassi coast, and the Obudu highlands the same NERDC content and a single SUBEB record across all 18 LGAs.',
+      'For Cross River State, SmartEdu Hub extends the 2026 curriculum materials into daily lessons and gives Calabar, the Bakassi coast, and the Obudu highlands one SUBEB record across all 18 LGAs.',
     priorities: [
       'Hold Calabar schools and remote highland schools to the same curriculum standard.',
       'Serve Bakassi, Akpabuyo, and other coastal communities with offline materials.',
-      'Reduce the supervision gap in central LGAs such as Ikom, Boki, and Etung.',
+      'Give central LGAs such as Ikom, Boki, and Etung the same supervision record as Calabar.',
       'Prepare learners for BECE and SSCE wherever the school sits.',
       'Give the Ministry one map of all 18 LGAs.',
     ],
@@ -313,11 +328,11 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   delta: {
     letterBullet:
-      'We recognise that Delta’s 25 Local Government Areas do not share one school reality. Delta North around Asaba, Delta Central around Warri and Ughelli, and the riverine schools of Delta South are supervised under different conditions of language, access, and school size. The Ministry needs a system that can read all three districts on one dashboard.',
+      'We recognise the Government of Delta State’s current basic-education investment: UBEC counterpart funding kept up to date, 174 new classrooms, 815 classrooms renovated, further classrooms under construction, and two additional model smart schools, alongside the SMART School at Orogun. More than 302,000 pupils are enrolled in public basic schools. Delta North around Asaba, Delta Central around Warri and Ughelli, and riverine Delta South are three proud school communities. There are 25 Local Government Areas.',
     coverParagraph:
-      'We recognise that Delta’s 25 Local Government Areas do not share one school reality. Delta North around Asaba, Delta Central around Warri and Ughelli, and the riverine schools of Delta South are supervised under different conditions of language, access, and school size. The Ministry needs a system that can read all three districts on one dashboard. SmartEdu Hub provides that common record, with offline content for schools reached by water and examination practice for the dense secondary-school corridors.',
+      'We recognise the Government of Delta State’s current basic-education investment: UBEC counterpart funding kept up to date, 174 new classrooms, 815 classrooms renovated, further classrooms under construction, and two additional model smart schools, alongside the SMART School at Orogun. More than 302,000 pupils are enrolled in public basic schools. Delta North around Asaba, Delta Central around Warri and Ughelli, and riverine Delta South are three proud school communities. There are 25 Local Government Areas. SmartEdu Hub provides one record for all three, with offline content for schools reached by water and examination practice for the secondary-school corridors.',
     summarySentence:
-      'For Delta State, SmartEdu Hub gives Asaba, the Warri–Ughelli corridor, and riverine Delta South one school record and the same NERDC content across all 25 LGAs.',
+      'For Delta State, SmartEdu Hub gives the new classrooms, the Orogun SMART School, and the Warri–Ughelli corridor one school record and the same NERDC content across all 25 LGAs.',
     priorities: [
       'See Delta North, Central, and South on one SUBEB dashboard.',
       'Reach Burutu, Bomadi, Patani, and other riverine schools with offline materials.',
@@ -344,30 +359,30 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   ebonyi: {
     letterBullet:
-      'We recognise that Ebonyi’s binding education task is quality, because access is already comparatively strong. UNICEF education fact sheets place Ebonyi among the states with the lowest senior-secondary out-of-school rates in Nigeria. The opportunity is to raise lesson quality, assessment, and supervision in rural classrooms across the 13 Local Government Areas so that attendance becomes learning.',
+      'We recognise Ebonyi as a state where young people stay the course through senior secondary school, and where the current administration can match that participation with lesson quality, assessment, and closer supervision. Thirteen Local Government Areas, from Abakaliki and Afikpo to Ikwo and the rural communities, are a manageable map for one standard of teaching and one SUBEB dashboard.',
     coverParagraph:
-      'We recognise that Ebonyi’s binding education task is quality, because access is already comparatively strong. UNICEF education fact sheets place Ebonyi among the states with the lowest senior-secondary out-of-school rates in Nigeria. The opportunity is to raise lesson quality, assessment, and supervision in rural classrooms across the 13 Local Government Areas so that attendance becomes learning. SmartEdu Hub is built for that step: teacher lesson tools, continuous assessment, and a SUBEB view from Abakaliki to Afikpo and the rural LGAs.',
+      'We recognise Ebonyi as a state where young people stay the course through senior secondary school, and where the current administration can match that participation with lesson quality, assessment, and closer supervision. Thirteen Local Government Areas, from Abakaliki and Afikpo to Ikwo and the rural communities, are a manageable map for one standard of teaching and one SUBEB dashboard. SmartEdu Hub is built for that step: teacher lesson tools, continuous assessment, and a view from Abakaliki to Afikpo and the rural LGAs.',
     summarySentence:
-      'For Ebonyi State, where senior-secondary attendance is already among the strongest in Nigeria, SmartEdu Hub raises lesson quality, assessment, and rural supervision across all 13 LGAs.',
+      'For Ebonyi State, SmartEdu Hub raises lesson quality, examination practice, and rural supervision across all 13 LGAs, in a state where senior secondary participation is already a strength.',
     priorities: [
-      'Turn strong attendance into stronger learning outcomes in rural schools.',
+      'Match strong school participation with stronger learning in rural classrooms.',
       'Give teachers in Abakaliki, Afikpo, Ikwo, and Onueke the same lesson-note standard.',
-      'Prepare more learners for WAEC, NECO, and JAMB, not only for enrolment.',
+      'Prepare more learners for WAEC, NECO, and JAMB, building on the enrolment the state already enjoys.',
       'Help SUBEB supervise Ebonyi North, Central, and South with the same indicators.',
-      'Use continuous assessment data to find the topics rural classes are missing.',
+      'Use continuous assessment to celebrate progress and to support the topics a class is still mastering.',
     ],
     contributions: [
-      'NERDC iBooks, videos, and topic quizzes that show where a class is stuck.',
+      'NERDC iBooks, videos, and topic quizzes that show where a class is ready to go further.',
       'Shared lesson-note and assessment tools for urban and rural teachers.',
       'CBT practice for SSCE and JAMB, assigned by the subject teacher.',
       'A 13-LGA dashboard with the same fields in every zone.',
-      'Common-mistake prompts and revision aids tied to the topics learners fail.',
+      'Revision aids tied to the topics a class is working through.',
     ],
     pilotPlace: 'Abakaliki, Afikpo, and Ikwo',
     rolloutNote:
       'Thirteen LGAs make a full rollout realistic in one academic year once the three-zone pilot is stable.',
     conclusionSentence:
-      'A state-wide adoption would give Ebonyi a quality and supervision system worthy of the attendance the state has already achieved, across all 13 Local Government Areas.',
+      'A state-wide adoption would give Ebonyi a quality and supervision system worthy of the participation the state has already achieved, across all 13 Local Government Areas.',
     languages: 'English and Igbo',
     sectionLine:
       'Learning quality and rural supervision across Ebonyi’s 13 LGAs',
@@ -375,33 +390,33 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   edo: {
     letterBullet:
-      'We recognise EdoBEST 2.0 as the centre of Edo’s 2024–2027 basic education plan, covering access, equity, teacher support, and learning outcomes, including out-of-school and displaced children. This proposal sits beside that reform. It adds learner-facing content, examination practice, parent records, and secondary-school management across the 18 Local Government Areas. A student of The Oasis Schools, Ekpoma, took national second prize in the Accessible Summer Competition on SmartEdu Hub.',
+      'We recognise the Government of Edo State’s education reset under the SHINE Agenda: a state of emergency on public schools declared in March 2025, the recruitment of 5,000 teachers, new and renovated public schools across the 18 Local Government Areas, the EDU-Rescue programme, and instructional materials provided for in the 2026 budget. A student of The Oasis Schools, Ekpoma, took national second prize in the Accessible Summer Competition on SmartEdu Hub.',
     coverParagraph:
-      'We recognise EdoBEST 2.0 as the centre of Edo’s 2024–2027 basic education plan, covering access, equity, teacher support, and learning outcomes, including out-of-school and displaced children. This proposal sits beside that reform. It adds learner-facing content, examination practice, parent records, and secondary-school management across the 18 Local Government Areas. A student of The Oasis Schools, Ekpoma, took national second prize in the Accessible Summer Competition on SmartEdu Hub, which gives Edo a local demonstration of the learner side of the platform.',
+      'We recognise the Government of Edo State’s education reset under the SHINE Agenda: a state of emergency on public schools declared in March 2025, the recruitment of 5,000 teachers, new and renovated public schools across the 18 Local Government Areas, the EDU-Rescue programme, and instructional materials provided for in the 2026 budget. A student of The Oasis Schools, Ekpoma, took national second prize in the Accessible Summer Competition on SmartEdu Hub, which gives Edo a local demonstration of the learner side of the platform. SmartEdu Hub adds learner content, examination practice, parent records, and secondary-school management for this reset.',
     summarySentence:
-      'For Edo State, SmartEdu Hub sits beside EdoBEST 2.0 and adds learner content, CBT practice, parent records, and secondary-school management across all 18 LGAs.',
+      'For Edo State, SmartEdu Hub supports the SHINE education reset with learner content, CBT practice, parent records, and secondary-school management across all 18 LGAs.',
     priorities: [
-      'Keep EdoBEST 2.0 as the primary-school reform and cover the learner and secondary layers around it.',
+      'Give the 5,000 newly recruited teachers lesson notes and continuous assessment.',
       'Serve Benin City, the Esan axis around Ekpoma, and Edo North around Auchi with one record.',
       'Strengthen WAEC, NECO, and JAMB practice in a state with a deep secondary-school tradition.',
-      'Include out-of-school and displaced children in the same data the strategic plan already names.',
+      'Support EDU-Rescue with enrolment, attendance, and learning records the Ministry can see.',
       'Give parents a window on attendance and results.',
     ],
     contributions: [
-      'iBooks, AI tutor support, and CBT that learners use alongside the EdoBEST classroom.',
+      'iBooks, AI tutor support, and CBT for learners in the renewed public schools.',
       'A dashboard for Edo South, Edo Central, and Edo North.',
       'Past questions and timed mocks for WAEC, NECO, JAMB, and BECE.',
-      'Enrolment tools the Ministry can use for children still outside school.',
+      'Enrolment and attendance tools that sit comfortably with EDU-Rescue.',
       'A parent portal for attendance, results, and school announcements.',
     ],
     pilotPlace: 'Benin City, Ekpoma, and Auchi',
     rolloutNote:
       'Edo South, Central, and North should each have a pilot school cluster before the 18-LGA rollout.',
     conclusionSentence:
-      'A state-wide adoption would give Edo a learner, parent, and secondary-school layer beside EdoBEST 2.0, across all 18 Local Government Areas.',
+      'A state-wide adoption would give Edo a learner, parent, and secondary-school layer for the SHINE education reset, across all 18 Local Government Areas.',
     languages: 'English, Nigerian Pidgin, and the main Edo languages as the Ministry requires',
     sectionLine:
-      'Learner content and secondary records beside EdoBEST 2.0',
+      'Learner content and secondary records for Edo’s SHINE education reset',
   },
 
   enugu: {
@@ -437,21 +452,21 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   gombe: {
     letterBullet:
-      'We recognise a compact state with a large learning gap. UNICEF education fact sheets place Gombe among the states where more than half of primary-school-age children are out of school. Eleven Local Government Areas make a focused reform possible, but Gombe metropolis, the southern LGAs of Billiri, Kaltungo, and Shongom, and the northern LGAs of Dukku, Nafada, and Funakaye are not the same classroom.',
+      'We recognise a compact state that can see all of its schools clearly. The Government of Gombe State has approved ₦6.1 billion as counterpart funding for HOPE-EDU, the basic-education programme running to 2030, so that qualified teachers can be recruited and trained and learning support can deepen. Eleven Local Government Areas make a full state view realistic: Gombe metropolis, the southern LGAs of Billiri, Kaltungo, and Shongom, and the northern LGAs of Dukku, Nafada, and Funakaye.',
     coverParagraph:
-      'We recognise a compact state with a large learning gap. UNICEF education fact sheets place Gombe among the states where more than half of primary-school-age children are out of school. Eleven Local Government Areas make a focused reform possible, but Gombe metropolis, the southern LGAs of Billiri, Kaltungo, and Shongom, and the northern LGAs of Dukku, Nafada, and Funakaye are not the same classroom. SmartEdu Hub gives the Ministry one enrolment and learning record for all three settings, with offline content where power and network are weak.',
+      'We recognise a compact state that can see all of its schools clearly. The Government of Gombe State has approved ₦6.1 billion as counterpart funding for HOPE-EDU, the basic-education programme running to 2030, so that qualified teachers can be recruited and trained and learning support can deepen. Eleven Local Government Areas make a full state view realistic: Gombe metropolis, the southern LGAs of Billiri, Kaltungo, and Shongom, and the northern LGAs of Dukku, Nafada, and Funakaye. SmartEdu Hub gives the Ministry one enrolment and learning record for all three settings, with offline content where power and network are weak.',
     summarySentence:
-      'For Gombe State, SmartEdu Hub helps SUBEB find and teach out-of-school children and hold one standard across the metropolis, the southern LGAs, and the northern LGAs, all 11 of them.',
+      'For Gombe State, SmartEdu Hub gives HOPE-EDU a classroom and SUBEB record, and holds one standard across the metropolis, the southern LGAs, and the northern LGAs, all 11 of them.',
     priorities: [
-      'Reduce a primary out-of-school rate that UNICEF places above 50 per cent.',
-      'Support girls through primary and into junior secondary school.',
-      'Use the advantage of only 11 LGAs to aim for full visibility, not a partial pilot that stalls.',
-      'Respect the different conditions in southern and northern LGAs.',
+      'Support the teachers HOPE-EDU is recruiting with lesson notes and continuous assessment.',
+      'Encourage girls through primary and into junior secondary school.',
+      'Use the advantage of only 11 LGAs to aim for full visibility in one planned rollout.',
+      'Give southern and northern LGAs the same content, each in the conditions of that zone.',
       'Link integrated Qur’anic schooling with the formal school record.',
     ],
     contributions: [
-      'Enrolment drives the LGEA can track child by child.',
-      'Attendance and parent follow-up aimed at girls’ retention.',
+      'Enrolment the LGEA can keep current, child by child.',
+      'Attendance and parent follow-up that supports girls’ continuity into JSS.',
       'A complete 11-LGA dashboard, small enough to review every month.',
       'Offline lesson packs for Dukku, Nafada, and Funakaye, and the same content in Billiri and Kaltungo.',
       'Shared learner records between tsangaya centres and formal schools.',
@@ -460,23 +475,23 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
     rolloutNote:
       'With 11 LGAs, the state can move from a three-site pilot to full coverage inside two academic sessions if training stays ahead of devices.',
     conclusionSentence:
-      'A state-wide adoption would give Gombe, across all 11 Local Government Areas, a realistic path to see every public school and to bring out-of-school children into a record the Ministry controls.',
+      'A state-wide adoption would give Gombe, across all 11 Local Government Areas, a realistic path to see every public school and to support the teachers and learners HOPE-EDU is backing.',
     languages: 'English, Hausa, and Fulfulde',
     sectionLine:
-      'A full 11-LGA view of out-of-school children and classroom learning in Gombe',
+      'A full 11-LGA view of classroom learning for Gombe’s HOPE-EDU years',
   },
 
   imo: {
     letterBullet:
-      'We recognise Imo as a state where most children already reach senior secondary school. UNICEF education fact sheets place Imo with Ebonyi at the lowest senior-secondary out-of-school rates in Nigeria. The pressure on the Ministry is different: 27 Local Government Areas, three strong zones in Owerri, Orlu, and Okigwe, a large private-school sector, and families who judge public schools by WAEC, NECO, and JAMB results.',
+      'We recognise Imo’s strong path through senior secondary school, the digitisation of the Ministry of Primary and Secondary Education, and the current digital-learning drive: a learning passport opened with a first phase of 100 schools, interactive boards already procured, and smart schools being established across the local governments. Families in Owerri, Orlu, and Okigwe judge schools by WAEC, NECO, and JAMB, and public schools are being equipped to meet that standard. There are 27 Local Government Areas.',
     coverParagraph:
-      'We recognise Imo as a state where most children already reach senior secondary school. UNICEF education fact sheets place Imo with Ebonyi at the lowest senior-secondary out-of-school rates in Nigeria. The pressure on the Ministry is different: 27 Local Government Areas, three strong zones in Owerri, Orlu, and Okigwe, a large private-school sector, and families who judge public schools by WAEC, NECO, and JAMB results. SmartEdu Hub gives public schools the lesson quality, examination practice, and SUBEB data to meet that expectation.',
+      'We recognise Imo’s strong path through senior secondary school, the digitisation of the Ministry of Primary and Secondary Education, and the current digital-learning drive: a learning passport opened with a first phase of 100 schools, interactive boards already procured, and smart schools being established across the local governments. Families in Owerri, Orlu, and Okigwe judge schools by WAEC, NECO, and JAMB, and public schools are being equipped to meet that standard. There are 27 Local Government Areas. SmartEdu Hub gives those public schools the lesson quality, examination practice, and SUBEB data to match the expectation.',
     summarySentence:
-      'For Imo State, SmartEdu Hub raises examination readiness and gives SUBEB one view of public schools across Owerri, Orlu, and Okigwe, all 27 LGAs, in a state where attendance is already high.',
+      'For Imo State, SmartEdu Hub raises examination readiness for the new smart schools and gives SUBEB one view of public schools across Owerri, Orlu, and Okigwe, all 27 LGAs.',
     priorities: [
       'Match public-school lesson quality to a strong examination culture.',
       'Supervise 27 LGAs without losing Orlu or Okigwe inside Owerri’s numbers.',
-      'Give public schools CBT practice that private-school families already buy outside.',
+      'Give public schools CBT practice worthy of Imo’s examination tradition.',
       'Track teacher use of lesson notes and continuous assessment.',
       'Keep parents of public-school learners informed of attendance and results.',
     ],
@@ -499,21 +514,21 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   jigawa: {
     letterBullet:
-      'We recognise two facts that should shape any proposal to Jigawa. UNICEF, citing the 2021 Multiple Indicator Cluster Survey, estimated about 338,000 out-of-school children in the state. UNICEF education fact sheets also place Jigawa among the states where more than half of junior-secondary-age children are out of school. Children, especially girls, also have to stay into JSS across 27 largely rural Local Government Areas.',
+      'We recognise JigawaUNITE, the state’s programme for teaching, school infrastructure, and learning outcomes, and the 2026 basic-education manpower plan that follows an enrolment of more than 1.3 million pupils. The plan recruits and deploys teachers through 2028 so each Local Government Area has the staff its classrooms deserve. Integrated Qur’anic schooling sits respectfully beside the formal school, from Dutse, Hadejia, and Gumel out to the smaller rural LGAs.',
     coverParagraph:
-      'We recognise two facts that should shape any proposal to Jigawa. UNICEF, citing the 2021 Multiple Indicator Cluster Survey, estimated about 338,000 out-of-school children in the state. UNICEF education fact sheets also place Jigawa among the states where more than half of junior-secondary-age children are out of school. Children, especially girls, also have to stay into JSS across 27 largely rural Local Government Areas. SmartEdu Hub helps the Ministry see that transition, learner by learner, from Dutse, Hadejia, Gumel, Ringim, and Birnin Kudu out to the smaller LGAs.',
+      'We recognise JigawaUNITE, the state’s programme for teaching, school infrastructure, and learning outcomes, and the 2026 basic-education manpower plan that follows an enrolment of more than 1.3 million pupils. The plan recruits and deploys teachers through 2028 so each Local Government Area has the staff its classrooms deserve. Integrated Qur’anic schooling sits respectfully beside the formal school, from Dutse, Hadejia, and Gumel out to the smaller rural LGAs. SmartEdu Hub helps the Ministry see the primary-to-JSS journey, learner by learner.',
     summarySentence:
-      'For Jigawa State, SmartEdu Hub tracks the primary-to-JSS transition for a large out-of-school population and gives SUBEB rural attendance and learning data across all 27 LGAs.',
+      'For Jigawa State, SmartEdu Hub supports JigawaUNITE and the 2026 teacher plan with rural attendance, lesson tools, and a SUBEB record across all 27 LGAs.',
     priorities: [
-      'Account for an out-of-school population UNICEF has put at about 338,000.',
-      'Lift junior-secondary participation, especially for girls.',
-      'Supervise 27 rural LGAs from Dutse without relying only on paper returns.',
+      'Give teachers recruited under the 2026 manpower plan shared lesson notes and assessment.',
+      'Encourage the move from primary into junior secondary, especially for girls.',
+      'Supervise 27 rural LGAs from Dutse with the same indicators in every zone.',
       'Connect integrated Qur’anic schools to the formal record.',
-      'Keep learning materials usable where connectivity is poor.',
+      'Keep learning materials usable where connectivity is limited.',
     ],
     contributions: [
-      'Child-level enrolment the LGEA can update during community drives.',
-      'Attendance alerts and JSS placement records that show who dropped off after primary.',
+      'Child-level enrolment the LGEA can update as new teachers and new classrooms come into use.',
+      'Attendance alerts and JSS placement records that show who is continuing after primary.',
       'A 27-LGA dashboard grouped by Dutse, Hadejia, Gumel, Ringim, and Kazaure axes.',
       'Learner records shared by tsangaya centres and formal schools.',
       'Offline iBooks and quizzes for rural primary and junior secondary schools.',
@@ -522,29 +537,29 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
     rolloutNote:
       'The remaining LGAs are rural and dispersed. Training of LGEA officers matters as much as school training.',
     conclusionSentence:
-      'A state-wide adoption would give Jigawa a child-level view of enrolment and of the primary-to-JSS transition across all 27 Local Government Areas.',
+      'A state-wide adoption would give Jigawa a child-level view of enrolment and of the primary-to-JSS transition across all 27 Local Government Areas, in step with JigawaUNITE.',
     languages: 'English and Hausa',
     sectionLine:
-      'Out-of-school children and the primary-to-JSS transition across Jigawa’s 27 LGAs',
+      'JigawaUNITE, new teachers, and the primary-to-JSS journey across 27 LGAs',
   },
 
   kaduna: {
     letterBullet:
-      'We recognise Kaduna’s size and its internal differences. The state has 23 Local Government Areas, a long-running interest in teacher supply and school data, and school communities that do not look alike: the Kaduna metropolis, Zaria, and Southern Kaduna around Kafanchan and Kachia. In some LGAs, insecurity has also interrupted the school year. The Ministry needs one record that can still be read when a zone is harder to visit.',
+      'We recognise the Government of Kaduna State’s basic-education investment across all 23 Local Government Areas: 3,267 classrooms constructed or rehabilitated, 33,137 teachers, head teachers, and school support officers trained, a higher minimum wage for primary-school teachers, and bilingual education schools in Igabi, Zaria, Kubau, and Giwa. The 2025/2026 annual school census gives the Ministry a fresh picture of the metropolis, Zaria, and Southern Kaduna around Kafanchan and Kachia.',
     coverParagraph:
-      'We recognise Kaduna’s size and its internal differences. The state has 23 Local Government Areas, a long-running interest in teacher supply and school data, and school communities that do not look alike: the Kaduna metropolis, Zaria, and Southern Kaduna around Kafanchan and Kachia. In some LGAs, insecurity has also interrupted the school year. The Ministry needs one record that can still be read when a zone is harder to visit. SmartEdu Hub provides learner content, teacher tools, and a zonal dashboard for Kaduna North, Kaduna Central, and Kaduna South.',
+      'We recognise the Government of Kaduna State’s basic-education investment across all 23 Local Government Areas: 3,267 classrooms constructed or rehabilitated, 33,137 teachers, head teachers, and school support officers trained, a higher minimum wage for primary-school teachers, and bilingual education schools in Igabi, Zaria, Kubau, and Giwa. The 2025/2026 annual school census gives the Ministry a fresh picture of the metropolis, Zaria, and Southern Kaduna around Kafanchan and Kachia. SmartEdu Hub provides learner content, teacher tools, and a zonal dashboard for Kaduna North, Kaduna Central, and Kaduna South.',
     summarySentence:
-      'For Kaduna State, SmartEdu Hub gives the Ministry a zonal picture of learning and attendance across the metropolis, Zaria, and Southern Kaduna, all 23 LGAs, including schools whose year has been interrupted.',
+      'For Kaduna State, SmartEdu Hub gives the renovated classrooms and the trained teaching force a zonal picture of learning and attendance across the metropolis, Zaria, and Southern Kaduna, all 23 LGAs.',
     priorities: [
       'Hold Kaduna metropolis, Zaria, and Southern Kaduna to one data standard.',
-      'Keep learner records current where insecurity has interrupted schooling.',
-      'Support the state’s existing emphasis on teachers and school information.',
-      'Back girls’ participation with attendance evidence, not only policy statements.',
+      'Put lesson notes and continuous assessment in the hands of the teachers already trained.',
+      'Support the state’s school census with a live record that stays current after the count.',
+      'Back girls’ participation with attendance the Ministry can celebrate.',
       'Give SUBEB filters for all 23 LGAs and the three senatorial districts.',
     ],
     contributions: [
       'Zone dashboards for Kaduna North, Central, and South.',
-      'Catch-up content and transferable records for learners returning after a closure.',
+      'Lesson content for the new bilingual education schools and for every other public school.',
       'Lesson-note, attendance, and teacher-activity reports SUBEB can audit.',
       'Girls’ attendance and transition indicators at school and LGA level.',
       'Offline sync for schools with unreliable power.',
@@ -561,22 +576,22 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   kano: {
     letterBullet:
-      'We recognise that Kano runs the largest basic-education map any Nigerian state ministry has to supervise: 44 Local Government Areas, a huge enrolled population, and a very large number of children still outside school. UNICEF, citing the 2021 Multiple Indicator Cluster Survey, estimated close to one million out-of-school children in Kano, about 32 per cent of primary-age children. Integrated Qur’anic schooling, girls’ transition, and the gap between the metropolis and rural LGAs sit at the centre of the Ministry’s work.',
+      'We recognise the Government of Kano State’s education investment and the result it is producing. Kano led the country in the 2026 NECO Senior School Certificate Examination, for the second consecutive year. The state has devoted about 30 per cent of its annual budget to education, recruited 16,000 teachers, and in 2026 spent more than ₦4.4 billion to sponsor candidates for the Senior School Certificate Examination. The Ministry supervises 44 Local Government Areas, the largest basic-education map in Nigeria, with girls’ education and integrated Qur’anic schooling as part of that ambition.',
     coverParagraph:
-      'We recognise that Kano runs the largest basic-education map any Nigerian state ministry has to supervise: 44 Local Government Areas, a huge enrolled population, and a very large number of children still outside school. UNICEF, citing the 2021 Multiple Indicator Cluster Survey, estimated close to one million out-of-school children in Kano, about 32 per cent of primary-age children. Integrated Qur’anic schooling, girls’ transition, and the gap between the metropolis and rural LGAs sit at the centre of the Ministry’s work. SmartEdu Hub is proposed as the records, content, and SUBEB visibility layer for a system of this scale.',
+      'We recognise the Government of Kano State’s education investment and the result it is producing. Kano led the country in the 2026 NECO Senior School Certificate Examination, for the second consecutive year. The state has devoted about 30 per cent of its annual budget to education, recruited 16,000 teachers, and in 2026 spent more than ₦4.4 billion to sponsor candidates for the Senior School Certificate Examination. The Ministry supervises 44 Local Government Areas, the largest basic-education map in Nigeria, with girls’ education and integrated Qur’anic schooling as part of that ambition. SmartEdu Hub is proposed as the records, content, and SUBEB layer for a system of this scale.',
     summarySentence:
-      'For Kano State, SmartEdu Hub gives SUBEB a scalable record of enrolled and out-of-school learners across 44 LGAs, with Hausa-ready configuration, girls’ attendance, and a link between formal schools and integrated Qur’anic centres.',
+      'For Kano State, SmartEdu Hub gives the teachers recruited under the current administration, and the examination standard behind the 2026 NECO result, a scalable record across all 44 LGAs.',
     priorities: [
       'Supervise 44 LGAs without the rural ones disappearing inside Kano Municipal’s totals.',
-      'Account for an out-of-school population UNICEF has put close to one million.',
-      'Track girls’ attendance and transition into junior secondary school.',
-      'Include integrated Qur’anic and tsangaya learners in the state picture.',
+      'Keep public-school examination practice at the standard behind Kano’s leading 2026 NECO result.',
+      'Track girls’ attendance and the move into junior secondary school.',
+      'Include integrated Qur’anic and tsangaya learners in the state’s picture.',
       'Keep content usable offline in rural LGAs far from the metropolis.',
     ],
     contributions: [
       'LGA and zone dashboards built for the largest LGA count in Nigeria.',
-      'Community enrolment that an LGEA can run and the Ministry can audit.',
-      'Girls’ attendance, absence alerts, and JSS transition reports.',
+      'CBT practice for WAEC, NECO, JAMB, and BECE, beside the examinations the state already sponsors.',
+      'Girls’ attendance and JSS transition reports.',
       'Shared records between formal schools and tsangaya centres.',
       'Offline NERDC materials and a Hausa-configurable interface.',
     ],
@@ -584,91 +599,91 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
     rolloutNote:
       'A 44-LGA rollout only works zone by zone, with LGEA officers trained before schools are switched on.',
     conclusionSentence:
-      'A state-wide adoption would give Kano a school and learner record large enough for 44 Local Government Areas, including out-of-school children and integrated Qur’anic centres.',
+      'A state-wide adoption would give Kano a school and learner record large enough for 44 Local Government Areas, worthy of the examination result and the teaching force the state is building.',
     languages: 'English and Hausa',
     sectionLine:
-      'School records at Kano’s scale: 44 LGAs, out-of-school children, and tsangaya centres',
+      'Examination practice and school records at Kano’s scale, across 44 LGAs',
   },
 
   katsina: {
     letterBullet:
-      'We recognise a double pressure on the Ministry. UNICEF, citing the 2021 Multiple Indicator Cluster Survey, estimated about 536,000 out-of-school children in Katsina. A UNICEF-supported study has also documented prolonged school closures in frontline LGAs, including Batsari, Faskari, and Kankara. The state still has to run ordinary schooling in Katsina metropolis, Daura, and Funtua, across 34 Local Government Areas.',
+      'We recognise the Government of Katsina State’s Building Your Future investment in education: more than ₦120 billion committed to the sector in three years, 170 junior secondary schools constructed, hundreds of schools rehabilitated, and more than 7,000 teachers recruited. Model smart secondary schools with robotics and artificial-intelligence facilities now stand in the three senatorial zones. In February 2026 the state approved 70 further secondary schools, and it is establishing teachers’ development centres and ICT centres so a child in a rural community has the same digital chance as a child in the city. The Ministry supervises 34 Local Government Areas, from Katsina metropolis to Daura and Funtua.',
     coverParagraph:
-      'We recognise a double pressure on the Ministry. UNICEF, citing the 2021 Multiple Indicator Cluster Survey, estimated about 536,000 out-of-school children in Katsina. A UNICEF-supported study has also documented prolonged school closures in frontline LGAs, including Batsari, Faskari, and Kankara. The state still has to run ordinary schooling in Katsina metropolis, Daura, and Funtua, across 34 Local Government Areas. SmartEdu Hub offers catch-up content and records for communities whose schools were interrupted, and a normal digital school system for the towns where classrooms are open.',
+      'We recognise the Government of Katsina State’s Building Your Future investment in education: more than ₦120 billion committed to the sector in three years, 170 junior secondary schools constructed, hundreds of schools rehabilitated, and more than 7,000 teachers recruited. Model smart secondary schools with robotics and artificial-intelligence facilities now stand in the three senatorial zones. In February 2026 the state approved 70 further secondary schools, and it is establishing teachers’ development centres and ICT centres so a child in a rural community has the same digital chance as a child in the city. The Ministry supervises 34 Local Government Areas, from Katsina metropolis to Daura and Funtua. SmartEdu Hub is the lesson, examination, and SUBEB layer for that new school map.',
     summarySentence:
-      'For Katsina State, SmartEdu Hub supports both the open schools in Katsina, Daura, and Funtua and the LGAs where closures have pushed children out of class, across all 34 LGAs.',
+      'For Katsina State, SmartEdu Hub supports the new junior secondary schools, the model smart schools, and the teachers recruited under Building Your Future, across all 34 LGAs.',
     priorities: [
-      'Keep learning available where schools in Batsari, Faskari, Kankara, and similar LGAs have closed for long periods.',
-      'Serve the large in-school population in Katsina metropolis, Daura, and Funtua.',
-      'Account for an out-of-school population estimated at about 536,000.',
-      'Support girls’ return and retention after interruptions.',
-      'Give SUBEB a 34-LGA view that distinguishes open, partial, and closed schools.',
+      'Put NERDC content and continuous assessment into the new junior secondary schools and the model smart schools.',
+      'Serve the school population in Katsina metropolis, Daura, and Funtua on one record.',
+      'Give the teachers recruited in the last exercise, and those still to be engaged, shared lesson notes.',
+      'Encourage girls’ attendance and continuity with parent communication.',
+      'Give SUBEB a 34-LGA view that keeps every senatorial zone equally visible.',
     ],
     contributions: [
-      'Offline catch-up packs and short assessments for interrupted communities.',
-      'Full school management for open urban and town schools.',
-      'Child-level enrolment for out-of-school drives.',
+      'iBooks, quizzes, and CBT sized for the new smart secondary schools.',
+      'Full school management for urban and town schools.',
+      'Lesson notes and refresher training aligned to the teachers’ development centres.',
       'Girls’ attendance tracking and parent notification.',
-      'A school-status dashboard: open, partial, or closed, by LGA.',
+      'A 34-LGA dashboard split across the three senatorial zones.',
     ],
-    pilotPlace: 'Katsina metropolis, Funtua, and one safer cluster serving learners from closed frontline schools',
+    pilotPlace: 'Katsina metropolis, Funtua, and one model smart school in a senatorial zone',
     rolloutNote:
-      'Frontline LGAs should be added only on the security advice of the state, with offline kits rather than an assumption of daily connectivity.',
+      'Each senatorial zone should have a pilot cluster before the 34-LGA rollout, with offline kits for rural schools beside the new ICT centres.',
     conclusionSentence:
-      'A state-wide adoption would give Katsina a way to keep records and learning going for open schools and for children displaced by school closures, across all 34 Local Government Areas.',
+      'A state-wide adoption would give Katsina a learning and records system for the schools and teachers Building Your Future has put in place, across all 34 Local Government Areas.',
     languages: 'English and Hausa',
     sectionLine:
-      'Open schools and interrupted LGAs across Katsina’s 34 local governments',
+      'New schools, smart campuses, and a 34-LGA record for Katsina',
   },
 
   kebbi: {
     letterBullet:
-      'We recognise that Kebbi is one of the states where access itself is still the main education problem. UNICEF education fact sheets place Kebbi among the states where more than half of primary-school-age children are out of school. The Ministry’s map runs from Birnin Kebbi and Argungu to Yauri and Zuru, 21 Local Government Areas, many of them rural, with nomadic communities and long distances between schools.',
+      'We recognise the Government of Kebbi State’s school rebuilding programme: about 1,500 primary and secondary schools rehabilitated, more than 300 new schools constructed, and more than 200,000 textbooks, valued at ₦3 billion, procured for public primary schools. Four mega boarding schools for science and skills, each planned for about 2,000 students, are sited in Birnin Kebbi, Argungu, Yauri, and Zuru. Teachers may now serve longer, so experienced staff remain in class. There are 21 Local Government Areas.',
     coverParagraph:
-      'We recognise that Kebbi is one of the states where access itself is still the main education problem. UNICEF education fact sheets place Kebbi among the states where more than half of primary-school-age children are out of school. The Ministry’s map runs from Birnin Kebbi and Argungu to Yauri and Zuru, 21 Local Government Areas, many of them rural, with nomadic communities and long distances between schools. SmartEdu Hub helps the state record children who are outside, support girls to stay, and give rural teachers offline materials.',
+      'We recognise the Government of Kebbi State’s school rebuilding programme: about 1,500 primary and secondary schools rehabilitated, more than 300 new schools constructed, and more than 200,000 textbooks, valued at ₦3 billion, procured for public primary schools. Four mega boarding schools for science and skills, each planned for about 2,000 students, are sited in Birnin Kebbi, Argungu, Yauri, and Zuru. Teachers may now serve longer, so experienced staff remain in class. There are 21 Local Government Areas. SmartEdu Hub gives those new and renewed schools a shared lesson, attendance, and SUBEB record.',
     summarySentence:
-      'For Kebbi State, SmartEdu Hub supports the drive to bring out-of-school children into class and to keep rural and nomadic communities visible across all 21 LGAs.',
+      'For Kebbi State, SmartEdu Hub supports the rebuilt schools, the new textbooks, and the four mega science schools with one record across all 21 LGAs.',
     priorities: [
-      'Reduce a primary out-of-school rate that UNICEF places above half of school-age children.',
+      'Put digital lessons beside the new textbooks in rehabilitated primary schools.',
       'Reach Zuru, Yauri, and Argungu with the same visibility as Birnin Kebbi.',
-      'Include nomadic and scattered rural settlements in the school record.',
-      'Support girls’ enrolment and daily attendance.',
-      'Give teachers offline lessons where the network cannot be assumed.',
+      'Support the four mega boarding schools with science content and examination practice.',
+      'Encourage girls’ enrolment and daily attendance.',
+      'Give rural teachers offline lessons where the network cannot be assumed.',
     ],
     contributions: [
-      'Community enrolment and an LGEA list of children still outside school.',
+      'Enrolment and attendance that match the new classroom stock.',
       'Four-axis reporting: Birnin Kebbi, Argungu, Yauri, and Zuru.',
-      'Lightweight records for nomadic and rural learning centres.',
-      'Attendance alerts focused on girls’ retention.',
+      'iBooks and CBT for the mega schools’ science and skills programmes.',
+      'Attendance alerts that support girls’ continuity.',
       'Offline iBooks and teacher notes that sync later.',
     ],
     pilotPlace: 'Birnin Kebbi, Argungu, and Zuru',
     rolloutNote:
       'Yauri and the southern LGAs need their own deployment window. Distances make a single capital-based team too slow.',
     conclusionSentence:
-      'A state-wide adoption would give Kebbi a child-level record of who is in school and who is still outside, across all 21 Local Government Areas.',
+      'A state-wide adoption would give Kebbi a classroom record for the schools it has rebuilt and the four mega campuses it is opening, across all 21 Local Government Areas.',
     languages: 'English and Hausa',
     sectionLine:
-      'Out-of-school children and rural schools across Kebbi’s 21 LGAs',
+      'Rebuilt schools and four mega campuses across Kebbi’s 21 LGAs',
   },
 
   kogi: {
     letterBullet:
-      'We recognise Kogi’s own reading of its education map. The State Universal Basic Education Board’s guideline for UBE intervention funds, 2025 to 2030, says the state performs relatively well on national indices while inequalities remain inside the state, especially in riverine, low-income, and underserved communities, and it sets out support for girls, nomadic learners, and other vulnerable children. Any useful platform has to read Kogi East, Kogi Central, and Kogi West separately across 21 Local Government Areas.',
+      'We recognise Kogi’s own plan for the years ahead. The State Universal Basic Education Board’s guideline for UBE intervention funds, 2025 to 2030, records a state that performs well on national indices and sets a clear programme for Kogi East, Kogi Central, and Kogi West across 21 Local Government Areas. The 2026 budget keeps education among the state’s leading commitments. Girls’ education and nomadic learners are part of that plan, from Lokoja to Idah, Okene, and Kabba.',
     coverParagraph:
-      'We recognise Kogi’s own reading of its education map. The State Universal Basic Education Board’s guideline for UBE intervention funds, 2025 to 2030, says the state performs relatively well on national indices while inequalities remain inside the state, especially in riverine, low-income, and underserved communities, and it sets out support for girls, nomadic learners, and other vulnerable children. Any useful platform has to read Kogi East, Kogi Central, and Kogi West separately across 21 Local Government Areas. SmartEdu Hub is proposed as that three-zone record, from Lokoja to Idah, Okene, and Kabba.',
+      'We recognise Kogi’s own plan for the years ahead. The State Universal Basic Education Board’s guideline for UBE intervention funds, 2025 to 2030, records a state that performs well on national indices and sets a clear programme for Kogi East, Kogi Central, and Kogi West across 21 Local Government Areas. The 2026 budget keeps education among the state’s leading commitments. Girls’ education and nomadic learners are part of that plan, from Lokoja to Idah, Okene, and Kabba. SmartEdu Hub is proposed as that three-zone record.',
     summarySentence:
-      'For Kogi State, SmartEdu Hub makes the intra-state gap visible: one dashboard for Kogi East, Central, and West, with extra attention to riverine and underserved communities across all 21 LGAs.',
+      'For Kogi State, SmartEdu Hub gives the 2025–2030 UBE plan one dashboard for Kogi East, Central, and West, across all 21 LGAs.',
     priorities: [
       'Show learning and attendance separately for Igala, Ebira, and Okun communities.',
-      'Target riverine and low-income communities the SUBEB guideline already flags.',
-      'Support girls, nomadic learners, and other vulnerable groups with actual attendance data.',
-      'Keep Lokoja from standing in for Idah, Okene, or Kabba.',
+      'Carry the same lesson standard to riverine communities and to schools far from Lokoja.',
+      'Support girls and nomadic learners with attendance the Ministry can see.',
+      'Keep Lokoja, Idah, Okene, and Kabba equally visible.',
       'Give SUBEB a tool that matches the 2025–2030 UBE planning window.',
     ],
     contributions: [
       'Three-zone dashboards: East, Central, and West.',
-      'School-level flags for riverine and underserved communities.',
+      'School-level records for riverine communities and for every other zone.',
       'Attendance and transition reports for girls and nomadic learners.',
       'The same iBooks and CBT in Lokoja, Idah, Okene, and Kabba.',
       'Quarterly exports SUBEB can use in UBE planning and review.',
@@ -685,9 +700,9 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   kwara: {
     letterBullet:
-      'We recognise KwaraLEARN as the state’s technology-backed reform of public primary schools. This proposal sits beside that work. Kwara also straddles several language communities, from Ilorin to the Yoruba south, the Nupe LGAs, and Baruten and Kaiama. The Ministry’s next visibility gap is the learner record, junior secondary, examination practice, and a parent window across all 16 Local Government Areas.',
+      'We recognise KwaraLEARN as the state’s technology-backed reform of public primary schools, still at the centre of basic education in 2026, alongside merit-based teacher recruitment and the 2026 teachers’ promotion exercise. Kwara also straddles several language communities, from Ilorin to the Yoruba south, the Nupe LGAs, and Baruten and Kaiama. This proposal adds the learner record, junior secondary, examination practice, and a parent window across all 16 Local Government Areas.',
     coverParagraph:
-      'We recognise KwaraLEARN as the state’s technology-backed reform of public primary schools. This proposal sits beside that work. Kwara also straddles several language communities, from Ilorin to the Yoruba south, the Nupe LGAs, and Baruten and Kaiama. The Ministry’s next visibility gap is the learner record, junior secondary, examination practice, and a parent window across all 16 Local Government Areas. SmartEdu Hub is offered for that surrounding layer, so primary reform and the rest of basic education can be read together.',
+      'We recognise KwaraLEARN as the state’s technology-backed reform of public primary schools, still at the centre of basic education in 2026, alongside merit-based teacher recruitment and the 2026 teachers’ promotion exercise. Kwara also straddles several language communities, from Ilorin to the Yoruba south, the Nupe LGAs, and Baruten and Kaiama. This proposal adds the learner record, junior secondary, examination practice, and a parent window across all 16 Local Government Areas. SmartEdu Hub is offered for that surrounding layer, so primary reform and the rest of basic education can be read together.',
     summarySentence:
       'For Kwara State, SmartEdu Hub sits beside KwaraLEARN and adds learner content, junior-secondary records, and parent communication across all 16 LGAs and the state’s language communities.',
     priorities: [
@@ -716,13 +731,13 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   lagos: {
     letterBullet:
-      'We recognise that Lagos already runs EKOEXCEL in public primary schools and supervises basic and secondary education across 20 Local Government Areas and six education districts. The useful addition is a single system for secondary-school records, parent communication, NERDC learning content, and WAEC, NECO, and JAMB practice at the volume Lagos enters, beside the primary reform already in place.',
+      'We recognise that Lagos already runs EKOEXCEL in all 1,009 public primary schools, and the Eko Learners’ Support Programme for public secondary schools preparing for WAEC and NECO, beside a free-education policy and six education districts. The useful addition is one system for secondary-school records, parent communication, NERDC learning content, and examination practice at the volume Lagos enters. The state administers this map through 20 Local Government Areas.',
     coverParagraph:
-      'We recognise that Lagos already runs EKOEXCEL in public primary schools and supervises basic and secondary education across 20 Local Government Areas and six education districts. The useful addition is a single system for secondary-school records, parent communication, NERDC learning content, and WAEC, NECO, and JAMB practice at the volume Lagos enters, beside the primary reform already in place. SmartEdu Hub is proposed for that layer, from Ikeja, Mushin, and Alimosho to Ikorodu, Badagry, and Epe.',
+      'We recognise that Lagos already runs EKOEXCEL in all 1,009 public primary schools, and the Eko Learners’ Support Programme for public secondary schools preparing for WAEC and NECO, beside a free-education policy and six education districts. The useful addition is one system for secondary-school records, parent communication, NERDC learning content, and examination practice at the volume Lagos enters. The state administers this map through 20 Local Government Areas. SmartEdu Hub is proposed for that layer, from Ikeja, Mushin, and Alimosho to Ikorodu, Badagry, and Epe.',
     summarySentence:
-      'For Lagos State, SmartEdu Hub adds secondary-school management, parent communication, and examination practice beside EKOEXCEL, across 20 LGAs and six education districts.',
+      'For Lagos State, SmartEdu Hub adds secondary-school records, parent communication, and examination practice beside EKOEXCEL and the Eko Learners’ Support Programme, across 20 LGAs and six education districts.',
     priorities: [
-      'Sit beside EKOEXCEL and cover public secondary schools at Lagos scale.',
+      'Sit beside EKOEXCEL and the Eko Learners’ Support Programme, and cover public secondary schools at Lagos scale.',
       'Give all six education districts the same record format.',
       'Carry WAEC, NECO, and JAMB practice for one of the country’s largest candidate pools.',
       'Keep parents informed in a system where distance and traffic already limit school visits.',
@@ -739,83 +754,83 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
     rolloutNote:
       'Lagos should roll out by education district. A school-by-school scatter will be impossible to support at this density.',
     conclusionSentence:
-      'A state-wide adoption would give Lagos a secondary, parent, and examination layer beside EKOEXCEL, across all 20 Local Government Areas and the six education districts.',
+      'A state-wide adoption would give Lagos a secondary, parent, and examination layer beside EKOEXCEL and the Eko Learners’ Support Programme, across all 20 Local Government Areas and the six education districts.',
     languages: 'English and Yoruba',
     sectionLine:
-      'Secondary records and examination practice beside EKOEXCEL, across six education districts',
+      'Secondary records and examination practice beside EKOEXCEL and Eko Learners, across six education districts',
   },
 
   nasarawa: {
     letterBullet:
-      'We recognise two education geographies inside Nasarawa’s 13 Local Government Areas. The Adolescent Girls Initiative for Learning and Empowerment is already supporting more than 20,000 out-of-school girls with conditional cash transfers in Awe, Doma, Lafia, Wamba, Kokona, Keana, and Nasarawa. At the same time, Karu and Keffi sit on the Abuja corridor, with a different school population and a different set of pressures. Girls who have been brought back to school still need to learn, attend, and stay visible.',
+      'We recognise the Government of Nasarawa State’s 2026 commitment to education, including an allocation of ₦94.25 billion and smart model schools under construction in Lafia. Karu and Keffi, on the Abuja corridor, carry a busy school population of their own, while Awe, Doma, Keana, and the other rural Local Government Areas complete a map of 13. Girls’ education and strong public schools in both the capital and the corridor are part of that investment.',
     coverParagraph:
-      'We recognise two education geographies inside Nasarawa’s 13 Local Government Areas. The Adolescent Girls Initiative for Learning and Empowerment is already supporting more than 20,000 out-of-school girls with conditional cash transfers in Awe, Doma, Lafia, Wamba, Kokona, Keana, and Nasarawa. At the same time, Karu and Keffi sit on the Abuja corridor, with a different school population and a different set of pressures. Girls who have been brought back to school still need to learn, attend, and stay visible. SmartEdu Hub is the attendance, learning, and SUBEB layer that can sit under both geographies.',
+      'We recognise the Government of Nasarawa State’s 2026 commitment to education, including an allocation of ₦94.25 billion and smart model schools under construction in Lafia. Karu and Keffi, on the Abuja corridor, carry a busy school population of their own, while Awe, Doma, Keana, and the other rural Local Government Areas complete a map of 13. Girls’ education and strong public schools in both the capital and the corridor are part of that investment. SmartEdu Hub is the attendance, learning, and SUBEB layer for both geographies.',
     summarySentence:
-      'For Nasarawa State, SmartEdu Hub helps the Ministry see whether girls supported back into school are attending and learning, and it covers both the AGILE LGAs and the Abuja-corridor LGAs of Karu and Keffi.',
+      'For Nasarawa State, SmartEdu Hub supports the Lafia smart model schools and gives Karu, Keffi, and the rural LGAs one learning record across all 13.',
     priorities: [
-      'Keep girls re-enrolled under AGILE visible through attendance and results.',
-      'Serve Lafia together with Karu and Keffi, which face capital-corridor pressure.',
-      'Reach southern and western LGAs such as Awe, Doma, and Keana with offline content.',
-      'Cover all 13 LGAs, not only the seven in the cash-transfer programme.',
-      'Give SUBEB one girl-child and whole-school dashboard.',
+      'Place syllabus-aligned content in the smart model schools as they open in Lafia.',
+      'Serve Karu and Keffi, where the Abuja corridor keeps classrooms full.',
+      'Reach Awe, Doma, and Keana with offline content of the same standard.',
+      'Cover all 13 LGAs, not only the capital and the corridor.',
+      'Give SUBEB one dashboard for girls’ attendance and for every school.',
     ],
     contributions: [
-      'Attendance and learning records for girls the state has spent money to return to school.',
+      'iBooks, assessment, and attendance for the new model schools.',
       'School management for busy corridor schools in Karu and Keffi.',
       'Offline iBooks for Awe, Doma, Keana, and similar LGAs.',
-      'A 13-LGA map that shows both AGILE and non-AGILE local governments.',
+      'A 13-LGA map that shows Lafia, the corridor, and the rural local governments together.',
       'Transition reports from primary into junior secondary.',
     ],
     pilotPlace: 'Lafia, Karu, and Awe',
     rolloutNote:
       'Keffi and Karu can move quickly. Awe, Doma, and Keana need offline kits and a longer training visit.',
     conclusionSentence:
-      'A state-wide adoption would give Nasarawa a way to protect the gains of girls’ re-enrolment and to supervise both the corridor and the rural LGAs, across all 13 Local Government Areas.',
+      'A state-wide adoption would give Nasarawa a learning system for the smart model schools and a single record for the corridor and the rural LGAs, across all 13 Local Government Areas.',
     languages: 'English and Hausa, with other Nasarawa languages added as the Ministry requires',
     sectionLine:
-      'Attendance and learning for Nasarawa’s girls, corridor schools, and rural LGAs',
+      'Lafia’s smart model schools, the Abuja corridor, and Nasarawa’s rural LGAs',
   },
 
   niger: {
     letterBullet:
-      'We recognise that distance and insecurity shape schooling in Niger more than in most states. Niger is Nigeria’s largest state by land area, with 25 Local Government Areas and very different school economies in Minna, Bida, Suleja, and Kontagora. A UNICEF study carried out with the Niger State Ministry of Basic and Secondary Education found that insecurity shut 114 schools between 2020 and 2025, concentrated in Shiroro, Munya, and Rafi, of which 29 had reopened at the time of the study.',
+      'We recognise the Government of Niger State’s 2026 school-renewal work: more than 1,000 classrooms renovated and 120,000 chairs and tables supplied, with qualified teachers being engaged for the new learning environment. Niger is Nigeria’s largest state by land area, with 25 Local Government Areas and strong school centres in Minna, Bida, Suleja, and Kontagora. Communities in Bosso, Mokwa, and Shiroro are already among those receiving this investment.',
     coverParagraph:
-      'We recognise that distance and insecurity shape schooling in Niger more than in most states. Niger is Nigeria’s largest state by land area, with 25 Local Government Areas and very different school economies in Minna, Bida, Suleja, and Kontagora. A UNICEF study carried out with the Niger State Ministry of Basic and Secondary Education found that insecurity shut 114 schools between 2020 and 2025, concentrated in Shiroro, Munya, and Rafi, of which 29 had reopened at the time of the study. SmartEdu Hub is proposed as an offline learning and records system for open schools, and as a catch-up record for communities whose schools were shut.',
+      'We recognise the Government of Niger State’s 2026 school-renewal work: more than 1,000 classrooms renovated and 120,000 chairs and tables supplied, with qualified teachers being engaged for the new learning environment. Niger is Nigeria’s largest state by land area, with 25 Local Government Areas and strong school centres in Minna, Bida, Suleja, and Kontagora. Communities in Bosso, Mokwa, and Shiroro are already among those receiving this investment. SmartEdu Hub is the offline-ready learning and records system for those renewed classrooms.',
     summarySentence:
-      'For Niger State, SmartEdu Hub keeps learning and learner records available across a very large land area, including schools in Shiroro, Munya, and Rafi affected by closure, and the open systems in Minna, Bida, Suleja, and Kontagora.',
+      'For Niger State, SmartEdu Hub supports the renovated classrooms and new furniture with lesson tools and a SUBEB record from Minna, Bida, and Suleja to Kontagora, across all 25 LGAs.',
     priorities: [
-      'Support learners from the 114 schools the joint UNICEF study found closed, and from the 29 that had reopened.',
-      'Run a normal digital school system in Minna, Bida, Suleja, and Kontagora.',
-      'Cover nomadic centres and sparse rural communities, not only town schools.',
-      'Work offline across long distances and weak networks.',
-      'Give SUBEB a 25-LGA view that shows which schools are open.',
+      'Pair the renovated classrooms with NERDC content and continuous assessment.',
+      'Run one digital school system in Minna, Bida, Suleja, and Kontagora.',
+      'Include rural and widely spaced communities, not only the town schools.',
+      'Work offline across long distances and limited networks.',
+      'Give SUBEB a 25-LGA view that keeps every zone visible.',
     ],
     contributions: [
-      'Catch-up content and re-entry records for learners from closed schools.',
+      'Lesson notes and quizzes for the renewed classroom blocks.',
       'Full school management for the four urban anchors.',
-      'Lightweight tools for nomadic and rural learning centres.',
+      'Lightweight records for rural learning centres.',
       'Offline iBooks and attendance that sync when a school reconnects.',
-      'An open, reopened, or closed status on the state dashboard.',
+      'A 25-LGA dashboard covering Minna, Bida, Suleja, Kontagora, and Shiroro.',
     ],
-    pilotPlace: 'Minna, Bida, and Suleja, with a records pilot for learners from Shiroro',
+    pilotPlace: 'Minna, Bida, and Suleja, with Shiroro in the first expansion',
     rolloutNote:
-      'Kontagora and the northern LGAs are too far from Minna to share one deployment team. Shiroro, Munya, and Rafi should follow state security guidance.',
+      'Kontagora and the northern LGAs are too far from Minna to share one deployment team. They should be named in the first MOU.',
     conclusionSentence:
-      'A state-wide adoption would give Niger a school record that fits the country’s largest state by area, across all 25 Local Government Areas, including communities whose schools were closed.',
+      'A state-wide adoption would give Niger a school record that fits the country’s largest state by area, across all 25 Local Government Areas, starting from the classrooms the state is already renewing.',
     languages: 'English, Hausa, Nupe, and Gbagyi, as the Ministry requires',
     sectionLine:
-      'Learning continuity across Niger’s distances, including LGAs affected by school closures',
+      'Renewed classrooms and one school record across Niger’s 25 LGAs',
   },
 
   ogun: {
     letterBullet:
-      'We recognise Ogun’s position as the gateway state: 20 Local Government Areas, a heavy school population along the Lagos corridor in Ado-Odo/Ota, Ifo, and Sagamu, and a different rural reality in Yewa and parts of Ijebu. Families in the industrial corridor compare public schools with a dense private sector. Egba, Ijebu, Remo, and Yewa need to be visible separately to the Ministry in Abeokuta.',
+      'We recognise Ogun’s place as the gateway state: 20 Local Government Areas, a heavy and ambitious school population along the Lagos corridor in Ado-Odo/Ota, Ifo, and Sagamu, and a proud school tradition in Egba, Ijebu, Remo, and Yewa. Families on the industrial corridor expect a high standard, and the public system is ready to meet it. The four divisions should be equally visible to the Ministry in Abeokuta.',
     coverParagraph:
-      'We recognise Ogun’s position as the gateway state: 20 Local Government Areas, a heavy school population along the Lagos corridor in Ado-Odo/Ota, Ifo, and Sagamu, and a different rural reality in Yewa and parts of Ijebu. Families in the industrial corridor compare public schools with a dense private sector. Egba, Ijebu, Remo, and Yewa need to be visible separately to the Ministry in Abeokuta. SmartEdu Hub gives public schools examination practice, parent communication, and a four-division dashboard.',
+      'We recognise Ogun’s place as the gateway state: 20 Local Government Areas, a heavy and ambitious school population along the Lagos corridor in Ado-Odo/Ota, Ifo, and Sagamu, and a proud school tradition in Egba, Ijebu, Remo, and Yewa. Families on the industrial corridor expect a high standard, and the public system is ready to meet it. The four divisions should be equally visible to the Ministry in Abeokuta. SmartEdu Hub gives public schools examination practice, parent communication, and a four-division dashboard.',
     summarySentence:
       'For Ogun State, SmartEdu Hub gives public schools on the Lagos corridor and in Yewa, Ijebu, Remo, and Egba the same lesson quality, examination practice, and SUBEB record across all 20 LGAs.',
     priorities: [
-      'Raise public-school examination practice where private schools set the local standard.',
+      'Give public schools examination practice worthy of the standard families on the Lagos corridor already expect.',
       'See Egba, Ijebu, Remo, and Yewa as four pictures, not one Abeokuta average.',
       'Serve crowded corridor schools in Ado-Odo/Ota, Ifo, and Sagamu.',
       'Reach rural Yewa schools with offline materials.',
@@ -840,11 +855,11 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   ondo: {
     letterBullet:
-      'We recognise Ondo’s long secondary-school tradition and the split geography the Ministry actually manages. Upland LGAs around Akure, Ondo, Owo, and Akoko are not the same assignment as the riverine LGAs of Ilaje and Ese-Odo, where schools are reached by water. Eighteen Local Government Areas, a strong grammar-school culture, and creek communities belong in one state system.',
+      'We recognise the Government of Ondo State’s education reforms, honoured by the Federal Government in October 2026: more than 2,100 teachers recruited in 2025, 43 classroom blocks constructed, 75 schools renovated, learning resources across the three senatorial districts, computer textbooks in all 18 Local Government Areas, and ₦633.9 million paid to register 23,048 public-school students for the 2026 WAEC. Tablets and artificial-intelligence tools are already entering public schools. Upland communities around Akure, Ondo, Owo, and Akoko, and the riverine LGAs of Ilaje and Ese-Odo, belong in that same standard.',
     coverParagraph:
-      'We recognise Ondo’s long secondary-school tradition and the split geography the Ministry actually manages. Upland LGAs around Akure, Ondo, Owo, and Akoko are not the same assignment as the riverine LGAs of Ilaje and Ese-Odo, where schools are reached by water. Eighteen Local Government Areas, a strong grammar-school culture, and creek communities belong in one state system. SmartEdu Hub carries examination-level content for the upland schools and offline materials for the riverine ones, with a single SUBEB record.',
+      'We recognise the Government of Ondo State’s education reforms, honoured by the Federal Government in October 2026: more than 2,100 teachers recruited in 2025, 43 classroom blocks constructed, 75 schools renovated, learning resources across the three senatorial districts, computer textbooks in all 18 Local Government Areas, and ₦633.9 million paid to register 23,048 public-school students for the 2026 WAEC. Tablets and artificial-intelligence tools are already entering public schools. Upland communities around Akure, Ondo, Owo, and Akoko, and the riverine LGAs of Ilaje and Ese-Odo, belong in that same standard. SmartEdu Hub carries examination-level content for the upland schools and offline materials for the riverine ones, with a single SUBEB record.',
     summarySentence:
-      'For Ondo State, SmartEdu Hub serves the upland secondary-school tradition and the riverine schools of Ilaje and Ese-Odo with the same curriculum record across all 18 LGAs.',
+      'For Ondo State, SmartEdu Hub supports the teachers recruited in 2025 and the 2026 WAEC cohort, and serves both the upland schools and Ilaje and Ese-Odo across all 18 LGAs.',
     priorities: [
       'Match digital content to a state that takes secondary examinations seriously.',
       'Reach Ilaje and Ese-Odo with offline lessons and a record that does not depend on a weekly visit.',
@@ -902,22 +917,22 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   oyo: {
     letterBullet:
-      'We write as a company headquartered in Ibadan, inside the state this proposal serves. We recognise Oyo’s free public primary and secondary education, the scale of 33 Local Government Areas, and the BESDA Additional Financing programme aimed at children still out of school. Ibadan’s eleven local governments are a different assignment from Oke-Ogun, Ogbomoso, Oyo, and Ibarapa. A student of Oritamefa Baptist Model School, Ibadan, shared national third prize in the Accessible Summer Competition on SmartEdu Hub.',
+      'We write as a company headquartered in Ibadan, inside the state this proposal serves. We recognise Oyo’s free public primary and secondary education, still fully in force, the training of 18,000 teachers and the handover of teaching tablets in August 2025, and the 2026 supply of Braille textbooks to special basic schools. Ibadan’s eleven local governments are a different assignment from Oke-Ogun, Ogbomoso, Oyo, and Ibarapa, across 33 Local Government Areas in all. A student of Oritamefa Baptist Model School, Ibadan, shared national third prize in the Accessible Summer Competition on SmartEdu Hub.',
     coverParagraph:
-      'We write as a company headquartered in Ibadan, inside the state this proposal serves. We recognise Oyo’s free public primary and secondary education, the scale of 33 Local Government Areas, and the BESDA Additional Financing programme aimed at children still out of school. Ibadan’s eleven local governments are a different assignment from Oke-Ogun, Ogbomoso, Oyo, and Ibarapa. A student of Oritamefa Baptist Model School, Ibadan, shared national third prize in the Accessible Summer Competition on SmartEdu Hub. Because our head office is at Oke-Ado, implementation support for Oyo sits in the same city as the Ministry.',
+      'We write as a company headquartered in Ibadan, inside the state this proposal serves. We recognise Oyo’s free public primary and secondary education, still fully in force, the training of 18,000 teachers and the handover of teaching tablets in August 2025, and the 2026 supply of Braille textbooks to special basic schools. Ibadan’s eleven local governments are a different assignment from Oke-Ogun, Ogbomoso, Oyo, and Ibarapa, across 33 Local Government Areas in all. A student of Oritamefa Baptist Model School, Ibadan, shared national third prize in the Accessible Summer Competition on SmartEdu Hub. Because our head office is at Oke-Ado, implementation support for Oyo sits in the same city as the Ministry.',
     summarySentence:
-      'For Oyo State, SmartEdu Hub — supported from our Ibadan head office — gives free public education a school record across Ibadan and the rural zones, and supports the state’s out-of-school work under BESDA, across all 33 LGAs.',
+      'For Oyo State, SmartEdu Hub — supported from our Ibadan head office — gives free public education a school record across Ibadan and the other zones, and extends the teacher training and tablets the state handed over in 2025, across all 33 LGAs.',
     priorities: [
-      'Show what free public primary and secondary education is producing in attendance and results.',
+      'Keep free public primary and secondary education visible in attendance, lessons, and results.',
       'See Ibadan’s LGAs separately from Oke-Ogun, Ogbomoso, Oyo, and Ibarapa.',
-      'Support BESDA’s aim of reducing the number of out-of-school children.',
+      'Give the teachers trained in 2025 a shared lesson-note and assessment routine on the tablets already in schools.',
       'Use a vendor whose implementation team is already based in Ibadan.',
-      'Give public schools CBT practice at the standard families in Ibadan already know from private schools.',
+      'Give public schools CBT practice at the standard families in Ibadan already expect.',
     ],
     contributions: [
       'Attendance, results, and parent communication behind the free-education policy.',
       'Zone dashboards for Ibadan, Oke-Ogun, Ogbomoso, Oyo, and Ibarapa.',
-      'Enrolment tools an LGEA can use on an out-of-school drive.',
+      'Lesson notes and quizzes that sit on the devices teachers already hold.',
       'On-the-ground support from The Knowledge Hub, Oke-Ado, Ibadan.',
       'WAEC, NECO, JAMB, and BECE practice on the same platform a local student has already competed on.',
     ],
@@ -933,33 +948,33 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   plateau: {
     letterBullet:
-      'We recognise Plateau’s mix of a strong school tradition in Jos and an interrupted school year in LGAs affected by communal conflict, including communities in Barkin Ladi, Riyom, Bassa, and Mangu. The Ministry has to keep urban schools in Jos North and Jos South performing, and keep a record of children in places where the term was broken. Seventeen Local Government Areas cover a wide set of language communities.',
+      'We recognise the Government of Plateau State’s basic-education investment: more than 1,200 classrooms renovated across the 17 Local Government Areas in three years, 1,500 teachers recruited, and a commitment of more than ₦10 billion to basic education. That investment includes the HOPE-EDU distribution of teaching materials, buses for supervision, and digital devices for education officers. Jos has a strong school tradition, and the same materials and records can serve Shendam, Langtang, Pankshin, and the rest of the state.',
     coverParagraph:
-      'We recognise Plateau’s mix of a strong school tradition in Jos and an interrupted school year in LGAs affected by communal conflict, including communities in Barkin Ladi, Riyom, Bassa, and Mangu. The Ministry has to keep urban schools in Jos North and Jos South performing, and keep a record of children in places where the term was broken. Seventeen Local Government Areas cover a wide set of language communities. SmartEdu Hub offers examination-level content for Jos and catch-up records for the LGAs where schooling was interrupted.',
+      'We recognise the Government of Plateau State’s basic-education investment: more than 1,200 classrooms renovated across the 17 Local Government Areas in three years, 1,500 teachers recruited, and a commitment of more than ₦10 billion to basic education. That investment includes the HOPE-EDU distribution of teaching materials, buses for supervision, and digital devices for education officers. Jos has a strong school tradition, and the same materials and records can serve Shendam, Langtang, Pankshin, and the rest of the state. SmartEdu Hub is the lesson, examination, and SUBEB layer for those renewed classrooms.',
     summarySentence:
-      'For Plateau State, SmartEdu Hub supports high-expectation schools in Jos and learning continuity in LGAs where conflict has broken the school year, across all 17 LGAs.',
+      'For Plateau State, SmartEdu Hub supports the renovated classrooms, the recruited teachers, and HOPE-EDU’s learning materials with one record from Jos across all 17 LGAs.',
     priorities: [
       'Keep Jos schools academically sharp, with proper examination practice.',
-      'Restore records and catch-up lessons where the school year was interrupted.',
-      'Cover Barkin Ladi, Riyom, Bassa, and Mangu with a status the Ministry can see.',
-      'Serve language communities beyond Jos with the same NERDC standard.',
+      'Give the 1,500 recruited teachers shared lesson notes and continuous assessment.',
+      'Pair renovated classrooms in every LGA with the same NERDC content.',
+      'Serve language communities beyond Jos with one curriculum standard.',
       'Give SUBEB a 17-LGA view from Jos to Shendam, Langtang, and Pankshin.',
     ],
     contributions: [
       'CBT and iBooks for schools in Jos North and Jos South.',
-      'Catch-up modules and transferable learner records.',
-      'A school-status flag so a closed or partial school is visible.',
+      'Lesson notes and refresher training for the expanded teaching force.',
+      'Usage records that sit beside the new teaching and learning materials.',
       'Offline content for rural LGAs.',
       'A full 17-LGA dashboard.',
     ],
-    pilotPlace: 'Jos North, Jos South, and one LGA where schooling has been interrupted',
+    pilotPlace: 'Jos North, Jos South, and Pankshin',
     rolloutNote:
       'Southern Plateau, including Shendam and Langtang, should be a named wave. Jos must not be the entire project.',
     conclusionSentence:
-      'A state-wide adoption would give Plateau a way to protect learning in Jos and to restore it where the school year was broken, across all 17 Local Government Areas.',
+      'A state-wide adoption would give Plateau a learning system worthy of the classrooms and teachers the state is already funding, across all 17 Local Government Areas.',
     languages: 'English and Hausa, with other Plateau languages added as the Ministry requires',
     sectionLine:
-      'Jos schools and learning continuity in conflict-affected LGAs',
+      'Renovated classrooms, new teachers, and a 17-LGA record for Plateau',
   },
 
   rivers: {
@@ -995,16 +1010,16 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   sokoto: {
     letterBullet:
-      'We recognise the education task at the seat of the Caliphate. UNICEF education fact sheets place Sokoto among the states where more than half of primary-school-age children are out of school. Girls’ participation, and a respectful link between formal schools and Qur’anic and tsangaya centres, are central to any serious basic-education plan across the 23 Local Government Areas. Rural LGAs where banditry has disrupted schooling need a different track from Sokoto metropolis.',
+      'We recognise the Government of Sokoto State’s basic-education reforms at the seat of the Caliphate: free and compulsory basic education, the removal of school levies, a widening network of early-childhood centres, and a partnership with the Sultanate Council to bring Qur’anic learning into integrated school models in communities such as Shuni, Gagi, Tambuwal, and Wamakko. Mega model schools are rising across the senatorial zones, teachers have been screened for those campuses, and the Digital Village Initiative opened in May 2025 is adding digital skills. There are 23 Local Government Areas.',
     coverParagraph:
-      'We recognise the education task at the seat of the Caliphate. UNICEF education fact sheets place Sokoto among the states where more than half of primary-school-age children are out of school. Girls’ participation, and a respectful link between formal schools and Qur’anic and tsangaya centres, are central to any serious basic-education plan across the 23 Local Government Areas. Rural LGAs where banditry has disrupted schooling need a different track from Sokoto metropolis. SmartEdu Hub is offered as a records and learning system that includes both tracks, and that treats integrated Qur’anic schooling as part of the state’s picture.',
+      'We recognise the Government of Sokoto State’s basic-education reforms at the seat of the Caliphate: free and compulsory basic education, the removal of school levies, a widening network of early-childhood centres, and a partnership with the Sultanate Council to bring Qur’anic learning into integrated school models in communities such as Shuni, Gagi, Tambuwal, and Wamakko. Mega model schools are rising across the senatorial zones, teachers have been screened for those campuses, and the Digital Village Initiative opened in May 2025 is adding digital skills. There are 23 Local Government Areas. SmartEdu Hub is the records and learning system for that reform, treating integrated Qur’anic schooling as part of the state’s picture.',
     summarySentence:
-      'For Sokoto State, SmartEdu Hub helps the Ministry record out-of-school children, follow girls’ attendance, and include integrated Qur’anic centres, across all 23 LGAs.',
+      'For Sokoto State, SmartEdu Hub supports free basic education, the new mega schools, and integrated Qur’anic models with one SUBEB record across all 23 LGAs.',
     priorities: [
-      'Reduce a primary out-of-school rate that UNICEF places above 50 per cent.',
-      'Raise girls’ enrolment and daily attendance with evidence.',
-      'Include tsangaya and integrated Qur’anic learners in the formal record.',
-      'Keep Sokoto metropolis and disrupted rural LGAs on separate, visible tracks.',
+      'Support free and compulsory basic education with daily enrolment and attendance.',
+      'Encourage girls’ enrolment and continuity with evidence the Ministry can share.',
+      'Include tsangaya and integrated Qur’anic learners in the formal record, with the Sultanate’s model in view.',
+      'Give the mega schools and Sokoto metropolis the same lesson standard as the rural LGAs.',
       'Work in Hausa, the language of the home and of much of the classroom.',
     ],
     contributions: [
@@ -1014,29 +1029,29 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
       'A metropolis view and a rural view, covering all 23 LGAs.',
       'An interface configurable for English and Hausa, plus offline content.',
     ],
-    pilotPlace: 'Sokoto metropolis and two rural LGAs the Ministry considers safe to start',
+    pilotPlace: 'Sokoto metropolis, Wamakko, and one integrated-school community such as Shuni or Gagi',
     rolloutNote:
-      'Rural expansion should follow the state’s security guidance. Tsangaya inclusion should be designed with the education and religious authorities together.',
+      'Tsangaya inclusion should be designed with the education authorities and the Sultanate together. Rural LGAs should receive offline kits in the same term as the metropolis pilot.',
     conclusionSentence:
       'A state-wide adoption would give Sokoto a respectful, child-level record of formal and integrated Qur’anic learning across all 23 Local Government Areas.',
     languages: 'English and Hausa',
     sectionLine:
-      'Out-of-school children, girls’ attendance, and tsangaya integration in Sokoto',
+      'Free basic education, mega schools, and integrated Qur’anic learning in Sokoto',
   },
 
   taraba: {
     letterBullet:
-      'We recognise Taraba as one of Nigeria’s most diverse states, and one of the hardest to supervise from a single capital. Sixteen Local Government Areas run from Jalingo and Wukari to the Mambilla plateau in Sardauna, with scattered settlements, nomadic communities, and long distances. The state needs learning materials and school records that work with weak power, many languages, and long distances from Jalingo.',
+      'We recognise the Government of Taraba State’s free and compulsory education policy, which the administration has affirmed is here to stay. In 2026 the state released ₦1.39 billion to register 39,536 students for WAEC, alongside school feeding, and it is taking up its UBEC matching grant so facilities and materials reach every zone. Sixteen Local Government Areas run from Jalingo and Wukari to the Mambilla plateau in Sardauna. That diversity is a strength, and it deserves one record SUBEB can read from the capital.',
     coverParagraph:
-      'We recognise Taraba as one of Nigeria’s most diverse states, and one of the hardest to supervise from a single capital. Sixteen Local Government Areas run from Jalingo and Wukari to the Mambilla plateau in Sardauna, with scattered settlements, nomadic communities, and long distances. The state needs learning materials and school records that work with weak power, many languages, and long distances from Jalingo. SmartEdu Hub is proposed as an offline-first learning and records system, so SUBEB in Jalingo can still see Sardauna, Gashaka, and Wukari.',
+      'We recognise the Government of Taraba State’s free and compulsory education policy, which the administration has affirmed is here to stay. In 2026 the state released ₦1.39 billion to register 39,536 students for WAEC, alongside school feeding, and it is taking up its UBEC matching grant so facilities and materials reach every zone. Sixteen Local Government Areas run from Jalingo and Wukari to the Mambilla plateau in Sardauna. That diversity is a strength, and it deserves one record SUBEB can read from the capital. SmartEdu Hub is proposed as that offline-first learning and records system.',
     summarySentence:
-      'For Taraba State, SmartEdu Hub is an offline-first school record for a widely scattered and highly diverse state, from Jalingo and Wukari to the Mambilla plateau, across all 16 LGAs.',
+      'For Taraba State, SmartEdu Hub supports free education and the 2026 WAEC cohort with an offline-first school record from Jalingo and Wukari to the Mambilla plateau, across all 16 LGAs.',
     priorities: [
       'See Sardauna, Gashaka, Wukari, and Jalingo on one dashboard.',
       'Serve nomadic and scattered communities with lightweight records.',
       'Work offline for long periods and sync when a school reaches a network.',
       'Hold many language communities to one NERDC curriculum.',
-      'Cut the supervision gap created by distance.',
+      'Keep Sardauna, Gashaka, and Wukari as visible from Jalingo as the capital’s own schools.',
     ],
     contributions: [
       'LGA dashboards that still display a school which has not synced this week.',
@@ -1047,7 +1062,7 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
     ],
     pilotPlace: 'Jalingo, Wukari, and Sardauna',
     rolloutNote:
-      'Sardauna cannot be served from a day trip out of Jalingo. The MOU should budget a highland deployment separately.',
+      'Sardauna needs its own highland deployment. The MOU should budget that visit separately from a day trip out of Jalingo.',
     conclusionSentence:
       'A state-wide adoption would give Taraba an offline school record that reaches from Jalingo to the Mambilla plateau, across all 16 Local Government Areas.',
     languages: 'English and Hausa, with other Taraba languages added as the Ministry requires',
@@ -1057,21 +1072,21 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
 
   yobe: {
     letterBullet:
-      'We recognise Yobe’s place in the same north-east recovery as Borno and Adamawa. UNICEF reported in November 2024 about two million out-of-school children across the three states, and placed Yobe among the states where more than half of primary-age and junior-secondary-age children are out of school. The state’s practical anchors are Damaturu and Potiskum, with Gashua and the northern LGAs still carrying the marks of damaged schooling. There are 17 Local Government Areas.',
+      'We recognise the Government of Yobe State’s continued investment in classrooms and teachers, with Damaturu and Potiskum as strong anchors and Gashua and the northern Local Government Areas fully part of the same map. Seventeen LGAs can share one lesson standard, one attendance record, and one SUBEB view. Integrated Qur’anic learning sits beside the formal school, and girls’ participation is a priority the state can now make visible in every zone.',
     coverParagraph:
-      'We recognise Yobe’s place in the same north-east recovery as Borno and Adamawa. UNICEF reported in November 2024 about two million out-of-school children across the three states, and placed Yobe among the states where more than half of primary-age and junior-secondary-age children are out of school. The state’s practical anchors are Damaturu and Potiskum, with Gashua and the northern LGAs still carrying the marks of damaged schooling. There are 17 Local Government Areas. SmartEdu Hub offers catch-up content, teacher support where qualified staff are few, and a SUBEB record that includes girls and integrated Qur’anic learners.',
+      'We recognise the Government of Yobe State’s continued investment in classrooms and teachers, with Damaturu and Potiskum as strong anchors and Gashua and the northern Local Government Areas fully part of the same map. Seventeen LGAs can share one lesson standard, one attendance record, and one SUBEB view. Integrated Qur’anic learning sits beside the formal school, and girls’ participation is a priority the state can now make visible in every zone. SmartEdu Hub offers that shared record, with teacher support and offline content beyond the two main towns.',
     summarySentence:
-      'For Yobe State, SmartEdu Hub supports catch-up learning from Damaturu and Potiskum outward, in a state UNICEF places among those with more than half of primary-age children out of school.',
+      'For Yobe State, SmartEdu Hub extends lesson quality and school records from Damaturu and Potiskum to Gashua and the northern LGAs, across all 17.',
     priorities: [
-      'Bring out-of-school children into a record, at primary and junior secondary.',
-      'Use Damaturu and Potiskum as training hubs for a thinner teaching force.',
-      'Reach Gashua and the northern LGAs with offline materials.',
-      'Track girls’ return to school.',
-      'Include integrated Qur’anic centres in the state’s count.',
+      'Give Damaturu and Potiskum a full digital school record the other LGAs can follow.',
+      'Use the two main towns as training hubs for teachers serving farther afield.',
+      'Reach Gashua and the northern LGAs with the same NERDC content, available offline.',
+      'Encourage girls’ attendance and continuity into junior secondary school.',
+      'Include integrated Qur’anic centres in the state’s picture.',
     ],
     contributions: [
       'Child-level enrolment for formal schools and learning centres.',
-      'Teacher guides and worked examples that help under-qualified staff cover the syllabus.',
+      'Teacher guides and worked examples that help every teacher cover the syllabus.',
       'Offline iBooks for LGAs beyond the two main towns.',
       'Girls’ attendance and transition reports.',
       'Shared records with tsangaya centres, visible across all 17 LGAs.',
@@ -1080,41 +1095,41 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
     rolloutNote:
       'Northern LGAs should receive offline kits. Teacher training can stay concentrated in Damaturu and Potiskum and then travel.',
     conclusionSentence:
-      'A state-wide adoption would give Yobe a catch-up and records system anchored in Damaturu and Potiskum and usable in the LGAs still recovering, across all 17 Local Government Areas.',
+      'A state-wide adoption would give Yobe one learning and records system, anchored in Damaturu and Potiskum and usable in every Local Government Area.',
     languages: 'English, Hausa, and Kanuri',
     sectionLine:
-      'Catch-up learning for Yobe, anchored in Damaturu and Potiskum',
+      'One learning standard for Yobe, anchored in Damaturu and Potiskum',
   },
 
   zamfara: {
     letterBullet:
-      'We recognise the conditions under which the Ministry is trying to run basic education. UNICEF education fact sheets place Zamfara among the states where more than half of primary-school-age children are out of school. Prolonged school closures in volatile LGAs, including communities in Maradun, Shinkafi, and Birnin Magaji, have pushed more children out. Gusau has become the place where many of those children can still be taught. There are 14 Local Government Areas.',
+      'We recognise the Government of Zamfara State’s commitment to restoring confidence in public schools, with Gusau as a strong centre of teaching and a rehabilitation and learning-materials effort that reaches the other Local Government Areas. Fourteen LGAs are a manageable map for one lesson standard and one SUBEB record. Teachers, parents, and community leaders are the partners in that work, and girls’ participation can be encouraged with the same tools in every zone.',
     coverParagraph:
-      'We recognise the conditions under which the Ministry is trying to run basic education. UNICEF education fact sheets place Zamfara among the states where more than half of primary-school-age children are out of school. Prolonged school closures in volatile LGAs, including communities in Maradun, Shinkafi, and Birnin Magaji, have pushed more children out. Gusau has become the place where many of those children can still be taught. There are 14 Local Government Areas. SmartEdu Hub is offered as catch-up learning and a learner record for Gusau and for communities whose schools have been closed, with offline materials and a dashboard that shows which schools are open.',
+      'We recognise the Government of Zamfara State’s commitment to restoring confidence in public schools, with Gusau as a strong centre of teaching and a rehabilitation and learning-materials effort that reaches the other Local Government Areas. Fourteen LGAs are a manageable map for one lesson standard and one SUBEB record. Teachers, parents, and community leaders are the partners in that work, and girls’ participation can be encouraged with the same tools in every zone. SmartEdu Hub gives the Ministry that enrolment, lesson, and attendance record, including offline content for schools outside Gusau.',
     summarySentence:
-      'For Zamfara State, SmartEdu Hub keeps learning and learner records alive in Gusau and in LGAs where schools have been closed for long periods, across all 14 LGAs.',
+      'For Zamfara State, SmartEdu Hub gives Gusau and the other 13 LGAs one lesson standard, one attendance record, and offline content where the network is limited.',
     priorities: [
-      'Teach and register children who have lost years of schooling.',
-      'Use Gusau as a working hub while volatile LGAs remain unsafe.',
-      'Show SUBEB which schools are open, partial, or closed.',
-      'Support girls’ return where families have kept daughters at home.',
-      'Work offline, and avoid assuming a team can visit every LGA on a calendar.',
+      'Support rehabilitated schools with lesson notes and continuous assessment.',
+      'Use Gusau as the training hub, then carry the same standard to the other LGAs.',
+      'Show SUBEB attendance and learning for all 14 LGAs on one dashboard.',
+      'Encourage girls’ enrolment and daily attendance.',
+      'Work offline where a permanent connection cannot be assumed.',
     ],
     contributions: [
-      'Short catch-up modules and placement checks for over-age learners.',
-      'Full school tools for Gusau schools absorbing extra children.',
-      'A school-status dashboard for all 14 LGAs.',
+      'NERDC iBooks, quizzes, and teacher notes for renewed classrooms.',
+      'Full school tools for Gusau schools, ready to replicate outward.',
+      'A 14-LGA dashboard the Ministry can review every month.',
       'Girls’ enrolment and attendance tracking.',
-      'Offline content packs that do not depend on a permanent connection.',
+      'Offline content packs that sync when a school reconnects.',
     ],
-    pilotPlace: 'Gusau, plus a records desk for learners who have left closed schools in volatile LGAs',
+    pilotPlace: 'Gusau and two LGAs the Ministry names for the first expansion',
     rolloutNote:
-      'Expansion beyond Gusau should follow the state’s security advice. Fourteen LGAs make a full data map realistic even where physical rollout is staged.',
+      'Fourteen LGAs make a full data map realistic. The expansion beyond Gusau should move LGA by LGA, with offline kits in the first consignment.',
     conclusionSentence:
-      'A state-wide adoption would give Zamfara a way to teach and count children in Gusau and in LGAs where schools have been closed, across all 14 Local Government Areas.',
+      'A state-wide adoption would give Zamfara a way to teach and follow learners in Gusau and across the other Local Government Areas, all 14 of them.',
     languages: 'English and Hausa',
     sectionLine:
-      'Catch-up learning for Gusau and for LGAs where schools have been closed',
+      'Renewed public schools and one SUBEB record across Zamfara’s 14 LGAs',
   },
 }
 
@@ -1155,6 +1170,13 @@ export function assertStateEducationProfiles(slugs: string[]) {
     }
     if (/opon imo/i.test(blob)) {
       throw new Error(`${slug} still cites Opon Imo`)
+    }
+    if (
+      /out-of-school|out of school|unicef|edobest|besda|banditry|boko haram/i.test(
+        blob,
+      )
+    ) {
+      throw new Error(`${slug} still uses deficit wording this proposal set no longer carries`)
     }
     for (const [phrase, owner] of Object.entries(EXCLUSIVE_PHRASES)) {
       if (blob.includes(phrase) && owner !== slug) {

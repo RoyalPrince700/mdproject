@@ -1,5 +1,6 @@
 import {
   Download,
+  FileSpreadsheet,
   FileText,
   FolderOpen,
   LayoutTemplate,
@@ -10,7 +11,7 @@ import {
 import { DOCUMENT_FONTS } from '../../theme/documentTheme'
 import type { DocumentFont, EditorViewMode } from '../../types/slide'
 
-export type ExportKind = 'pptx' | 'docx' | null
+export type ExportKind = 'pptx' | 'docx' | 'xlsx' | null
 
 interface Props {
   brand: string
@@ -23,6 +24,7 @@ interface Props {
   onPresent?: () => void
   onDownloadPptx?: () => void
   onDownloadDocx: () => void
+  onDownloadExcel?: () => void
   onAdd: () => void
   onReset?: () => void
   onViewChange: (view: EditorViewMode) => void
@@ -40,6 +42,7 @@ export function Toolbar({
   onPresent,
   onDownloadPptx,
   onDownloadDocx,
+  onDownloadExcel,
   onAdd,
   onReset,
   onViewChange,
@@ -135,6 +138,17 @@ export function Toolbar({
           >
             <Download size={16} strokeWidth={2} aria-hidden="true" />
             {exporting === 'pptx' ? 'Exporting…' : 'Download PPTX'}
+          </button>
+        ) : null}
+        {onDownloadExcel ? (
+          <button
+            type="button"
+            className="btn btn--ghost"
+            onClick={onDownloadExcel}
+            disabled={busy}
+          >
+            <FileSpreadsheet size={16} strokeWidth={2} aria-hidden="true" />
+            {exporting === 'xlsx' ? 'Exporting…' : 'Download Excel'}
           </button>
         ) : null}
         <button

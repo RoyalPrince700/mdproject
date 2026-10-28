@@ -9,13 +9,13 @@ import {
   assertStateEducationProfiles,
 } from './stateEducationProfiles'
 
-export const STATE_EDUCATION_SEED_REVISION = 12
+export const STATE_EDUCATION_SEED_REVISION = 14
 /** Osun copy was refreshed after Opon Imo was removed. Other states stay on the shared revision. */
 const OSUN_EDUCATION_SEED_REVISION = STATE_EDUCATION_SEED_REVISION + 1
 
 assertStateEducationProfiles(OTHER_NIGERIAN_STATES.map((state) => state.slug))
 
-const STATE_PROPOSAL_DATE = '7th October 2026'
+const STATE_PROPOSAL_DATE = '16th October 2026'
 
 const ABIA_COVER_FROM =
   'We have also developed and implemented a related digital education solution for Abia State, and more than 30 schools have adopted SmartEdu Hub within three months of launch. This demonstrates practical experience in building and deploying education technology solutions at institutional and government scale.'

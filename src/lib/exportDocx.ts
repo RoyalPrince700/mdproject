@@ -279,17 +279,21 @@ function tableCell(
   })
 }
 
-function twoColTable(
-  rows: Array<[string, string]>,
-  headers?: [string, string],
-): Table {
+function twoColTable(rows: string[][], headers?: string[]): Table {
+  const columnCount = Math.max(headers?.length ?? 0, rows[0]?.length ?? 0, 2)
+  const widths = columnCount === 3 ? [28, 36, 36] : [36, 64]
+  const cells = (values: string[], header = false) =>
+    Array.from({ length: columnCount }, (_, index) =>
+      tableCell(values[index] ?? '', {
+        header,
+        bold: header || index === 0,
+        width: widths[index] ?? Math.floor(100 / columnCount),
+      }),
+    )
   const body = rows.map(
-    ([left, right]) =>
+    (row) =>
       new TableRow({
-        children: [
-          tableCell(left, { bold: true, width: 36 }),
-          tableCell(right, { width: 64 }),
-        ],
+        children: cells(row),
       }),
   )
   return new Table({
@@ -298,10 +302,7 @@ function twoColTable(
       ...(headers
         ? [
             new TableRow({
-              children: [
-                tableCell(headers[0], { header: true, width: 36 }),
-                tableCell(headers[1], { header: true, width: 64 }),
-              ],
+              children: cells(headers, true),
             }),
           ]
         : []),
@@ -706,12 +707,15 @@ function proposalSlideBody(slide: Slide): Array<Paragraph | Table> {
   if (rows.length) {
     const columns =
       slide.layout === 'twoColumn' ? resolveTwoColumnContent(slide) : null
-    extras.push(
-      twoColTable(rows, [
-        columns?.leftTitle || 'Item',
-        columns?.rightTitle || 'Detail',
-      ]),
-    )
+    const headers =
+      rows[0]?.length === 3
+        ? [
+            columns?.leftTitle || 'Page',
+            slide.middleTitle || 'Current title',
+            columns?.rightTitle || 'Recommended title',
+          ]
+        : [columns?.leftTitle || 'Item', columns?.rightTitle || 'Detail']
+    extras.push(twoColTable(rows, headers))
   }
   if (slide.footer?.trim()) {
     const lines = slide.footer

@@ -2,6 +2,7 @@ import { CULTURE_EXCELLENCE_DOCUMENT_ID } from '../data/cultureExcellence'
 import { DM_CLASS1_DOCUMENT_ID } from '../data/dmClass1Introduction'
 import { DM_CLASS1_SMEH_ASSIGNMENT_ID } from '../data/dmClass1SmehAssignment'
 import { DM_CONTENT_STRATEGY_ASSIGNMENT_ID } from '../data/dmContentStrategyAssignment'
+import { DM_ONPAGE_SEO_TITLES_ID } from '../data/dmOnPageSeoTitles'
 import { SMEH_CONTENT_STRATEGY_ID } from '../data/smehContentStrategy'
 import {
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
@@ -46,6 +47,7 @@ const NON_SMEH_BRANDED_IDS = new Set([
   DM_CLASS1_DOCUMENT_ID,
   DM_CLASS1_SMEH_ASSIGNMENT_ID,
   DM_CONTENT_STRATEGY_ASSIGNMENT_ID,
+  DM_ONPAGE_SEO_TITLES_ID,
   SMEH_CONTENT_STRATEGY_ID,
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
   ACCESSIBLE_SUMMER_SLIDES_ID,
@@ -128,26 +130,33 @@ export function letterParagraphs(state: PresentationState): string[] {
   return fromSlides.length > 0 ? fromSlides : (state.meta.coverLetter ?? [])
 }
 
-export function sectionTableRows(slide: Slide): Array<[string, string]> {
+export function sectionTableRows(slide: Slide): string[][] {
   if (slide.layout === 'framework' || (slide.frameworkBlocks?.length ?? 0) > 0) {
     return (slide.frameworkBlocks ?? [])
-      .map((block): [string, string] | null => {
+      .map((block): string[] | null => {
         const label = block.label.trim()
         const text = block.text.trim()
         if (!label && !text) return null
         return [label || 'Item', text]
       })
-      .filter((row): row is [string, string] => row != null)
+      .filter((row): row is string[] => row != null)
   }
 
   if (slide.layout === 'twoColumn') {
     const columns = resolveTwoColumnContent(slide)
-    const left = columns.leftBullets.map(textOf).filter(Boolean)
-    const right = columns.rightBullets.map(textOf).filter(Boolean)
-    const length = Math.max(left.length, right.length)
-    const rows: Array<[string, string]> = []
+    const left = columns.leftBullets.map(textOf)
+    const middle = (slide.middleBullets ?? []).map(textOf)
+    const right = columns.rightBullets.map(textOf)
+    const hasMiddle = middle.some((cell) => cell.trim()) || Boolean(slide.middleTitle?.trim())
+    const length = Math.max(left.length, right.length, hasMiddle ? middle.length : 0)
+    const rows: string[][] = []
     for (let i = 0; i < length; i += 1) {
-      rows.push([left[i] ?? '', right[i] ?? ''])
+      if (!left[i]?.trim() && !right[i]?.trim() && !middle[i]?.trim()) continue
+      rows.push(
+        hasMiddle
+          ? [left[i] ?? '', middle[i] ?? '', right[i] ?? '']
+          : [left[i] ?? '', right[i] ?? ''],
+      )
     }
     return rows
   }

@@ -89,6 +89,11 @@ import {
   dmContentStrategyAssignment,
 } from '../data/dmContentStrategyAssignment'
 import {
+  DM_ONPAGE_SEO_TITLES_ID,
+  DM_ONPAGE_SEO_TITLES_TITLE,
+  dmOnPageSeoTitles,
+} from '../data/dmOnPageSeoTitles'
+import {
   SMEH_CONTENT_STRATEGY_ID,
   SMEH_CONTENT_STRATEGY_TITLE,
   smehContentStrategy,
@@ -191,6 +196,8 @@ export {
   CUSTOMER_SERVICE_WEEK_SLIDES_TITLE,
   DM_CONTENT_STRATEGY_ASSIGNMENT_ID,
   DM_CONTENT_STRATEGY_ASSIGNMENT_TITLE,
+  DM_ONPAGE_SEO_TITLES_ID,
+  DM_ONPAGE_SEO_TITLES_TITLE,
   SMEH_CONTENT_STRATEGY_ID,
   SMEH_CONTENT_STRATEGY_TITLE,
   ACCESSIBLE_SUMMER_DOCUMENT_ID,
@@ -308,6 +315,10 @@ const SEED_CATALOG: Record<
   [DM_CONTENT_STRATEGY_ASSIGNMENT_ID]: {
     title: DM_CONTENT_STRATEGY_ASSIGNMENT_TITLE,
     getState: () => structuredClone(dmContentStrategyAssignment),
+  },
+  [DM_ONPAGE_SEO_TITLES_ID]: {
+    title: DM_ONPAGE_SEO_TITLES_TITLE,
+    getState: () => structuredClone(dmOnPageSeoTitles),
   },
   [SMEH_CONTENT_STRATEGY_ID]: {
     title: SMEH_CONTENT_STRATEGY_TITLE,

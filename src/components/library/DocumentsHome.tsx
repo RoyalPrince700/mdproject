@@ -37,6 +37,7 @@ import {
   DM_CLASS2_SOSTAC_PRESENTATION_ID,
   CUSTOMER_SERVICE_WEEK_SLIDES_ID,
   DM_CONTENT_STRATEGY_ASSIGNMENT_ID,
+  DM_ONPAGE_SEO_TITLES_ID,
   SMEH_CONTENT_STRATEGY_ID,
   EDUCATION_NGO_CATALOG_IDS,
   EKITI_DOCUMENT_ID,
@@ -136,6 +137,9 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
   )
   const hasContentStrategy = library.documents.some(
     (doc) => doc.id === DM_CONTENT_STRATEGY_ASSIGNMENT_ID,
+  )
+  const hasOnPageSeoTitles = library.documents.some(
+    (doc) => doc.id === DM_ONPAGE_SEO_TITLES_ID,
   )
   const hasSmehContentStrategy = library.documents.some(
     (doc) => doc.id === SMEH_CONTENT_STRATEGY_ID,
@@ -344,6 +348,15 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 }
               >
                 Restore Digital Marketing Class 1 SmartEdu Hub assignment
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DM_ONPAGE_SEO_TITLES_ID).id)
+                }
+              >
+                Restore On-Page SEO title tags for SmartEdu Hub
               </button>
               <button
                 type="button"
@@ -662,7 +675,7 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
           <p className="library__empty-filter">No documents match “{search.trim()}”.</p>
         ) : null}
 
-        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasStateEducationProposals || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasContentStrategy || !hasSmehContentStrategy || !hasDmClass2Sostac || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
+        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasStateEducationProposals || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasContentStrategy || !hasOnPageSeoTitles || !hasSmehContentStrategy || !hasDmClass2Sostac || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
           <p className="library__restore">
             {!hasEducationNgoCatalog ? (
               <button
@@ -787,6 +800,17 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 }
               >
                 Add content strategy assignment
+              </button>
+            ) : null}
+            {!hasOnPageSeoTitles ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(DM_ONPAGE_SEO_TITLES_ID).id)
+                }
+              >
+                Add On-Page SEO title tags for SmartEdu Hub
               </button>
             ) : null}
             {!hasSmehContentStrategy ? (

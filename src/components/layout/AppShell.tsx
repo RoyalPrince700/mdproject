@@ -14,6 +14,7 @@ interface Props {
   onPresent?: () => void
   onDownloadPptx?: () => void
   onDownloadDocx: () => void
+  onDownloadExcel?: () => void
   onAdd: () => void
   onReset?: () => void
   onViewChange: (view: EditorViewMode) => void
@@ -32,6 +33,7 @@ export function AppShell({
   onPresent,
   onDownloadPptx,
   onDownloadDocx,
+  onDownloadExcel,
   onAdd,
   onReset,
   onViewChange,
@@ -60,6 +62,7 @@ export function AppShell({
         onPresent={onPresent}
         onDownloadPptx={onDownloadPptx}
         onDownloadDocx={onDownloadDocx}
+        onDownloadExcel={onDownloadExcel}
         onAdd={onAdd}
         onReset={onReset}
         onViewChange={onViewChange}

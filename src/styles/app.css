@@ -3022,6 +3022,10 @@
   width: 34%;
 }
 
+.doc-table--cols-3 td:first-child {
+  width: 28%;
+}
+
 .doc-outline {
   overflow: auto;
   padding: 0.85rem 0.65rem;
