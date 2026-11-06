@@ -170,7 +170,7 @@ function renderSlide(
 
   const logoLabel =
     meta.kind === 'proposal'
-      ? 'SMARTEDU HUB'
+      ? 'SMART EDU HUB'
       : meta.brand || 'Document'
   const footerLabel =
     meta.kind === 'proposal'

@@ -51,6 +51,8 @@ import {
   UBEC_DOCUMENT_ID,
   MAKINDE_DOCUMENT_ID,
   OSUN_SSG_DOCUMENT_ID,
+  PREFACE_DOCUMENT_ID,
+  THE_COMPASS_YORUBA_LAYER_ID,
   UNILORIN_JOTTER_DOCUMENT_ID,
   UNION_DOCUMENT_ID,
   WEMA_DOCUMENT_ID,
@@ -121,6 +123,10 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
   const hasUbec = library.documents.some((doc) => doc.id === UBEC_DOCUMENT_ID)
   const hasMakinde = library.documents.some((doc) => doc.id === MAKINDE_DOCUMENT_ID)
   const hasOsunSsg = library.documents.some((doc) => doc.id === OSUN_SSG_DOCUMENT_ID)
+  const hasPreface = library.documents.some((doc) => doc.id === PREFACE_DOCUMENT_ID)
+  const hasCompassYorubaLayer = library.documents.some(
+    (doc) => doc.id === THE_COMPASS_YORUBA_LAYER_ID,
+  )
   const hasDefenseQaDoc = library.documents.some((doc) => doc.id === DEFENSE_QA_DOCUMENT_ID)
   const hasDefenseQaSlides = library.documents.some((doc) => doc.id === DEFENSE_QA_SLIDES_ID)
   const hasTrifoneRefund = library.documents.some((doc) => doc.id === TRIFONE_REFUND_DOCUMENT_ID)
@@ -256,6 +262,26 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
               >
                 <FilePlus size={16} strokeWidth={2} aria-hidden="true" />
                 New document
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(
+                    library.restoreSeedDocument(THE_COMPASS_YORUBA_LAYER_ID).id,
+                  )
+                }
+              >
+                Restore The Compass Yoruba layer-farming script
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(PREFACE_DOCUMENT_ID).id)
+                }
+              >
+                Add Preface
               </button>
               <button
                 type="button"
@@ -477,7 +503,7 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                   onOpen(library.restoreStateEducationProposals().id)
                 }
               >
-                Restore SmartEdu Hub proposals for the other 35 states
+                Restore Smart Edu Hub proposals for the other 35 states and the FCT
               </button>
               <button
                 type="button"
@@ -675,8 +701,32 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
           <p className="library__empty-filter">No documents match “{search.trim()}”.</p>
         ) : null}
 
-        {library.documents.length > 0 && (!hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasStateEducationProposals || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasContentStrategy || !hasOnPageSeoTitles || !hasSmehContentStrategy || !hasDmClass2Sostac || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
+        {library.documents.length > 0 && (!hasCompassYorubaLayer || !hasPreface || !hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasStateEducationProposals || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasContentStrategy || !hasOnPageSeoTitles || !hasSmehContentStrategy || !hasDmClass2Sostac || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
           <p className="library__restore">
+            {!hasCompassYorubaLayer ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(
+                    library.restoreSeedDocument(THE_COMPASS_YORUBA_LAYER_ID).id,
+                  )
+                }
+              >
+                Add The Compass Yoruba layer-farming script
+              </button>
+            ) : null}
+            {!hasPreface ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(PREFACE_DOCUMENT_ID).id)
+                }
+              >
+                Add Preface
+              </button>
+            ) : null}
             {!hasEducationNgoCatalog ? (
               <button
                 type="button"
@@ -957,7 +1007,7 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                   onOpen(library.restoreStateEducationProposals().id)
                 }
               >
-                Add SmartEdu Hub proposals for the other 35 states
+                Add Smart Edu Hub proposals for the other 35 states and the FCT
               </button>
             ) : null}
             {!hasUnion ? (

@@ -46,6 +46,9 @@ export interface Slide {
   completionTime?: string
   notes?: string
   footer?: string
+  /** Optional figure shown in the Word document, served from the app. */
+  imageSrc?: string
+  imageAlt?: string
 }
 
 export interface FrameworkBlock {
@@ -64,6 +67,10 @@ export interface PresentationMeta {
   author: string
   degree: string
   date: string
+  /** BCP 47 language tag used by the editor and exported document. */
+  language?: string
+  /** Disable browser spell-check for documents whose dictionary is unavailable. */
+  spellCheck?: boolean
   letterDate?: string
   kind?: DocumentKind
   editorView?: EditorViewMode

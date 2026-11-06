@@ -151,6 +151,16 @@ import {
   OSUN_SSG_DOCUMENT_TITLE,
   osunSsgProposal,
 } from '../data/osunSsgProposal'
+import {
+  PREFACE_DOCUMENT_ID,
+  PREFACE_DOCUMENT_TITLE,
+  buildingDigitalIbadanPreface,
+} from '../data/buildingDigitalIbadanPreface'
+import {
+  THE_COMPASS_YORUBA_LAYER_ID,
+  THE_COMPASS_YORUBA_LAYER_TITLE,
+  theCompassYorubaLayerFarming,
+} from '../data/theCompassYorubaLayerFarming'
 import type { DocumentEntry, DocumentTrackingStatus } from '../types/document'
 import {
   createBlankPresentation,
@@ -222,6 +232,10 @@ export {
   MAKINDE_DOCUMENT_TITLE,
   OSUN_SSG_DOCUMENT_ID,
   OSUN_SSG_DOCUMENT_TITLE,
+  PREFACE_DOCUMENT_ID,
+  PREFACE_DOCUMENT_TITLE,
+  THE_COMPASS_YORUBA_LAYER_ID,
+  THE_COMPASS_YORUBA_LAYER_TITLE,
 }
 
 const SEED_CATALOG: Record<
@@ -279,6 +293,14 @@ const SEED_CATALOG: Record<
   [OSUN_SSG_DOCUMENT_ID]: {
     title: OSUN_SSG_DOCUMENT_TITLE,
     getState: () => structuredClone(osunSsgProposal),
+  },
+  [PREFACE_DOCUMENT_ID]: {
+    title: PREFACE_DOCUMENT_TITLE,
+    getState: () => structuredClone(buildingDigitalIbadanPreface),
+  },
+  [THE_COMPASS_YORUBA_LAYER_ID]: {
+    title: THE_COMPASS_YORUBA_LAYER_TITLE,
+    getState: () => structuredClone(theCompassYorubaLayerFarming),
   },
   [DEFENSE_QA_DOCUMENT_ID]: {
     title: DEFENSE_QA_DOCUMENT_TITLE,

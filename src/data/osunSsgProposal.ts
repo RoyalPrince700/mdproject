@@ -47,7 +47,7 @@ function slideById(proposal: PresentationState, id: string) {
 
 function buildOsunSsgProposal(): PresentationState {
   const proposal = remapIds(
-    buildSmehStateProposal(osun),
+    buildSmehStateProposal(osun!),
   ) as PresentationState
 
   const title = slideById(proposal, 'ssg-01')

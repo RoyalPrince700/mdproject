@@ -227,6 +227,8 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
         {inDocument ? (
           <div
             className="workspace workspace--document"
+            lang={store.state.meta.language}
+            spellCheck={store.state.meta.spellCheck}
             onFocusCapture={() => setIsEditing(true)}
             onBlurCapture={(e) => {
               if (!e.currentTarget.contains(e.relatedTarget as Node)) {
@@ -266,6 +268,8 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
         ) : (
           <div
             className="workspace"
+            lang={store.state.meta.language}
+            spellCheck={store.state.meta.spellCheck}
             onFocusCapture={() => setIsEditing(true)}
             onBlurCapture={(e) => {
               if (!e.currentTarget.contains(e.relatedTarget as Node)) {

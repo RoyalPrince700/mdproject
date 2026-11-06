@@ -32,16 +32,16 @@ When the user pastes content and asks to create a document (DOCX/PPTX):
 Use `meta.kind: 'proposal'` **only** when the user clearly requests:
 
 - SMEH layout / SmartEdu Hub proposal format
-- A proposal to a bank, state government, or partner using the standard SmartEdu Hub template
+- A proposal to a bank, state government, or partner using the standard Smart Edu Hub template
 
-SMEH proposals include: SmartEdu Hub cover banner, “PROPOSAL FOR” label, recipient/submitted-by table, optional cover letter, and watermark on export.
+SMEH proposals include: Smart Edu Hub cover banner, “PROPOSAL FOR” label, recipient/submitted-by table, optional cover letter, and watermark on export.
 
 **Cover type sizes are locked** for every `meta.kind: 'proposal'` document. Do not create a per-file cover or override these sizes. They live in `SMEH_COVER_FONT` (`src/theme/documentTheme.ts`) and are applied by `DocumentCanvas` and `exportDocx`:
 
 | Cover line | Size |
 |---|---|
-| SMARTEDUHUB | 28pt |
-| SmartEduHub Accessible Digital Platform (SMEH) / website | 20pt |
+| SMART EDU HUB | 28pt |
+| Smart Edu Hub Accessible Digital Platform (SMEH) / website | 20pt |
 | PROPOSAL FOR | 11pt |
 | Proposal title | 18pt |
 | (Learning Management & School Management System) | 16pt |

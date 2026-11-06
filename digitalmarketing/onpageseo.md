@@ -93,3 +93,112 @@ Remember:
 
 Process: Discover → Crawl → Process → Potentially Index → Rank
 
+
+XML Sitemaps
+An XML sitemap lists important URLs you want search engines to discover.
+Best practices:
+• Include canonical, indexable URLs
+• Keep the sitemap updated
+• Exclude redirected or noindex pages
+• Submit the sitemap in Google Search Console
+• Check for sitemap errors
+
+A sitemap helps with discovery; it does not guarantee indexing or rankings.
+
+
+Robots.txt
+An XML sitemap lists important URLs you want search engines to discover.
+Important:
+• A robots.txt block does not reliably prevent a URL from being indexed
+• Do not use it as a substitute for noindex
+• Avoid blocking important CSS/JS resources unnecessarily
+• Check the file carefully before publishing changes
+
+Canonical Tags
+A canonical tag signals the preferred URL among duplicate or very similar pages.
+Example: Product filters create several similar URLs; the canonical may point to the main category URL.
+Best practices:
+• Choose the correct preferred URL
+• Ensure canonicals point to accessible URLs
+• Keep internal links and sitemap URLs consistent
+• Canonical tags are signals, not absolute directives
+
+Duplicate Content
+Duplicate content is substantially similar content available at multiple URLs, on the same site or across sites.
+Best practices:
+• URL parameters and filters
+• HTTP/HTTPS or www/non-www variants
+• Repeated product descriptions
+• Alternate URL versions
+Ways to manage it:
+• Consolidate pages when appropriate
+• Use redirects or canonical tags where suitable
+• Write distinct, useful content for important pages
+
+Duplicate content is not automatically a penalty.
+
+Mobile SEO
+Mobile SEO ensures a website works well on phones and tablets.
+Best practices:
+• Use responsive design
+• Make text readable without zooming
+• Ensure buttons and links are easy to tap
+• Keep key content and metadata consistent across devices
+• Avoid intrusive interstitials
+• Test mobile usability and performance
+
+Google primarily uses the mobile version of content for indexing.
+
+
+Page Speed
+Page speed describes how quickly a webpage loads and becomes usable.
+Why it matters:
+• Supports a better user experience
+• Can reduce frustration and abandonment
+• Contributes to overall page experience
+
+Ways to manage it:
+• Compress and resize images
+• Reduce unnecessary JavaScript and CSS
+• Enable caching and compression
+• Use efficient hosting and a CDN when appropriate
+• Measure before and after changes
+
+
+Core Web Vitals
+Core Web Vitals measure loading, interactivity, and visual stability.
+• LCP (Largest Contentful Paint): loading; good at 2.5 seconds or less
+• INP (Interaction to Next Paint): responsiveness; good at 200 milliseconds or less
+• CLS (Cumulative Layout Shift): visual stability; good at 0.1 or less
+
+Assess real-user results at the 75th percentile. Use PageSpeed Insights and Search Console to investigate.
+
+
+
+Structured Data Fundamentals
+Structured data is code that helps search engines interpret page content. Google may use eligible markup to show rich results.
+Common types:
+• Product • Article • LocalBusiness • Organization
+• Breadcrumb • Event
+Best practices:
+• Mark up content visible on the page
+• Use the most relevant supported type
+• Follow Google’s guidelines
+• Validate with the Rich Results Test
+
+Structured data does not guarantee rich results or higher rankings.
+
+SEO Optimisation Checklist
+Before publishing or auditing a page, check:
+☐ Does the page match search intent?
+☐ Is the title unique and descriptive?
+☐ Are headings and content easy to follow?
+☐ Is the URL clear and the page internally linked?
+☐ Are images compressed and accessible?
+☐ Can search engines crawl and index the page?
+☐ Are sitemap and canonical signals correct?
+☐ Does the page work well on mobile?
+☐ Have speed, Core Web Vitals, and structured data been checked?
+
+
+

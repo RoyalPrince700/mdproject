@@ -1,6 +1,6 @@
 /**
- * State-specific education context for the 35 proposals cloned from the Ekiti seed.
- * Ekiti keeps its own file.
+ * State-specific education context for the 35 proposals cloned from the Ekiti seed,
+ * plus the Federal Capital Territory. Ekiti keeps its own file.
  *
  * Copy recognises what the current administration is doing in 2025–2026.
  * It does not cite a previous government's programme, and it does not
@@ -25,6 +25,13 @@
  * Qur’anic models; Taraba free education and 2026 WAEC registration.
  * Osun copy does not cite Opon Imo. Edo copy does not cite EdoBEST.
  * Oyo copy does not cite BESDA.
+ * Abuja is the FCT, not a 37th state. Its profile follows the Education
+ * Secretariat’s 2025–2026 account: more than 100 public secondary schools
+ * renovated, with the wider programme carried through 2026 (Mandate Secretary
+ * Danlami Hayyo, December 2025); examination materials approved as public-school
+ * enrolment rose; and Area Council teacher arrears supported 40 per cent by
+ * the FCTA, with ₦2 billion released monthly, and 60 per cent by the six
+ * Area Councils.
  */
 
 export type StateEducationProfile = {
@@ -1130,6 +1137,38 @@ export const STATE_EDUCATION_PROFILES: Record<string, StateEducationProfile> = {
     languages: 'English and Hausa',
     sectionLine:
       'Renewed public schools and one SUBEB record across Zamfara’s 14 LGAs',
+  },
+
+  abuja: {
+    letterBullet:
+      'We recognise the Federal Capital Territory Administration’s renovation and upgrade of public secondary schools, with more than 100 schools already fully renovated and the wider programme carried through 2026. The Education Secretariat has approved examination materials for public primary, junior secondary, and senior secondary schools as more families return their children to public schools. The Administration is also supporting Area Council teacher arrears, with the FCTA carrying 40 per cent and releasing ₦2 billion monthly, while the six Area Councils carry 60 per cent. The Secretariat and FCT-UBEB supervise Abaji, the Abuja Municipal Area Council, Bwari, Gwagwalada, Kuje, and Kwali.',
+    coverParagraph:
+      'We recognise the Federal Capital Territory Administration’s renovation and upgrade of public secondary schools, with more than 100 schools already fully renovated and the wider programme carried through 2026. The Education Secretariat has approved examination materials for public primary, junior secondary, and senior secondary schools as more families return their children to public schools. The Administration is also supporting Area Council teacher arrears, with the FCTA carrying 40 per cent and releasing ₦2 billion monthly, while the six Area Councils carry 60 per cent. The Secretariat and FCT-UBEB supervise Abaji, the Abuja Municipal Area Council, Bwari, Gwagwalada, Kuje, and Kwali. Smart Edu Hub gives those renovated classrooms, the returning enrolment, and FCT-UBEB a daily system for attendance, lessons, examinations, and reporting.',
+    summarySentence:
+      'For the Federal Capital Territory, Smart Edu Hub connects the renovated public schools and the rise in public-school enrolment to attendance, lessons, examination practice, and one FCT-UBEB record across all six Area Councils.',
+    priorities: [
+      'Put lesson notes, attendance, and continuous assessment into the public secondary schools renovated under the current FCTA programme.',
+      'Keep the rise in public-school enrolment visible, from the Abuja Municipal Area Council to Bwari, Gwagwalada, Kuje, Kwali, and Abaji.',
+      'Support the examination-materials effort with CBT practice and past questions for primary, junior secondary, and senior secondary candidates.',
+      'Give FCT-UBEB and the Education Secretariat one view of all six Area Councils.',
+      'Train teachers in the city and in the satellite towns on the same NERDC content.',
+    ],
+    contributions: [
+      'Digital enrolment, daily attendance, and parent alerts for public schools whose classrooms have been renewed.',
+      'Offline NERDC iBooks and lesson notes for Abaji, Kwali, Kuje, and the other Area Councils.',
+      'CBT and past-question practice aligned with the examination materials the Secretariat has approved.',
+      'An Area Council dashboard for AMAC, Bwari, Gwagwalada, Kuje, Kwali, and Abaji.',
+      'Teacher training on lesson notes, assessment, and parent communication, with refresher sessions the Secretariat can schedule.',
+    ],
+    pilotPlace:
+      'the Abuja Municipal Area Council, Bwari (including Kubwa), and Gwagwalada',
+    rolloutNote:
+      'Later phases should reach Kuje, Kwali, and Abaji on the same timetable, with offline kits where a steady connection cannot be assumed.',
+    conclusionSentence:
+      'A territory-wide adoption would give the FCT one operating system for its renovated public schools and the learners now returning to them, across all six Area Councils.',
+    languages: 'English, Hausa, and Gbagyi',
+    sectionLine:
+      'Renovated public schools and one FCT-UBEB record across the six Area Councils',
   },
 }
 

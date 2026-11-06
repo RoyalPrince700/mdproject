@@ -49,3 +49,15 @@ export const NIGERIAN_STATES: NigerianState[] = [
 export const OTHER_NIGERIAN_STATES = NIGERIAN_STATES.filter(
   (state) => state.slug !== 'ekiti',
 )
+
+/**
+ * The Federal Capital Territory is not one of the 36 states.
+ * Six Area Councils: Abaji, AMAC, Bwari, Gwagwalada, Kuje, Kwali.
+ * `lgaCount` holds that Area Council count so the shared factory can scale the Ekiti seed.
+ */
+export const FCT_ABUJA: NigerianState = {
+  slug: 'abuja',
+  name: 'Abuja',
+  capital: 'Abuja',
+  lgaCount: 6,
+}

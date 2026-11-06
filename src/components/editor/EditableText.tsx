@@ -76,6 +76,7 @@ export function EditableText({
         className ? ` ${className}` : ''
       }`}
       contentEditable
+      spellCheck={false}
       suppressContentEditableWarning
       role="textbox"
       aria-multiline={multiline || undefined}

@@ -594,13 +594,13 @@ function buildCoverPage(state: PresentationState): Array<Paragraph | Table> {
     'Proposal'
 
   return [
-    bannerLine('SMARTEDUHUB', {
+    bannerLine('SMART EDU HUB', {
       bold: true,
       color: WHITE,
       size: coverPt(SMEH_COVER_FONT.brand),
       after: 40,
     }),
-    bannerLine('SmartEduHub Accessible Digital Platform (SMEH)', {
+    bannerLine('Smart Edu Hub Accessible Digital Platform (SMEH)', {
       color: WHITE,
       size: coverPt(SMEH_COVER_FONT.tagline),
       after: 40,
@@ -698,9 +698,65 @@ function proposalNarrative(text: string): Paragraph {
   })
 }
 
-function proposalSlideBody(slide: Slide): Array<Paragraph | Table> {
+type EmbeddedImage = { data: Uint8Array; width: number; height: number }
+
+async function loadSlideImages(state: PresentationState): Promise<Map<string, EmbeddedImage>> {
+  const images = new Map<string, EmbeddedImage>()
+  for (const slide of state.slides) {
+    if (!slide.imageSrc) continue
+    try {
+      const response = await fetch(slide.imageSrc)
+      if (!response.ok) continue
+      const blob = await response.blob()
+      const data = new Uint8Array(await blob.arrayBuffer())
+      const size = await new Promise<{ width: number; height: number }>((resolve, reject) => {
+        const url = URL.createObjectURL(blob)
+        const img = new Image()
+        img.onload = () => {
+          const width = img.naturalWidth || img.width
+          const height = img.naturalHeight || img.height
+          URL.revokeObjectURL(url)
+          resolve({ width, height })
+        }
+        img.onerror = () => {
+          URL.revokeObjectURL(url)
+          reject(new Error('Unable to read the document image'))
+        }
+        img.src = url
+      })
+      images.set(slide.id, { data, width: size.width, height: size.height })
+    } catch {
+      // Keep the section text if the picture cannot be read.
+    }
+  }
+  return images
+}
+
+function documentImage(image: EmbeddedImage): Paragraph {
+  const maxWidth = 620
+  const ratio = image.width > 0 ? image.height / image.width : 0.62
+  const width = Math.min(maxWidth, image.width || maxWidth)
+  const height = Math.max(1, Math.round(width * ratio))
+  return new Paragraph({
+    spacing: { before: 80, after: 200 },
+    children: [
+      new ImageRun({
+        type: 'png',
+        data: image.data,
+        transformation: { width, height },
+      }),
+    ],
+  })
+}
+
+function proposalSlideBody(
+  slide: Slide,
+  images?: Map<string, EmbeddedImage>,
+): Array<Paragraph | Table> {
   const rows = sectionTableRows(slide)
   const extras: Array<Paragraph | Table> = []
+  const image = images?.get(slide.id)
+  if (image) extras.push(documentImage(image))
   for (const text of sectionBullets(slide)) {
     extras.push(proposalNarrative(text))
   }
@@ -845,7 +901,10 @@ function buildPlainCoverPage(state: PresentationState): Array<Paragraph | Table>
   return children
 }
 
-function buildWordBodyChildren(state: PresentationState): Array<Paragraph | Table> {
+function buildWordBodyChildren(
+  state: PresentationState,
+  images?: Map<string, EmbeddedImage>,
+): Array<Paragraph | Table> {
   const children: Array<Paragraph | Table> = []
   let sectionNumber = 0
   const numbered = state.meta.numberedSections !== false
@@ -868,22 +927,28 @@ function buildWordBodyChildren(state: PresentationState): Array<Paragraph | Tabl
         }),
       )
     }
-    children.push(...proposalSlideBody(slide))
+    children.push(...proposalSlideBody(slide, images))
   }
 
   return children
 }
 
-function buildProposalChildren(state: PresentationState): Array<Paragraph | Table> {
+function buildProposalChildren(
+  state: PresentationState,
+  images?: Map<string, EmbeddedImage>,
+): Array<Paragraph | Table> {
   return [
     ...buildCoverPage(state),
     ...buildCoverLetter(state),
-    ...buildWordBodyChildren(state),
+    ...buildWordBodyChildren(state, images),
   ]
 }
 
-function buildPlainDocumentChildren(state: PresentationState): Array<Paragraph | Table> {
-  return [...buildPlainCoverPage(state), ...buildWordBodyChildren(state)]
+function buildPlainDocumentChildren(
+  state: PresentationState,
+  images?: Map<string, EmbeddedImage>,
+): Array<Paragraph | Table> {
+  return [...buildPlainCoverPage(state), ...buildWordBodyChildren(state, images)]
 }
 
 function buildDefenseChildren(state: PresentationState): Paragraph[] {
@@ -944,10 +1009,11 @@ export async function exportDocx(
     titleSlide?.title.replace(/\n/g, ' ').trim() ||
     (usesWordExport ? 'Document' : 'Presentation')
 
+  const images = usesWordExport ? await loadSlideImages(state) : undefined
   const children = smehProposal
-    ? buildProposalChildren(state)
+    ? buildProposalChildren(state, images)
     : plainDocument
-      ? buildPlainDocumentChildren(state)
+      ? buildPlainDocumentChildren(state, images)
       : buildDefenseChildren(state)
 
   const watermarkData = smehBranding ? await loadWatermarkBytes() : null
@@ -970,6 +1036,10 @@ export async function exportDocx(
             font: DOC_BODY_FONT,
             size: 22,
             color: NAVY,
+            language: state.meta.language
+              ? { value: state.meta.language }
+              : undefined,
+            noProof: state.meta.spellCheck === false,
           },
         },
       },

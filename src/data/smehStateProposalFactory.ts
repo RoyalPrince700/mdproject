@@ -1,6 +1,7 @@
 import type { PresentationState } from '../types/slide'
 import { ekitiProposal } from './ekitiProposal'
 import {
+  FCT_ABUJA,
   OTHER_NIGERIAN_STATES,
   type NigerianState,
 } from './nigerianStates'
@@ -13,7 +14,10 @@ export const STATE_EDUCATION_SEED_REVISION = 14
 /** Osun copy was refreshed after Opon Imo was removed. Other states stay on the shared revision. */
 const OSUN_EDUCATION_SEED_REVISION = STATE_EDUCATION_SEED_REVISION + 1
 
-assertStateEducationProfiles(OTHER_NIGERIAN_STATES.map((state) => state.slug))
+assertStateEducationProfiles([
+  ...OTHER_NIGERIAN_STATES.map((state) => state.slug),
+  FCT_ABUJA.slug,
+])
 
 const STATE_PROPOSAL_DATE = '16th October 2026'
 
@@ -172,19 +176,151 @@ export function buildSmehStateProposal(state: NigerianState): PresentationState 
   return proposal
 }
 
-export const STATE_EDUCATION_PROPOSAL_IDS = OTHER_NIGERIAN_STATES.map((state) =>
-  stateEducationProposalId(state.slug),
-)
+const FCT_WORDING: Array<[string, string]> = [
+  [
+    'Ministry of Education, Abuja State Government',
+    'Education Secretariat, Federal Capital Territory Administration',
+  ],
+  [
+    'Honourable Commissioner for Education',
+    'Mandate Secretary of the Education Secretariat',
+  ],
+  ['The Honourable Commissioner', 'The Mandate Secretary'],
+  ['Your Honour’s', 'the Mandate Secretary’s'],
+  ["Your Honour's", "the Mandate Secretary's"],
+  ['Your Honour', 'the Mandate Secretary'],
+  ['state education commissioner', 'Mandate Secretary'],
+  ['Ministry of Education', 'Education Secretariat'],
+  ['ministry of education', 'Education Secretariat'],
+  ['Ministry’s', 'Secretariat’s'],
+  ["Ministry's", "Secretariat's"],
+  ['ministry leadership', 'Secretariat leadership'],
+  ['ministry and', 'the Secretariat and'],
+  ['state education leaders', 'FCT education leaders'],
+  ['with state and', 'with the Secretariat and'],
+  ['the Ministry', 'the Secretariat'],
+  ['Abuja State’s', 'the FCT’s'],
+  ["Abuja State's", "the FCT's"],
+  ['Abuja State', 'the Federal Capital Territory'],
+  ['SUBEB', 'FCT-UBEB'],
+  ['a FCT-UBEB', 'an FCT-UBEB'],
+  ['6 Local Government Areas', 'six Area Councils'],
+  ['Local Government Areas', 'Area Councils'],
+  ['Local Government Area', 'Area Council'],
+  ['6 LGAs', 'six Area Councils'],
+  ['across LGAs', 'across the Area Councils'],
+  ['LGAs', 'Area Councils'],
+  ['LGA', 'Area Council'],
+  ['state-wide', 'territory-wide'],
+  ['State-wide', 'Territory-wide'],
+  ['state government', 'FCT Administration'],
+  ['state leadership', 'Secretariat leadership'],
+  ['state officials', 'FCT officials'],
+  ['state policymakers', 'FCT policymakers'],
+  ['state procurement', 'FCT procurement'],
+  ['across the state', 'across the Territory'],
+  ['for the state', 'for the Territory'],
+  ['the state’s', 'the Territory’s'],
+  ["the state's", "the Territory's"],
+  ['State coordinator', 'FCT coordinator'],
+  ['the Federal Capital Territory schools', 'FCT schools'],
+  [
+    'support the Federal Capital Territory with',
+    'support the FCT with',
+  ],
+]
+
+function applyFctWording(text: string) {
+  let next = text
+  for (const [from, to] of FCT_WORDING) next = next.replaceAll(from, to)
+  return next.replaceAll('SmartEduHub', 'Smart Edu Hub').replaceAll(
+    'SmartEdu Hub',
+    'Smart Edu Hub',
+  )
+}
+
+function walkFctWording(value: unknown): unknown {
+  if (typeof value === 'string') return applyFctWording(value)
+  if (Array.isArray(value)) return value.map((item) => walkFctWording(item))
+  if (value && typeof value === 'object') {
+    const out: Record<string, unknown> = {}
+    for (const [key, child] of Object.entries(value)) {
+      out[key] = walkFctWording(child)
+    }
+    return out
+  }
+  return value
+}
+
+function assertAbujaProposal(proposal: PresentationState) {
+  const blob = JSON.stringify(proposal)
+  const banned = [
+    'SmartEdu',
+    'Ekiti',
+    'SUBEB',
+    'Local Government',
+    'LGA',
+    'Abuja State',
+    'Ministry',
+    'Honourable Commissioner',
+    'Your Honour',
+    'state-wide',
+    'State-wide',
+    'across the state',
+    'the state’s',
+    "the state's",
+  ]
+  const hit = banned.find((phrase) => blob.includes(phrase))
+  if (hit) {
+    throw new Error(`Abuja proposal still contains “${hit}”`)
+  }
+  if (!blob.includes('Smart Edu Hub') || !blob.includes('six Area Councils')) {
+    throw new Error('Abuja proposal is missing Smart Edu Hub or the Area Councils')
+  }
+  if (!blob.includes('Education Secretariat')) {
+    throw new Error('Abuja proposal is missing the Education Secretariat')
+  }
+}
+
+export function buildSmehAbujaProposal(): PresentationState {
+  const proposal = walkFctWording(
+    buildSmehStateProposal(FCT_ABUJA),
+  ) as PresentationState
+  proposal.meta.recipient = 'The Mandate Secretary'
+  proposal.meta.recipientOrg =
+    'Education Secretariat, Federal Capital Territory Administration'
+  proposal.meta.recipientAddress =
+    'FCTA Secretariat, Area 11, Garki, Abuja, Nigeria'
+  proposal.meta.subject =
+    'Proposal for the Adoption of Smart Edu Hub Digital Solutions for Basic Education Transformation across the Federal Capital Territory'
+  const relevance = proposal.slides.find((slide) => slide.id.endsWith('-11'))
+  if (relevance) relevance.leftTitle = 'FCT education priority'
+  assertAbujaProposal(proposal)
+  return proposal
+}
+
+export const ABUJA_EDUCATION_PROPOSAL_ID = stateEducationProposalId(FCT_ABUJA.slug)
+
+export const STATE_EDUCATION_PROPOSAL_IDS = [
+  ...OTHER_NIGERIAN_STATES.map((state) => stateEducationProposalId(state.slug)),
+  ABUJA_EDUCATION_PROPOSAL_ID,
+]
 
 export const stateEducationSeedCatalog: Record<
   string,
   { title: string; getState: () => PresentationState }
-> = Object.fromEntries(
-  OTHER_NIGERIAN_STATES.map((state) => [
-    stateEducationProposalId(state.slug),
-    {
-      title: stateEducationProposalTitle(state),
-      getState: () => structuredClone(buildSmehStateProposal(state)),
-    },
-  ]),
-)
+> = {
+  ...Object.fromEntries(
+    OTHER_NIGERIAN_STATES.map((state) => [
+      stateEducationProposalId(state.slug),
+      {
+        title: stateEducationProposalTitle(state),
+        getState: () => structuredClone(buildSmehStateProposal(state)),
+      },
+    ]),
+  ),
+  [ABUJA_EDUCATION_PROPOSAL_ID]: {
+    title: 'Smart Edu Hub Proposal to the FCT Education Secretariat',
+    getState: () => structuredClone(buildSmehAbujaProposal()),
+  },
+}

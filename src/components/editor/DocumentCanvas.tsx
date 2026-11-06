@@ -215,6 +215,11 @@ function SectionBlock({
           <p className="doc-section__subtitle">{slide.subtitle}</p>
         )
       ) : null}
+      {slide.imageSrc ? (
+        <figure className="doc-figure">
+          <img src={slide.imageSrc} alt={slide.imageAlt || ''} />
+        </figure>
+      ) : null}
       {tableRows.length || (canEdit && (slide.layout === 'twoColumn' || slide.layout === 'framework')) ? (
         <DocTable
           headers={tableHeaders}
@@ -316,9 +321,9 @@ export function DocumentCanvas({
         {smehProposal ? (
           <>
             <div className="doc-cover__banner">
-              <p className="doc-cover__brand">SMARTEDUHUB</p>
+              <p className="doc-cover__brand">SMART EDU HUB</p>
               <p className="doc-cover__tagline">
-                SmartEduHub Accessible Digital Platform (SMEH)
+                Smart Edu Hub Accessible Digital Platform (SMEH)
               </p>
               {canEdit ? (
                 <EditableText
