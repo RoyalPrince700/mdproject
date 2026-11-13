@@ -30,6 +30,7 @@ import {
   ADVANCE_FIELD_SALES_DOCUMENT_ID,
   CULTURE_EXCELLENCE_DOCUMENT_ID,
   CUPPY_DOCUMENT_ID,
+  JA_AFRICA_DOCUMENT_ID,
   DEFENSE_QA_DOCUMENT_ID,
   DEFENSE_QA_SLIDES_ID,
   DM_CLASS1_DOCUMENT_ID,
@@ -47,11 +48,13 @@ import {
   SEED_DOCUMENT_ID,
   SEPLAT_DOCUMENT_ID,
   TRIFONE_REFUND_DOCUMENT_ID,
+  OLADIPO_FAVOUR_CV_ID,
   TUNDE_DOCUMENT_ID,
   UBEC_DOCUMENT_ID,
   MAKINDE_DOCUMENT_ID,
   OSUN_SSG_DOCUMENT_ID,
   PREFACE_DOCUMENT_ID,
+  SUNDAY_SCHOOL_MANUAL_ID,
   THE_COMPASS_YORUBA_LAYER_ID,
   UNILORIN_JOTTER_DOCUMENT_ID,
   UNION_DOCUMENT_ID,
@@ -116,6 +119,7 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
   const hasEkiti = library.documents.some((doc) => doc.id === EKITI_DOCUMENT_ID)
   const hasScholarshipCafe = library.documents.some((doc) => doc.id === SCHOLARSHIP_CAFE_DOCUMENT_ID)
   const hasCuppy = library.documents.some((doc) => doc.id === CUPPY_DOCUMENT_ID)
+  const hasJaAfrica = library.documents.some((doc) => doc.id === JA_AFRICA_DOCUMENT_ID)
   const hasTunde = library.documents.some((doc) => doc.id === TUNDE_DOCUMENT_ID)
   const hasAdekanmbi = library.documents.some((doc) => doc.id === ADEKANMBI_DOCUMENT_ID)
   const hasLoyaltyFramework = library.documents.some((doc) => doc.id === LOYALTY_FRAMEWORK_DOCUMENT_ID)
@@ -127,9 +131,13 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
   const hasCompassYorubaLayer = library.documents.some(
     (doc) => doc.id === THE_COMPASS_YORUBA_LAYER_ID,
   )
+  const hasSundaySchoolManual = library.documents.some(
+    (doc) => doc.id === SUNDAY_SCHOOL_MANUAL_ID,
+  )
   const hasDefenseQaDoc = library.documents.some((doc) => doc.id === DEFENSE_QA_DOCUMENT_ID)
   const hasDefenseQaSlides = library.documents.some((doc) => doc.id === DEFENSE_QA_SLIDES_ID)
   const hasTrifoneRefund = library.documents.some((doc) => doc.id === TRIFONE_REFUND_DOCUMENT_ID)
+  const hasOladipoFavourCv = library.documents.some((doc) => doc.id === OLADIPO_FAVOUR_CV_ID)
   const hasCultureExcellence = library.documents.some((doc) => doc.id === CULTURE_EXCELLENCE_DOCUMENT_ID)
   const hasDmClass1 = library.documents.some((doc) => doc.id === DM_CLASS1_DOCUMENT_ID)
   const hasDmSmehAssignment = library.documents.some(
@@ -262,6 +270,15 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
               >
                 <FilePlus size={16} strokeWidth={2} aria-hidden="true" />
                 New document
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(SUNDAY_SCHOOL_MANUAL_ID).id)
+                }
+              >
+                Restore translated Sunday school manual
               </button>
               <button
                 type="button"
@@ -428,6 +445,15 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 type="button"
                 className="btn btn--ghost-ink"
                 onClick={() =>
+                  onOpen(library.restoreSeedDocument(OLADIPO_FAVOUR_CV_ID).id)
+                }
+              >
+                Restore Oladipo Favour agriculture CV
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
                   onOpen(library.restoreSeedDocument(LOYALTY_FRAMEWORK_DOCUMENT_ID).id)
                 }
               >
@@ -450,6 +476,15 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 }
               >
                 Restore Cuppy Foundation proposal
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(JA_AFRICA_DOCUMENT_ID).id)
+                }
+              >
+                Restore JA Nigeria sponsorship proposal
               </button>
               <button
                 type="button"
@@ -701,8 +736,19 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
           <p className="library__empty-filter">No documents match “{search.trim()}”.</p>
         ) : null}
 
-        {library.documents.length > 0 && (!hasCompassYorubaLayer || !hasPreface || !hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasStateEducationProposals || !hasScholarshipCafe || !hasCuppy || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasContentStrategy || !hasOnPageSeoTitles || !hasSmehContentStrategy || !hasDmClass2Sostac || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
+        {library.documents.length > 0 && (!hasSundaySchoolManual || !hasCompassYorubaLayer || !hasPreface || !hasSeed || !hasWema || !hasUnion || !hasEkiti || !hasStateEducationProposals || !hasScholarshipCafe || !hasCuppy || !hasJaAfrica || !hasTunde || !hasAdekanmbi || !hasLoyaltyFramework || !hasSeplat || !hasUbec || !hasDefenseQaDoc || !hasDefenseQaSlides || !hasTrifoneRefund || !hasCultureExcellence || !hasDmClass1 || !hasDmSmehAssignment || !hasContentStrategy || !hasOnPageSeoTitles || !hasSmehContentStrategy || !hasDmClass2Sostac || !hasAccessibleSummerDoc || !hasAccessibleSummerSlides || !hasAscNappsInvitation || !hasAscWinnerSchoolProposals || !hasUnilorinJotter || !hasAdvanceFieldSales || !hasEducationNgoCatalog) ? (
           <p className="library__restore">
+            {!hasSundaySchoolManual ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(SUNDAY_SCHOOL_MANUAL_ID).id)
+                }
+              >
+                Add translated Sunday school manual
+              </button>
+            ) : null}
             {!hasCompassYorubaLayer ? (
               <button
                 type="button"
@@ -911,6 +957,17 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 Add Trifone power bank refund letter
               </button>
             ) : null}
+            {!hasOladipoFavourCv ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(OLADIPO_FAVOUR_CV_ID).id)
+                }
+              >
+                Add Oladipo Favour agriculture CV
+              </button>
+            ) : null}
             {!hasLoyaltyFramework ? (
               <button
                 type="button"
@@ -942,6 +999,17 @@ export function DocumentsHome({ library, onOpen, onTrack }: Props) {
                 }
               >
                 Add SmartEdu Hub proposal to Cuppy Foundation
+              </button>
+            ) : null}
+            {!hasJaAfrica ? (
+              <button
+                type="button"
+                className="btn btn--ghost-ink"
+                onClick={() =>
+                  onOpen(library.restoreSeedDocument(JA_AFRICA_DOCUMENT_ID).id)
+                }
+              >
+                Add SmartEdu Hub sponsorship proposal to JA Nigeria
               </button>
             ) : null}
             {!hasTunde ? (

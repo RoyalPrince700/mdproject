@@ -2,14 +2,24 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CollaboratorBar } from '../collaboration/CollaboratorBar'
 import { useCollaboration } from '../../hooks/useCollaboration'
 import { useKeyboardNav } from '../../hooks/useKeyboardNav'
-import { defaultEditorView, isSmehProposal, isWordDocument } from '../../lib/documentSections'
+import {
+  defaultEditorView,
+  isSmehProposal,
+  isWordDocument,
+  proposalBodySlides,
+} from '../../lib/documentSections'
 import { adaptSlideToLayout } from '../../lib/slideLayout'
 import { exportDocx } from '../../lib/exportDocx'
 import { exportOnPageSeoExcel } from '../../lib/exportOnPageSeoExcel'
 import { exportPptx } from '../../lib/exportPptx'
 import { resolveDocumentFont } from '../../theme/documentTheme'
 import { useDocumentTabs } from '../../store/documentTabs'
-import { SEED_DOCUMENT_ID, isSeedDocument } from '../../store/libraryStore'
+import {
+  OLADIPO_FAVOUR_CV_ID,
+  SEED_DOCUMENT_ID,
+  SUNDAY_SCHOOL_MANUAL_ID,
+  isSeedDocument,
+} from '../../store/libraryStore'
 import { DM_ONPAGE_SEO_TITLES_ID } from '../../data/dmOnPageSeoTitles'
 import { usePresentationStore } from '../../store/presentationStore'
 import type { SlideLayout } from '../../types/slide'
@@ -41,6 +51,8 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
   const [outlineId, setOutlineId] = useState<string>('__cover')
   const [isEditing, setIsEditing] = useState(false)
   const isSeed = isSeedDocument(documentId)
+  const docxOnly =
+    documentId === SUNDAY_SCHOOL_MANUAL_ID || documentId === OLADIPO_FAVOUR_CV_ID
   const isProposal = isSmehProposal(store.state.meta.kind)
   const editorView =
     store.state.meta.editorView ?? defaultEditorView(store.state.meta.kind)
@@ -52,6 +64,13 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [documentId, isProposal])
+
+  useEffect(() => {
+    if (!store.state.meta.omitCoverPage) return
+    const first = proposalBodySlides(store.state.slides)[0]
+    if (!first) return
+    setOutlineId((current) => (current === '__cover' ? first.id : current))
+  }, [documentId, store.state.meta.omitCoverPage, store.state.slides])
 
   const handleDownloadPptx = useCallback(async () => {
     setExporting('pptx')
@@ -204,9 +223,10 @@ export function PresentationEditor({ documentId, documentTitle }: Props) {
         subtitle={subtitle}
         exporting={exporting}
         editorView={editorView}
+        allowViewSwitch={!docxOnly}
         documentFont={resolveDocumentFont(store.state.meta)}
         onPresent={inDocument ? undefined : () => setPresenting(true)}
-        onDownloadPptx={handleDownloadPptx}
+        onDownloadPptx={docxOnly ? undefined : handleDownloadPptx}
         onDownloadDocx={handleDownloadDocx}
         onDownloadExcel={
           documentId === DM_ONPAGE_SEO_TITLES_ID ? handleDownloadExcel : undefined

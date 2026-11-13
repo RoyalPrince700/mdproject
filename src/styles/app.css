@@ -3037,6 +3037,102 @@
   width: 28%;
 }
 
+.doc-page--cv {
+  font-size: 11pt;
+  line-height: 1.15;
+  color: #1a1a1a;
+  padding: 1.35rem 1.6rem 1.8rem;
+}
+
+.doc-page--cv .cv-section {
+  padding: 0;
+  border-top: none;
+}
+
+.doc-page--cv .cv-section--header {
+  margin-bottom: 0.15rem;
+}
+
+.doc-page--cv .cv-name {
+  margin: 0;
+  font-size: 16pt;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+
+.doc-page--cv .cv-contact,
+.doc-page--cv .cv-section--header .cv-edit-list p {
+  margin: 0.2rem 0 0.45rem;
+  text-align: center;
+  font-size: 11pt;
+  color: #1a1a1a;
+}
+
+.doc-page--cv .cv-heading {
+  margin: 0.7rem 0 0.28rem;
+  padding: 0 0 0.12rem;
+  font-size: 12pt;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.doc-page--cv .cv-profile {
+  margin: 0 0 0.15rem;
+  text-align: left;
+  font-size: 11pt;
+}
+
+.doc-page--cv .cv-role,
+.doc-page--cv .cv-role-edit {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.4rem 0 0;
+  font-size: 11pt;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.doc-page--cv .cv-dates {
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.doc-page--cv .cv-org,
+.doc-page--cv .cv-org-edit {
+  margin: 0 0 0.08rem;
+  font-size: 11pt;
+  font-style: italic;
+  color: #1a1a1a;
+}
+
+.doc-page--cv .cv-list {
+  margin: 0.08rem 0 0.2rem;
+  padding-left: 1.15rem;
+  font-size: 11pt;
+}
+
+.doc-page--cv .cv-list li {
+  margin: 0 0 0.08rem;
+}
+
+.doc-page--cv .cv-list + .cv-list {
+  margin-top: -0.08rem;
+}
+
+.doc-page--cv .cv-edit-list p {
+  margin: 0 0 0.12rem;
+  text-align: left;
+  font-size: 11pt;
+}
+
 .doc-outline {
   overflow: auto;
   padding: 0.85rem 0.65rem;

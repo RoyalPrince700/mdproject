@@ -76,10 +76,16 @@ export interface PresentationMeta {
   editorView?: EditorViewMode
   /** When false, document headings stay as headlines without 1. 2. 3. prefixes. */
   numberedSections?: boolean
+  /** When true, the Word file and document view start at the first section, with no title page. */
+  omitCoverPage?: boolean
+  /** Use conventional CV typography and layout (A4, 11pt, no tables). */
+  documentLayout?: 'cv'
   documentFont?: DocumentFont
   recipient?: string
   recipientOrg?: string
   recipientAddress?: string
+  /** Letter opening. SMEH proposals fall back to "Dear Sir," when this is empty. */
+  salutation?: string
   senderAddress?: string
   subject?: string
   coverLetter?: string[]

@@ -14,6 +14,7 @@ import {
   Table,
   TableCell,
   TableRow,
+  TabStopType,
   TextRun,
   TextWrappingType,
   UnderlineType,
@@ -38,6 +39,7 @@ import {
   textOf,
 } from './documentSections'
 import { parseInlineFormatting } from './inlineText'
+import { isCvHeaderSlide, parseCvLines, slideHasCvEntries } from './cvLayout'
 import { loadAccessibleLogoAsset, loadWatermarkBytes } from './documentWatermark'
 import { resolveTwoColumnContent } from './slideLayout'
 import type { PresentationState, Slide } from '../types/slide'
@@ -54,6 +56,7 @@ const DEFAULT_WEBSITE = 'www.smarteduhub.ng'
 let DOC_BODY_FONT: string = FONT_B
 let DOC_HEADER_FONT: string = FONT_H
 let DOC_IS_PROPOSAL = false
+let DOC_IS_SUNDAY_SCHOOL_MANUAL = false
 
 interface WatermarkAsset {
   data: Uint8Array
@@ -117,7 +120,24 @@ const THIN = { style: BorderStyle.SINGLE, size: 4, color: 'E2E8F0' }
 const CELL_BORDERS = { top: THIN, bottom: THIN, left: THIN, right: THIN }
 
 function proposalSectionHeading(text: string): Paragraph {
-  if (!DOC_IS_PROPOSAL) return heading(text, HeadingLevel.HEADING_2)
+  if (!DOC_IS_PROPOSAL) {
+    if (DOC_IS_SUNDAY_SCHOOL_MANUAL) {
+      return new Paragraph({
+        heading: HeadingLevel.HEADING_1,
+        spacing: { before: 320, after: 140 },
+        children: [
+          new TextRun({
+            text: text.toUpperCase(),
+            bold: true,
+            color: NAVY,
+            font: DOC_HEADER_FONT,
+            size: 32,
+          }),
+        ],
+      })
+    }
+    return heading(text, HeadingLevel.HEADING_2)
+  }
   return new Paragraph({
     spacing: { before: 280, after: 120 },
     children: [
@@ -656,7 +676,7 @@ function buildCoverLetter(state: PresentationState): Paragraph[] {
     para(`${state.meta.recipient},`, { after: 40 }),
     para(state.meta.recipientOrg || '', { after: 40 }),
     para(state.meta.recipientAddress || '', { after: 200 }),
-    para('Dear Sir,', { after: 200 }),
+    para(state.meta.salutation?.trim() || 'Dear Sir,', { after: 200 }),
     para(subject.toUpperCase(), {
       bold: true,
       font: DOC_HEADER_FONT,
@@ -692,6 +712,16 @@ function buildCoverLetter(state: PresentationState): Paragraph[] {
 }
 
 function proposalNarrative(text: string): Paragraph {
+  const boldOnly = text.match(/^\*\*(.+)\*\*$/)
+  if (boldOnly) {
+    return para(boldOnly[1], {
+      bold: true,
+      size: DOC_IS_SUNDAY_SCHOOL_MANUAL ? 24 : 22,
+      before: DOC_IS_SUNDAY_SCHOOL_MANUAL ? 120 : 0,
+      after: DOC_IS_SUNDAY_SCHOOL_MANUAL ? 80 : 120,
+    })
+  }
+
   return para(text, {
     after: 200,
     align: AlignmentType.BOTH,
@@ -911,6 +941,9 @@ function buildWordBodyChildren(
 
   for (const slide of state.slides) {
     if (skipProposalSlide(slide)) continue
+    if (children.length > 0 && /^Lesson\s+\d+/i.test(slide.chapter?.trim() ?? '')) {
+      children.push(pageBreak())
+    }
     sectionNumber += 1
     const title = slide.title.trim() || `Section ${sectionNumber}`
     const heading = title.replace(/\n/g, ' ')
@@ -948,7 +981,144 @@ function buildPlainDocumentChildren(
   state: PresentationState,
   images?: Map<string, EmbeddedImage>,
 ): Array<Paragraph | Table> {
-  return [...buildPlainCoverPage(state), ...buildWordBodyChildren(state, images)]
+  const body = buildWordBodyChildren(state, images)
+  if (state.meta.omitCoverPage) return body
+  return [...buildPlainCoverPage(state), ...body]
+}
+
+const CV_INK = '1A1A1A'
+const CV_BODY_SIZE = 22
+const CV_NAME_SIZE = 32
+const CV_HEADING_SIZE = 24
+const CV_LINE = 240
+const CV_CONTENT_WIDTH = 9026
+
+function cvRun(text: string, options: TextRunOptions = {}): TextRun[] {
+  return inlineTextRuns(text, {
+    ...options,
+    size: options.size ?? CV_BODY_SIZE,
+    color: options.color ?? CV_INK,
+    font: options.font ?? DOC_BODY_FONT,
+  })
+}
+
+function cvNamePara(text: string): Paragraph {
+  return new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 40, line: CV_LINE },
+    children: cvRun(text.toUpperCase(), {
+      bold: true,
+      size: CV_NAME_SIZE,
+    }),
+  })
+}
+
+function cvContactPara(text: string): Paragraph {
+  return new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 120, line: CV_LINE },
+    children: cvRun(text, { size: CV_BODY_SIZE }),
+  })
+}
+
+function cvHeadingPara(text: string): Paragraph {
+  return new Paragraph({
+    spacing: { before: 200, after: 60, line: CV_LINE },
+    border: {
+      bottom: {
+        color: CV_INK,
+        space: 1,
+        style: BorderStyle.SINGLE,
+        size: 8,
+      },
+    },
+    children: cvRun(text.toUpperCase(), {
+      bold: true,
+      size: CV_HEADING_SIZE,
+    }),
+  })
+}
+
+function cvRolePara(role: string, dates?: string): Paragraph {
+  if (!dates) {
+    return new Paragraph({
+      spacing: { before: 80, after: 0, line: CV_LINE },
+      children: cvRun(role, { bold: true }),
+    })
+  }
+  return new Paragraph({
+    spacing: { before: 80, after: 0, line: CV_LINE },
+    tabStops: [{ type: TabStopType.RIGHT, position: CV_CONTENT_WIDTH }],
+    children: [
+      ...cvRun(role, { bold: true }),
+      new TextRun({
+        text: '\t',
+        font: DOC_BODY_FONT,
+        size: CV_BODY_SIZE,
+      }),
+      ...cvRun(dates),
+    ],
+  })
+}
+
+function cvOrgPara(text: string): Paragraph {
+  return new Paragraph({
+    spacing: { after: 20, line: CV_LINE },
+    children: cvRun(text, { italics: true }),
+  })
+}
+
+function cvBulletPara(text: string): Paragraph {
+  return new Paragraph({
+    bullet: { level: 0 },
+    spacing: { after: 20, line: CV_LINE },
+    children: cvRun(text),
+  })
+}
+
+function cvBodyPara(text: string): Paragraph {
+  return new Paragraph({
+    spacing: { after: 80, line: 276 },
+    children: cvRun(text),
+  })
+}
+
+function buildCvSlide(slide: Slide, index: number): Paragraph[] {
+  if (isCvHeaderSlide(slide, index)) {
+    return [
+      cvNamePara(slide.title),
+      ...sectionBullets(slide).map((line) => cvContactPara(line)),
+    ]
+  }
+
+  const out: Paragraph[] = [cvHeadingPara(slide.title.replace(/\n/g, ' '))]
+  const bullets = sectionBullets(slide)
+
+  if (slideHasCvEntries(slide)) {
+    for (const line of parseCvLines(bullets)) {
+      if (line.kind === 'role') out.push(cvRolePara(line.role, line.dates))
+      else if (line.kind === 'org') out.push(cvOrgPara(line.text))
+      else out.push(cvBulletPara(line.text))
+    }
+    return out
+  }
+
+  if (bullets.length === 1) {
+    out.push(cvBodyPara(bullets[0]))
+    return out
+  }
+
+  for (const item of bullets) out.push(cvBulletPara(item))
+  return out
+}
+
+function buildCvDocumentChildren(state: PresentationState): Paragraph[] {
+  const children: Paragraph[] = []
+  state.slides.forEach((slide, index) => {
+    if (skipProposalSlide(slide)) return
+    children.push(...buildCvSlide(slide, index))
+  })
+  return children
 }
 
 function buildDefenseChildren(state: PresentationState): Paragraph[] {
@@ -995,12 +1165,15 @@ export async function exportDocx(
 ) {
   const smehProposal = isSmehProposal(state.meta.kind)
   const smehBranding = hasSmehBranding(state, options.documentId)
+  const cvDocument = state.meta.documentLayout === 'cv'
   const plainDocument = state.meta.kind === 'document'
   const usesWordExport = isWordDocument(state.meta.kind)
   const fonts = resolveExportFonts(state)
   DOC_BODY_FONT = fonts.body
   DOC_HEADER_FONT = fonts.header
   DOC_IS_PROPOSAL = fonts.isProposal
+  DOC_IS_SUNDAY_SCHOOL_MANUAL =
+    state.meta.subject?.trim() === 'Translated Sunday School Manual'
 
   const titleSlide = state.slides.find((slide) => slide.layout === 'title')
   const docTitle =
@@ -1009,12 +1182,14 @@ export async function exportDocx(
     titleSlide?.title.replace(/\n/g, ' ').trim() ||
     (usesWordExport ? 'Document' : 'Presentation')
 
-  const images = usesWordExport ? await loadSlideImages(state) : undefined
+  const images = usesWordExport && !cvDocument ? await loadSlideImages(state) : undefined
   const children = smehProposal
     ? buildProposalChildren(state, images)
-    : plainDocument
-      ? buildPlainDocumentChildren(state, images)
-      : buildDefenseChildren(state)
+    : cvDocument
+      ? buildCvDocumentChildren(state)
+      : plainDocument
+        ? buildPlainDocumentChildren(state, images)
+        : buildDefenseChildren(state)
 
   const watermarkData = smehBranding ? await loadWatermarkBytes() : null
   const fadedWatermarkAsset = watermarkData
@@ -1034,8 +1209,8 @@ export async function exportDocx(
         document: {
           run: {
             font: DOC_BODY_FONT,
-            size: 22,
-            color: NAVY,
+            size: cvDocument ? CV_BODY_SIZE : 22,
+            color: cvDocument ? CV_INK : NAVY,
             language: state.meta.language
               ? { value: state.meta.language }
               : undefined,
@@ -1055,12 +1230,19 @@ export async function exportDocx(
                   height: 16838,
                 }
               : undefined,
-            margin: {
-              top: 1080,
-              bottom: 1080,
-              left: 1080,
-              right: 1080,
-            },
+            margin: cvDocument
+              ? {
+                  top: 1440,
+                  bottom: 1440,
+                  left: 1440,
+                  right: 1440,
+                }
+              : {
+                  top: 1080,
+                  bottom: 1080,
+                  left: 1080,
+                  right: 1080,
+                },
           },
         },
         headers: watermarkHeader ? { default: watermarkHeader } : undefined,

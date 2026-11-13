@@ -10,6 +10,7 @@ interface Props {
   subtitle: string
   exporting: ExportKind
   editorView: EditorViewMode
+  allowViewSwitch?: boolean
   documentFont?: DocumentFont
   onPresent?: () => void
   onDownloadPptx?: () => void
@@ -29,6 +30,7 @@ export function AppShell({
   subtitle,
   exporting,
   editorView,
+  allowViewSwitch,
   documentFont,
   onPresent,
   onDownloadPptx,
@@ -56,6 +58,7 @@ export function AppShell({
         subtitle={subtitle}
         exporting={exporting}
         editorView={editorView}
+        allowViewSwitch={allowViewSwitch}
         documentFont={documentFont}
         libraryOpen={libraryOpen}
         onToggleLibrary={() => setLibraryOpen((open) => !open)}

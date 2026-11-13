@@ -21,6 +21,11 @@ import {
   cuppyProposal,
 } from '../data/cuppyProposal'
 import {
+  JA_AFRICA_DOCUMENT_ID,
+  JA_AFRICA_DOCUMENT_TITLE,
+  jaAfricaProposal,
+} from '../data/jaAfricaProposal'
+import {
   TUNDE_DOCUMENT_ID,
   TUNDE_DOCUMENT_TITLE,
   tundeProposal,
@@ -58,6 +63,11 @@ import {
   TRIFONE_REFUND_DOCUMENT_TITLE,
   trifoneRefundLetter,
 } from '../data/trifoneRefundLetter'
+import {
+  OLADIPO_FAVOUR_CV_ID,
+  OLADIPO_FAVOUR_CV_TITLE,
+  oladipoFavourCv,
+} from '../data/oladipoFavourCv'
 import {
   CULTURE_EXCELLENCE_DOCUMENT_ID,
   CULTURE_EXCELLENCE_DOCUMENT_TITLE,
@@ -161,6 +171,11 @@ import {
   THE_COMPASS_YORUBA_LAYER_TITLE,
   theCompassYorubaLayerFarming,
 } from '../data/theCompassYorubaLayerFarming'
+import {
+  SUNDAY_SCHOOL_MANUAL_ID,
+  SUNDAY_SCHOOL_MANUAL_TITLE,
+  sundaySchoolManual,
+} from '../data/sundaySchoolManual'
 import type { DocumentEntry, DocumentTrackingStatus } from '../types/document'
 import {
   createBlankPresentation,
@@ -178,6 +193,8 @@ export {
   SCHOLARSHIP_CAFE_DOCUMENT_TITLE,
   CUPPY_DOCUMENT_ID,
   CUPPY_DOCUMENT_TITLE,
+  JA_AFRICA_DOCUMENT_ID,
+  JA_AFRICA_DOCUMENT_TITLE,
   TUNDE_DOCUMENT_ID,
   TUNDE_DOCUMENT_TITLE,
   ADEKANMBI_DOCUMENT_ID,
@@ -194,6 +211,8 @@ export {
   DEFENSE_QA_SLIDES_TITLE,
   TRIFONE_REFUND_DOCUMENT_ID,
   TRIFONE_REFUND_DOCUMENT_TITLE,
+  OLADIPO_FAVOUR_CV_ID,
+  OLADIPO_FAVOUR_CV_TITLE,
   CULTURE_EXCELLENCE_DOCUMENT_ID,
   CULTURE_EXCELLENCE_DOCUMENT_TITLE,
   DM_CLASS1_DOCUMENT_ID,
@@ -236,6 +255,8 @@ export {
   PREFACE_DOCUMENT_TITLE,
   THE_COMPASS_YORUBA_LAYER_ID,
   THE_COMPASS_YORUBA_LAYER_TITLE,
+  SUNDAY_SCHOOL_MANUAL_ID,
+  SUNDAY_SCHOOL_MANUAL_TITLE,
 }
 
 const SEED_CATALOG: Record<
@@ -265,6 +286,10 @@ const SEED_CATALOG: Record<
   [CUPPY_DOCUMENT_ID]: {
     title: CUPPY_DOCUMENT_TITLE,
     getState: () => structuredClone(cuppyProposal),
+  },
+  [JA_AFRICA_DOCUMENT_ID]: {
+    title: JA_AFRICA_DOCUMENT_TITLE,
+    getState: () => structuredClone(jaAfricaProposal),
   },
   [TUNDE_DOCUMENT_ID]: {
     title: TUNDE_DOCUMENT_TITLE,
@@ -302,6 +327,10 @@ const SEED_CATALOG: Record<
     title: THE_COMPASS_YORUBA_LAYER_TITLE,
     getState: () => structuredClone(theCompassYorubaLayerFarming),
   },
+  [SUNDAY_SCHOOL_MANUAL_ID]: {
+    title: SUNDAY_SCHOOL_MANUAL_TITLE,
+    getState: () => structuredClone(sundaySchoolManual),
+  },
   [DEFENSE_QA_DOCUMENT_ID]: {
     title: DEFENSE_QA_DOCUMENT_TITLE,
     getState: () => structuredClone(defenseQaDocument),
@@ -313,6 +342,10 @@ const SEED_CATALOG: Record<
   [TRIFONE_REFUND_DOCUMENT_ID]: {
     title: TRIFONE_REFUND_DOCUMENT_TITLE,
     getState: () => structuredClone(trifoneRefundLetter),
+  },
+  [OLADIPO_FAVOUR_CV_ID]: {
+    title: OLADIPO_FAVOUR_CV_TITLE,
+    getState: () => structuredClone(oladipoFavourCv),
   },
   [CULTURE_EXCELLENCE_DOCUMENT_ID]: {
     title: CULTURE_EXCELLENCE_DOCUMENT_TITLE,
@@ -585,6 +618,17 @@ function ensureCatalogDocuments(documents: DocumentEntry[]): DocumentEntry[] {
       changed = true
     }
   }
+  const previousJaAfricaTitle = 'SmartEdu Hub Sponsorship Proposal to JA Africa'
+  next = next.map((doc) => {
+    if (
+      doc.id === JA_AFRICA_DOCUMENT_ID &&
+      doc.title === previousJaAfricaTitle
+    ) {
+      changed = true
+      return { ...doc, title: JA_AFRICA_DOCUMENT_TITLE, updatedAt: nowIso() }
+    }
+    return doc
+  })
   if (changed) {
     saveIndex(next)
     localStorage.setItem(CATALOG_MIGRATION_KEY, '1')

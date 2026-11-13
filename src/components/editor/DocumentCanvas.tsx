@@ -9,6 +9,13 @@ import {
   sectionBullets,
   sectionTableRows,
 } from '../../lib/documentSections'
+import {
+  groupCvDisplay,
+  isCvHeaderSlide,
+  isCvRoleLine,
+  parseCvRoleLine,
+  slideHasCvEntries,
+} from '../../lib/cvLayout'
 import { resolveTwoColumnContent } from '../../lib/slideLayout'
 import {
   DEFAULT_PROPOSAL_SENDER_ADDRESS,
@@ -98,6 +105,259 @@ function DocTable({
         ))}
       </tbody>
     </table>
+  )
+}
+
+function CvBulletEditor({
+  bullets,
+  slideId,
+  onSelect,
+  onSlideChange,
+  header = false,
+}: {
+  bullets: string[]
+  slideId: string
+  onSelect: (id: string) => void
+  onSlideChange: (slideId: string, patch: Partial<Slide>) => void
+  header?: boolean
+}) {
+  const lines = bullets.length ? bullets : ['']
+  const setLine = (index: number, text: string) => {
+    const next = [...lines]
+    next[index] = text
+    onSlideChange(slideId, { bullets: next })
+  }
+
+  if (header) {
+    return (
+      <div className="cv-edit-list">
+        {lines.map((item, index) => (
+          <EditableText
+            key={index}
+            className="cv-contact"
+            value={item}
+            onChange={(text) => setLine(index, text)}
+            onFocusSelect={() => onSelect(slideId)}
+            tag="p"
+            placeholder="Address | email | phone"
+          />
+        ))}
+      </div>
+    )
+  }
+
+  if (!lines.some((item) => isCvRoleLine(item))) {
+    if (lines.length === 1) {
+      return (
+        <EditableText
+          className="cv-profile"
+          value={lines[0]}
+          onChange={(text) => setLine(0, text)}
+          onFocusSelect={() => onSelect(slideId)}
+          tag="p"
+          multiline
+          placeholder="Profile"
+        />
+      )
+    }
+    return (
+      <ul className="cv-list">
+        {lines.map((item, index) => (
+          <li key={index}>
+            <EditableText
+              value={item}
+              onChange={(text) => setLine(index, text)}
+              onFocusSelect={() => onSelect(slideId)}
+              tag="span"
+              placeholder="Skill"
+            />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  return (
+    <div className="cv-entries">
+      {lines.map((item, index) => {
+        const role = parseCvRoleLine(item)
+        if (role) {
+          return (
+            <p key={index} className="cv-role">
+              <EditableText
+                value={role.role}
+                onChange={(nextRole) =>
+                  setLine(
+                    index,
+                    role.dates ? `**${nextRole}** | ${role.dates}` : `**${nextRole}**`,
+                  )
+                }
+                onFocusSelect={() => onSelect(slideId)}
+                tag="span"
+                placeholder="Role or qualification"
+              />
+              <EditableText
+                className="cv-dates"
+                value={role.dates ?? ''}
+                onChange={(dates) => setLine(index, `**${role.role}** | ${dates}`)}
+                onFocusSelect={() => onSelect(slideId)}
+                tag="span"
+                placeholder="Dates"
+              />
+            </p>
+          )
+        }
+        if (index > 0 && isCvRoleLine(lines[index - 1] ?? '')) {
+          return (
+            <EditableText
+              key={index}
+              className="cv-org"
+              value={item}
+              onChange={(text) => setLine(index, text)}
+              onFocusSelect={() => onSelect(slideId)}
+              tag="p"
+              placeholder="Organisation"
+            />
+          )
+        }
+        return (
+          <ul key={index} className="cv-list">
+            <li>
+              <EditableText
+                value={item}
+                onChange={(text) => setLine(index, text)}
+                onFocusSelect={() => onSelect(slideId)}
+                tag="span"
+                placeholder="Duty or detail"
+              />
+            </li>
+          </ul>
+        )
+      })}
+    </div>
+  )
+}
+
+function CvSectionBlock({
+  slide,
+  slides,
+  activeId,
+  onSelect,
+  editable,
+  onSlideChange,
+}: {
+  slide: Slide
+  slides: Slide[]
+  activeId?: string
+  onSelect: (id: string) => void
+  editable?: boolean
+  onSlideChange?: (slideId: string, patch: Partial<Slide>) => void
+}) {
+  const index = slides.findIndex((item) => item.id === slide.id)
+  const isActive = activeId === slide.id
+  const canEdit = editable && !!onSlideChange
+  const bullets = sectionBullets(slide)
+  const header = isCvHeaderSlide(slide, index)
+
+  return (
+    <section
+      id={`doc-${slide.id}`}
+      className={`doc-section cv-section${isActive ? ' doc-section--active' : ''}${
+        canEdit ? ' doc-section--editable' : ''
+      }${header ? ' cv-section--header' : ''}`}
+      onClick={() => onSelect(slide.id)}
+    >
+      {header ? (
+        <>
+          {canEdit ? (
+            <EditableText
+              className="cv-name"
+              value={slide.title}
+              onChange={(title) => onSlideChange(slide.id, { title })}
+              onFocusSelect={() => onSelect(slide.id)}
+              tag="h1"
+              placeholder="Full name"
+            />
+          ) : (
+            <h1 className="cv-name">{slide.title}</h1>
+          )}
+          {canEdit ? (
+            <CvBulletEditor
+              bullets={bullets}
+              slideId={slide.id}
+              onSelect={onSelect}
+              onSlideChange={onSlideChange}
+              header
+            />
+          ) : (
+            bullets.map((line) => (
+              <p key={line} className="cv-contact">
+                {line}
+              </p>
+            ))
+          )}
+        </>
+      ) : (
+        <>
+          <h2 className="cv-heading">
+            {canEdit ? (
+              <EditableText
+                value={slide.title.replace(/\n/g, ' ')}
+                onChange={(title) => onSlideChange(slide.id, { title })}
+                onFocusSelect={() => onSelect(slide.id)}
+                tag="span"
+                placeholder="Section heading"
+              />
+            ) : (
+              slide.title.replace(/\n/g, ' ')
+            )}
+          </h2>
+          {canEdit ? (
+            <CvBulletEditor
+              bullets={bullets}
+              slideId={slide.id}
+              onSelect={onSelect}
+              onSlideChange={onSlideChange}
+            />
+          ) : slideHasCvEntries(slide) ? (
+            <div className="cv-entries">
+              {groupCvDisplay(bullets).map((block, lineIndex) => {
+                if (block.kind === 'role') {
+                  return (
+                    <p key={lineIndex} className="cv-role">
+                      <span>{block.role}</span>
+                      {block.dates ? <span className="cv-dates">{block.dates}</span> : null}
+                    </p>
+                  )
+                }
+                if (block.kind === 'org') {
+                  return (
+                    <p key={lineIndex} className="cv-org">
+                      {block.text}
+                    </p>
+                  )
+                }
+                return (
+                  <ul key={lineIndex} className="cv-list">
+                    {block.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                )
+              })}
+            </div>
+          ) : bullets.length === 1 ? (
+            <p className="cv-profile">{bullets[0]}</p>
+          ) : (
+            <ul className="cv-list">
+              {bullets.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+    </section>
   )
 }
 
@@ -303,7 +563,9 @@ export function DocumentCanvas({
 
   return (
     <article
-      className={`doc-page${smehBranding ? '' : ' doc-page--plain'}${canEdit ? ' doc-page--editable' : ''}`}
+      className={`doc-page${smehBranding ? '' : ' doc-page--plain'}${
+        meta.documentLayout === 'cv' ? ' doc-page--cv' : ''
+      }${canEdit ? ' doc-page--editable' : ''}`}
       style={{
         fontFamily: `"${font}", sans-serif`,
         ...(smehBranding
@@ -311,6 +573,7 @@ export function DocumentCanvas({
           : {}),
       }}
     >
+      {!meta.omitCoverPage ? (
       <section
         id="doc-__cover"
         className={`doc-cover doc-page-sheet${activeId === '__cover' ? ' doc-section--active' : ''}${smehProposal ? ' doc-cover--smeh' : ' doc-cover--plain'}`}
@@ -501,8 +764,9 @@ export function DocumentCanvas({
           </div>
         )}
       </section>
+      ) : null}
 
-      {letter.length || (canEdit && onLetterChange) ? (
+      {smehProposal && (letter.length || (canEdit && onLetterChange)) ? (
         <section
           id="doc-__letter"
           className={`doc-letter doc-page-sheet${activeId === '__letter' ? ' doc-section--active' : ''}`}
@@ -537,7 +801,13 @@ export function DocumentCanvas({
                 tag="p"
                 multiline
               />
-              <p className="doc-letter__salutation">Dear Sir,</p>
+              <EditableText
+                className="doc-letter__salutation"
+                value={meta.salutation?.trim() || 'Dear Sir,'}
+                onChange={(salutation) => onMetaChange({ salutation })}
+                onFocusSelect={() => onSelect('__letter')}
+                tag="p"
+              />
               <EditableText
                 className="doc-letter__subject"
                 value={subject.toUpperCase()}
@@ -588,7 +858,9 @@ export function DocumentCanvas({
               <p>{meta.recipient},</p>
               <p>{meta.recipientOrg}</p>
               <p>{meta.recipientAddress}</p>
-              <p className="doc-letter__salutation">Dear Sir,</p>
+              <p className="doc-letter__salutation">
+                {meta.salutation?.trim() || 'Dear Sir,'}
+              </p>
               <p className="doc-letter__subject">{subject.toUpperCase()}</p>
               {letter.map((paragraph, index) => (
                 <p key={index} className="doc-letter__paragraph">
@@ -614,19 +886,31 @@ export function DocumentCanvas({
         </section>
       ) : null}
 
-      {bodySlides.map((slide) => (
-        <SectionBlock
-          key={slide.id}
-          slide={slide}
-          slides={slides}
-          activeId={activeId}
-          onSelect={onSelect}
-          showCornerLogos={smehBranding}
-          editable={canEdit}
-          onSlideChange={onSlideChange}
-          numbered={meta.numberedSections !== false}
-        />
-      ))}
+      {bodySlides.map((slide) =>
+        meta.documentLayout === 'cv' ? (
+          <CvSectionBlock
+            key={slide.id}
+            slide={slide}
+            slides={slides}
+            activeId={activeId}
+            onSelect={onSelect}
+            editable={canEdit}
+            onSlideChange={onSlideChange}
+          />
+        ) : (
+          <SectionBlock
+            key={slide.id}
+            slide={slide}
+            slides={slides}
+            activeId={activeId}
+            onSelect={onSelect}
+            showCornerLogos={smehBranding}
+            editable={canEdit}
+            onSlideChange={onSlideChange}
+            numbered={meta.numberedSections !== false}
+          />
+        ),
+      )}
     </article>
   )
 }

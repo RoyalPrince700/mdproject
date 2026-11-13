@@ -18,6 +18,7 @@ interface Props {
   subtitle: string
   exporting: ExportKind
   editorView: EditorViewMode
+  allowViewSwitch?: boolean
   documentFont?: DocumentFont
   libraryOpen: boolean
   onToggleLibrary: () => void
@@ -36,6 +37,7 @@ export function Toolbar({
   subtitle,
   exporting,
   editorView,
+  allowViewSwitch = true,
   documentFont,
   libraryOpen,
   onToggleLibrary,
@@ -81,6 +83,7 @@ export function Toolbar({
         </div>
       </div>
       <div className="toolbar__actions">
+        {allowViewSwitch ? (
         <div className="toolbar__view-toggle" role="group" aria-label="Editor view">
           <button
             type="button"
@@ -101,6 +104,7 @@ export function Toolbar({
             Slides
           </button>
         </div>
+        ) : null}
 
         {inDocument && onFontChange ? (
           <label className="toolbar__font">

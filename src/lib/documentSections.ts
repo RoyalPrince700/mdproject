@@ -13,6 +13,7 @@ import { LOYALTY_FRAMEWORK_DOCUMENT_ID } from '../data/loyaltyRewardFramework'
 import { EKITI_DOCUMENT_ID } from '../data/ekitiProposal'
 import { SCHOLARSHIP_CAFE_DOCUMENT_ID } from '../data/scholarshipCafeProposal'
 import { CUPPY_DOCUMENT_ID } from '../data/cuppyProposal'
+import { JA_AFRICA_DOCUMENT_ID } from '../data/jaAfricaProposal'
 import { TUNDE_DOCUMENT_ID } from '../data/tundeOnakoyaProposal'
 import { UNION_DOCUMENT_ID } from '../data/unionProposal'
 import { WEMA_DOCUMENT_ID } from '../data/wemaProposal'
@@ -30,6 +31,7 @@ export const SMEH_PROPOSAL_IDS = [
   EKITI_DOCUMENT_ID,
   SCHOLARSHIP_CAFE_DOCUMENT_ID,
   CUPPY_DOCUMENT_ID,
+  JA_AFRICA_DOCUMENT_ID,
   TUNDE_DOCUMENT_ID,
   UNION_DOCUMENT_ID,
   SEPLAT_DOCUMENT_ID,
@@ -102,7 +104,9 @@ export function outlineEntries(state: PresentationState) {
     label: string
     kind: 'cover' | 'letter' | 'section'
     sectionNumber?: number
-  }> = [{ id: '__cover', label: 'Cover page', kind: 'cover' }]
+  }> = state.meta.omitCoverPage
+    ? []
+    : [{ id: '__cover', label: 'Cover page', kind: 'cover' }]
 
   const letterSlides = state.slides.filter((slide) => slide.chapter === 'Cover Letter')
   const letterFromMeta = (state.meta.coverLetter ?? []).some((p) => p.trim())
